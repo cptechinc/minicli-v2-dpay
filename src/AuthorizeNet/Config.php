@@ -1,6 +1,7 @@
 <?php namespace Dpay\AuthorizeNet;
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Util\Data;
+use Pauldro\Minicli\v2\Util\EnvVarsReader as EnvVars;
 
 /**
  * Config
@@ -38,13 +39,9 @@ class Config extends Data {
 	 */
 	public function init() : void 
 	{
-		$this->apiLogin = $_ENV["AUTHORIZENET.API.LOGIN"];
-		$this->apiKey   = $_ENV["AUTHORIZENET.API.KEY"];
-		if (array_key_exists('AUTHORIZENET.API.USESANDBOX', $_ENV) === false) {
-			$this->useSandbox = false;
-			return;
-		}
-		$this->useSandbox = $_ENV["AUTHORIZENET.API.USESANDBOX"] == 'true';
+		$this->apiLogin   = EnvVars::get('AUTHORIZENET.API.LOGIN');
+		$this->apiKey     = EnvVars::get('AUTHORIZENET.API.TRANSACTIONKEY');
+		$this->useSandbox = EnvVars::getBool('AUTHORIZENET.API.USESANDBOX');
 		return;
 	}
 }
