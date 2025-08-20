@@ -1,6 +1,7 @@
 <?php namespace Dpay\Stripe;
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Util\Data;
+use Pauldro\Minicli\v2\Util\EnvVarsReader as EnvVars;
 // Lib
 use Dpay\Data\PaymentMethod\PaymentMethod;
 
@@ -40,8 +41,8 @@ class Config extends Data {
 	 */
 	public function init() : bool
 	{
-		$this->secretKey  = $_ENV['STRIPE.SECRET.KEY'];
-		$this->useSandbox = $_ENV['STRIPE.USESANDBOX'] == 'true';
+		$this->secretKey  = EnvVars::get('STRIPE.SECRET.KEY');
+		$this->useSandbox = EnvVars::getBool('STRIPE.USESANDBOX');
 		$this->setAllowedPaymentTypesFromEnv();
 		return true;
 	}
@@ -53,12 +54,13 @@ class Config extends Data {
 	 * Parse Payment Types from $_ENV
 	 * @return bool
 	 */
-	public function setAllowedPaymentTypesFromEnv() : bool{
-		if (empty($_ENV['APP.ALLOWED.PAYMENT.TYPES'])) {
+	public function setAllowedPaymentTypesFromEnv() : bool 
+	{
+		if (EnvVars::exists('APP.ALLOWED.PAYMENT.TYPES') === false) {
 			$this->allowedPaymentTypes = [];
 			return true;
 		}
-		$types = explode(',', $_ENV['APP.ALLOWED.PAYMENT.TYPES']);
+		$types = EnvVars::getArray('APP.ALLOWED.PAYMENT.TYPES');
 		$paymentTypes = [];
 
 		foreach ($types as $type) {
