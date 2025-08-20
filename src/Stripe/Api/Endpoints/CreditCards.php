@@ -5,6 +5,7 @@ use Stripe\Card as StripeCard;
 use Stripe\Token as StripeToken;
 // Lib
 use Dpay\Stripe\ApiClient;
+use Dpay\Stripe\Config;
 use Dpay\Stripe\Api\Data\CreditCards\CreditCardRequest as CardRequest;
 
 /**
@@ -27,17 +28,19 @@ class CreditCards extends AbstractEndpoint {
 	{
 		$stripe = ApiClient::instance();
 
-		// TODO: implement creating credit card tokens
-		// Fill out stripe form for sending raw card data
+		if (Config::instance()->useSandbox) {
+			$token = new StripeToken('tok_visa');
+		}
 
-		// $token = Tokens::createCard($rqst);
+		// TODO: handle getting existing token
+		if (Config::instance()->useSandbox === false ) {
+			$token = Tokens::createCard($rqst);
 
-		// if (empty($token->id)) {
-		// 	self::$errorMsg = Tokens::$errorMsg;
-		// 	return new StripeCard('');
-		// }
-
-		$token = new StripeToken('tok_visa');
+			if (empty($token->id)) {
+				self::$errorMsg = Tokens::$errorMsg;
+				return new StripeCard('');
+			}
+		}
 
 		try {
 			$rqst = $stripe->customers->createSource($rqst->custid, ['source' => $token->id]);
