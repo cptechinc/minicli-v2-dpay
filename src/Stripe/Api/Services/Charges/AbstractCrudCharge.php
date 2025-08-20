@@ -115,7 +115,7 @@ abstract class AbstractCrudCharge extends AbstractService {
 		$data->transactionid = $charge->id;
 		$data->acustid = $charge->customer;
 		$data->amount  = $charge->amount / 100;
-		$data->transactiontype = $this->dpayCharge ? $this->dpayCharge->transactiontype : static::ACTION_DESCRIPTION;
+		$data->transactiontype = static::ACTION_DESCRIPTION;
 		$data->card->aid = $charge->payment_method;
 		$data->ordernbr  = $metadata->offsetExists('ordernbr') ? $metadata->ordernbr : '';
 		$data->custid    = $metadata->offsetExists('custid') ? $metadata->custid : '';
