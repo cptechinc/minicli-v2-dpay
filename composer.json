@@ -1,0 +1,27 @@
+{
+	"name": "cptechinc/minicli-v2-dpay",
+	"description": "Minicli Library for Dpay",
+	"type": "library",
+	"keywords": ["php", "cli", "php-cli", "minicli"],
+	"license": "MIT",
+	"minimum-stability": "dev",
+	"authors": [
+		{
+			"name": "Paul Gomez",
+			"email": "pauldro952@hotmail.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Dpay\\": "src/"
+		}
+	},
+	"require": {
+		"minicli/minicli": "^4.2",
+		"pauldro/minicli-v2": "dev-main"
+	},
+	"require-dev": {
+		"minicli/minicli": "^4.2",
+		"pauldro/minicli-v2": "dev-main"
+	}
+}

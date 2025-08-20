@@ -1,0 +1,126 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "3de382629b5a8bbbbd2aaa33bfbbc68f",
+    "packages": [
+        {
+            "name": "minicli/minicli",
+            "version": "4.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/minicli/minicli.git",
+                "reference": "1675c0609205c106bb7c2353888dec361808d92e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/minicli/minicli/zipball/1675c0609205c106bb7c2353888dec361808d92e",
+                "reference": "1675c0609205c106bb7c2353888dec361808d92e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-readline": "*",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.10",
+                "mockery/mockery": "^1.5",
+                "pestphp/pest": "^2.5",
+                "phpstan/phpstan": "^1.10"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Minicli\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Experimental micro CLI framework for PHP",
+            "homepage": "https://github.com/minicli/minicli",
+            "keywords": [
+                "cli",
+                "command-line"
+            ],
+            "support": {
+                "issues": "https://github.com/minicli/minicli/issues",
+                "source": "https://github.com/minicli/minicli/tree/4.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/erikaheidi",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-06-27T08:16:45+00:00"
+        },
+        {
+            "name": "pauldro/minicli-v2",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Pauldro/minicli-v2.git",
+                "reference": "a05a884142479eded2adb0d9ee9c792d5849e402"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Pauldro/minicli-v2/zipball/a05a884142479eded2adb0d9ee9c792d5849e402",
+                "reference": "a05a884142479eded2adb0d9ee9c792d5849e402",
+                "shasum": ""
+            },
+            "require": {
+                "minicli/minicli": "^4.2"
+            },
+            "require-dev": {
+                "minicli/minicli": "^4.2"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pauldro\\Minicli\\v2\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Gomez",
+                    "email": "pauldro952@hotmail.com"
+                }
+            ],
+            "description": "Minicli Extenders with utilities",
+            "keywords": [
+                "cli",
+                "minicli",
+                "php",
+                "php-cli"
+            ],
+            "support": {
+                "issues": "https://github.com/Pauldro/minicli-v2/issues",
+                "source": "https://github.com/Pauldro/minicli-v2/tree/main"
+            },
+            "time": "2025-08-20T03:50:42+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "pauldro/minicli-v2": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {},
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
+}
