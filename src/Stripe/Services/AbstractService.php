@@ -1,0 +1,54 @@
+<?php namespace Dpay\Stripe\Services;
+// Dplus Payments Model
+use Payment;
+// Payments Library
+use Dpay\Data\Charge as ChargeDTO;
+use Dpay\Data\PaymentResponse as Response;
+
+/**
+ * AbstractService
+ * Template for Services
+ * 
+ * @property string    $errorMsg
+ * @property Response  $lastResponse
+ * @property ChargeDTO $charge
+ * @property Payment   $rqst
+ */
+abstract class AbstractService {
+	public string $errorMsg;
+	public Response $lastResponse;
+	protected ChargeDTO $charge;
+	protected Payment $rqst;
+
+/* =============================================================
+	Public
+============================================================= */
+	/**
+	 * Process Request
+	 * @return bool
+	 */
+	abstract public function process() : bool;
+
+/* =============================================================
+	Setters
+============================================================= */
+	/**
+	 * Set Charge
+	 * @param  ChargeDTO $charge
+	 * @return void
+	 */
+	public function setCharge(ChargeDTO $charge) : void
+	{
+		$this->charge = $charge;
+	}
+
+	/**
+	 * Set Payment Request
+	 * @param  Payment $rqst
+	 * @return void
+	 */
+	public function setPayment(Payment $rqst) : void
+	{
+		$this->rqst = $rqst;
+	}
+}
