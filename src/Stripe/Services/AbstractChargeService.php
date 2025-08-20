@@ -7,8 +7,8 @@ use Payment;
 use Dpay\Data\Charge as ChargeDTO;
 use Dpay\Data\PaymentResponse as Response;
 // App Database
-use Lib\Logs\Database\Charges as ApiChargesTable;
-use Lib\Logs\Database\ChargeStatuses as ApiChargeStatusesTable;
+use Dpay\Logs\Database\Charges as ApiChargesTable;
+use Dpay\Logs\Database\ChargeStatuses as ApiChargeStatusesTable;
 // Stripe Services
 use Dpay\Stripe\Api\Services\Charges\FetchCharge;
 

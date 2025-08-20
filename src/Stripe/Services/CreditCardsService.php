@@ -6,7 +6,7 @@ use Dpay\Data\Charge as ChargeDTO;
 use Dpay\Data\CreditCard as CreditCardDTO;
 use Dpay\Data\PaymentResponse as Response;
 // App Database
-use Lib\Logs\Database\CreditCards as ApiCreditCardsTable;
+use Dpay\Logs\Database\CreditCards as ApiCreditCardsTable;
 // Stripe Services
 use Dpay\Stripe\Api\Services\CreditCards as CreditCardServices;
 

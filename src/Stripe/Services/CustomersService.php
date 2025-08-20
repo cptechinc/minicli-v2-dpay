@@ -12,7 +12,7 @@ use Dpay\Data\PaymentResponse as Response;
 // Dplus Database
 use Lib\Dplus\Db\Tables\Customers as DplusCustomersTable;
 // App Database
-use Lib\Logs\Database\Customers as ApiCustomersTable;
+use Dpay\Logs\Database\Customers as ApiCustomersTable;
 // Stripe Services
 use Dpay\Stripe\Api\Services\Customers as CustomerServices;
 

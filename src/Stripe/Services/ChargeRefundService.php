@@ -8,7 +8,7 @@ use Dpay\Data\Charge as ChargeDTO;
 use Dpay\Data\Refund as RefundDTO;
 use Dpay\Data\PaymentResponse as Response;
 // App Database
-use Lib\Logs\Database\Refunds as RefundsTable;
+use Dpay\Logs\Database\Refunds as RefundsTable;
 // Stripe Services
 use Dpay\Stripe\Api\Services\Refunds\CreateRefund;
 
