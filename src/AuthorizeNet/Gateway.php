@@ -17,7 +17,7 @@ use Dpay\Data\PaymentResponse as ResponseData;
 class Gateway extends AbstractGateway {
 	const ENV_REQUIRED = [
 		'AUTHORIZENET.API.LOGIN',
-		'AUTHORIZENET.API.KEY'
+		'AUTHORIZENET.API.TRANSACTIONKEY'
 	];
 
 	public function init() {
