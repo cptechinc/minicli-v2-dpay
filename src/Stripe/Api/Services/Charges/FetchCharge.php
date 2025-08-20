@@ -15,7 +15,6 @@ use Dpay\Data\Charge as DpayCharge;
  * @property StripeCharge  $sCharge
  */
 class FetchCharge extends AbstractCrudCharge implements FetchChargeInterface {
-	public $id = '';
 	public StripeCharge $sCharge;
 	protected DpayCharge $dpayCharge;
 

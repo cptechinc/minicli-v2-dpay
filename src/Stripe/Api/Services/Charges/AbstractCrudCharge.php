@@ -16,7 +16,7 @@ use Dpay\Stripe\Api\AbstractService;
  */
 abstract class AbstractCrudCharge extends AbstractService {
 	const ACTION_DESCRIPTION = 'update';
-	public string $id;
+	public string $id = '';
 	public StripeCharge $sCharge;
 	protected DpayCharge $dpayCharge;
 	
