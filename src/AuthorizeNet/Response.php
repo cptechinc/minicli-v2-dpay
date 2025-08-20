@@ -3,7 +3,7 @@
 use net\authorize\api\contract\v1 as AnetAPI;
 // Dplus Payments Model
 use Payment;
-// Payments Library
+// Dpay
 use Dpay\Data\PaymentResponse as ResponseData;
 
 /**

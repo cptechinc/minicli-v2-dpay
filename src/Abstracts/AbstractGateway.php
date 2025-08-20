@@ -1,7 +1,7 @@
 <?php namespace Dpay\Abstracts;
 // Dplus Payments Model
 use Payment;
-// Payments Library
+// Dpay
 use Dpay\Data\PaymentResponse as Response;
 
 /**

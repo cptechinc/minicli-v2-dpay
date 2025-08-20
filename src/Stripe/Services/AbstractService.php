@@ -1,7 +1,7 @@
 <?php namespace Dpay\Stripe\Services;
 // Dplus Payments Model
 use Payment;
-// Payments Library
+// Dpay
 use Dpay\Data\Charge as ChargeDTO;
 use Dpay\Data\PaymentResponse as Response;
 

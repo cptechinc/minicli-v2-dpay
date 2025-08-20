@@ -3,10 +3,10 @@
 use net\authorize\api\contract\v1 as AnetAPI;
 // Dplus Payments Model
 use Payment;
-// Lib
-use Dpay\Data\PaymentResponse as ResponseData;
-use Dpay\AbstractGateway;
+// Dpay
+use Dpay\Abstracts\AbstractGateway;
 use Dpay\AuthorizeNet\Response as TransactionResponse;
+use Dpay\Data\PaymentResponse as ResponseData;
 
 /**
  * Gateway

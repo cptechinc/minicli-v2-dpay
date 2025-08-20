@@ -3,7 +3,7 @@
 use net\authorize\api\contract\v1\TransactionRequestType as TransactionRequest;
 // Dplus Payments Model
 use Payment;
-// Payments Library
+// Dpay
 use Dpay\AuthorizeNet\TransactionData;
 
 /**
