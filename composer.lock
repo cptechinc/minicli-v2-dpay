@@ -4,8 +4,46 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe3c2cdef7fa99ec0716c7af629e20a7",
+    "content-hash": "c32f04f6786d8d25e058eff3705b5b68",
     "packages": [
+        {
+            "name": "cptechinc/dplus-model",
+            "version": "dev-php-upgrade",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cptechinc/dplus-model.git",
+                "reference": "7954d05f646b575ce67a2227f621ea9584391235"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cptechinc/dplus-model/zipball/7954d05f646b575ce67a2227f621ea9584391235",
+                "reference": "7954d05f646b575ce67a2227f621ea9584391235",
+                "shasum": ""
+            },
+            "require": {
+                "propel/propel": "~2.0@beta"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/",
+                    "src/Model/",
+                    "src/traits/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Propel 2.0 built ORM classes for Dplus data(x) databases based",
+            "homepage": "http://github.com/cptechinc/dplus-model",
+            "keywords": [
+                "data",
+                "dplus-model"
+            ],
+            "support": {
+                "issues": "https://github.com/cptechinc/dplus-model/issues",
+                "source": "https://github.com/cptechinc/dplus-model/tree/php-upgrade"
+            },
+            "time": "2025-08-04T21:53:27+00:00"
+        },
         {
             "name": "cptechinc/dplus-payment-model",
             "version": "dev-php-upgrade",
@@ -1817,10 +1855,57 @@
             "time": "2025-07-10T08:14:14+00:00"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "authorizenet/authorizenet",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AuthorizeNet/sdk-php.git",
+                "reference": "8949344fdcb83389335ae7585238311db8e9b855"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AuthorizeNet/sdk-php/zipball/8949344fdcb83389335ae7585238311db8e9b855",
+                "reference": "8949344fdcb83389335ae7585238311db8e9b855",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.6"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "Official PHP SDK for Authorize.Net",
+            "homepage": "http://developer.authorize.net",
+            "keywords": [
+                "authorize.net",
+                "authorizenet",
+                "ecommerce",
+                "payment"
+            ],
+            "support": {
+                "issues": "https://github.com/AuthorizeNet/sdk-php/issues",
+                "source": "https://github.com/AuthorizeNet/sdk-php/tree/master"
+            },
+            "time": "2024-09-19T14:54:25+00:00"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "authorizenet/authorizenet": 20,
+        "cptechinc/dplus-model": 20,
         "cptechinc/dplus-payment-model": 20,
         "pauldro/minicli-v2": 20,
         "pauldro/minicli-v2-database": 20,
