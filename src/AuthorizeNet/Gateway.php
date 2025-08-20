@@ -67,7 +67,7 @@ class Gateway extends AbstractGateway {
 	 */
 	private function processTransaction(Transactions\AbstractTransaction $transaction) : ResponseData
 	{
-		$request = new Request($this->getApiAuthentication(), $transaction->generate(), $this->config->useSandbox);
+		$request = new RequestChargeTransaction($this->getApiAuthentication(), $transaction->generate(), $this->config->useSandbox);
 		$request->send();
 		$response = new TransactionResponse($request->getResponse(), $transaction->getPaymentRequest());
 		$response->process();

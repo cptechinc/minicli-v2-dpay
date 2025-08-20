@@ -5,14 +5,14 @@ use net\authorize\api\constants\ANetEnvironment;
 use net\authorize\api\controller as AnetController;
 
 /**
- * Request
+ * RequestChargeTransaction
  * 
  * @property AnetAPI\MerchantAuthenticationType       $authentication  API Credentials
  * @property AnetAPI\TransactionRequestType           $transaction     SDK Transaction Request Data
  * @property AnetAPI\CreateTransactionResponse|null   $response        API Response
  * @property bool                                     $useSandbox      Use Sandbox API?
  */
-class Request {
+class RequestChargeTransaction {
 	protected AnetAPI\MerchantAuthenticationType $authentication;
 	protected AnetAPI\TransactionRequestType $transaction;
 	protected AnetAPI\CreateTransactionResponse $response;
