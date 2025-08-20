@@ -25,7 +25,7 @@ class CreditCards extends AbstractDatabaseTable {
 		'last4'      => ['CHAR(4)', 'DEFAULT NULL'],
 	];
 	const PRIMARYKEY = ['rid'];
-	const RECORD_CLASS = '\\Lib\\Logs\\Database\\Data\\CreditCardRecord';
+	const RECORD_CLASS = '\\Dpay\\Logs\\\\Database\\Data\\CreditCardRecord';
 
 	protected static $instance;
 

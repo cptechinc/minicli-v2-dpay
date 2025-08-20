@@ -27,7 +27,7 @@ class ChargeStatuses extends AbstractDatabaseTable {
 		'status'     => ['VARCHAR(45)', 'DEFAULT ""'],
 	];
 	const PRIMARYKEY = ['rid'];
-	const RECORD_CLASS = '\\Lib\\Logs\\Database\\Data\\ChargeStatusRecord';
+	const RECORD_CLASS = '\\Dpay\\Logs\\\\Database\\Data\\ChargeStatusRecord';
 
 	protected static $instance;
 
