@@ -141,12 +141,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Pauldro/minicli-v2.git",
-                "reference": "a05a884142479eded2adb0d9ee9c792d5849e402"
+                "reference": "5bf082431f17398dea40db45818ade2c8615168f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Pauldro/minicli-v2/zipball/a05a884142479eded2adb0d9ee9c792d5849e402",
-                "reference": "a05a884142479eded2adb0d9ee9c792d5849e402",
+                "url": "https://api.github.com/repos/Pauldro/minicli-v2/zipball/5bf082431f17398dea40db45818ade2c8615168f",
+                "reference": "5bf082431f17398dea40db45818ade2c8615168f",
                 "shasum": ""
             },
             "require": {
@@ -183,7 +183,7 @@
                 "issues": "https://github.com/Pauldro/minicli-v2/issues",
                 "source": "https://github.com/Pauldro/minicli-v2/tree/main"
             },
-            "time": "2025-08-20T03:50:42+00:00"
+            "time": "2025-08-20T17:21:36+00:00"
         },
         {
             "name": "pauldro/minicli-v2-database",
