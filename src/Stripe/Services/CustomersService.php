@@ -10,7 +10,7 @@ use Dpay\Data\Charge as ChargeDTO;
 use Dpay\Data\Customer as CustomerDTO;
 use Dpay\Data\PaymentResponse as Response;
 // Dplus Database
-use Lib\Dplus\Db\Tables\Customers as DplusCustomersTable;
+use Dpay\Dplus\Db\Tables\Customers as DplusCustomersTable;
 // App Database
 use Dpay\Logs\Database\Customers as ApiCustomersTable;
 // Stripe Services
