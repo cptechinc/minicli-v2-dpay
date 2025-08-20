@@ -48,8 +48,8 @@ abstract class AbstractTransaction {
 		$transaction->addToTransactionSettings(TransactionData::settingType());
 		$this->setTransactionPaymentData($transaction);
 
-		if ($this->paymentRequest->getTransactionid()) {
-			$transaction->setRefTransId($this->paymentRequest->getTransactionid());
+		if ($this->paymentRequest->getTransId()) {
+			$transaction->setRefTransId($this->paymentRequest->getTransId());
 		}
 		return $transaction;
 	}
