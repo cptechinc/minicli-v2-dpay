@@ -10,6 +10,7 @@ use Dpay\Data\PaymentMethod\PaymentMethod;
  * 
  * @property string $secretKey            API Secret Key
  * @property array  $allowedPaymentTypes  Allowed Payment Types (ach,amazonpay), note if blank, then use stripe defaults
+ * @property bool   $useSandbox
  */
 class Config extends Data {
 	private static $instance;
@@ -30,6 +31,7 @@ class Config extends Data {
 	public function __construct() {
 		$this->secretKey = '';
 		$this->allowedPaymentTypes = [];
+		$this->useSandbox = false;
 	}
 
 	/**
@@ -38,7 +40,8 @@ class Config extends Data {
 	 */
 	public function init() : bool
 	{
-		$this->secretKey = $_ENV['STRIPE.SECRET.KEY'];
+		$this->secretKey  = $_ENV['STRIPE.SECRET.KEY'];
+		$this->useSandbox = $_ENV['STRIPE.USESANDBOX'] == 'true';
 		$this->setAllowedPaymentTypesFromEnv();
 		return true;
 	}
