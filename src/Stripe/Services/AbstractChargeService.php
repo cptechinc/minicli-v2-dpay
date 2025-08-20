@@ -22,7 +22,9 @@ use Dpay\Stripe\Api\Services\Charges\FetchCharge;
  * @property Payment   $rqst
  * @property StripeCharge $sCharge
  */
-abstract class AbstractChargeService {
+abstract class AbstractChargeService extends AbstractService {
+	const MSG_FAILED_TRANSACTION = 'Unable to complete Transaction';
+
 	public string $errorMsg;
 	public Response $lastResponse;
 	protected ChargeDTO $charge;
@@ -156,5 +158,19 @@ abstract class AbstractChargeService {
 			return new StripeCharge();
 		}
 		return $SERVICE->sCharge;
+	}
+
+/* =============================================================
+	Responses
+============================================================= */
+	/**
+	 * Return that transaction failed
+	 * @return Response
+	 */
+	protected function responseFailedTransaction() : Response
+	{
+		$response = $this->responseFailed();
+		$response->errorMsg = $this->errorMsg ? $this->errorMsg : static::MSG_FAILED_TRANSACTION;
+		return $response;
 	}
 }

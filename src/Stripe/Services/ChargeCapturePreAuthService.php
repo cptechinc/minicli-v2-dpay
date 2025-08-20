@@ -21,6 +21,8 @@ use Dpay\Stripe\Api\Services\Charges\CapturePreAuthCharge;
  * @property StripeCharge $sCharge
  */
 class ChargeCapturePreAuthService extends AbstractChargeService {
+	const MSG_FAILED_TRANSACTION = 'Unable to capture Transaction';
+
 	public string $errorMsg;
 	public Response $lastResponse;
 	protected ChargeDTO $charge;
@@ -128,29 +130,12 @@ class ChargeCapturePreAuthService extends AbstractChargeService {
 	Responses
 ============================================================= */
 	/**
-	 * Return that transaction failed
-	 * @return Response
-	 */
-	protected function responseFailedTransaction() : Response
-	{
-		$charge = $this->charge;
-		$response = new Response();
-		$response->ordn = $charge->ordernbr;
-		$response->setApproved(false);
-		$response->errorMsg = $this->errorMsg ? $this->errorMsg : "Unable to capture Transaction";
-		return $response;
-	}
-
-	/**
 	 * Return that transaction failed because of status
 	 * @return Response
 	 */
 	protected function responseFailedCaptureByStatus() : Response
 	{
-		$charge = $this->charge;
-		$response = new Response();
-		$response->ordn = $charge->ordernbr;
-		$response->setApproved(false);
+		$response = $this->responseFailedTransaction();
 		$response->errorMsg = $this->errorMsg ? $this->errorMsg : "Unable to capture transaction with status";
 		return $response;
 	}

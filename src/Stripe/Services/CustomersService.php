@@ -176,6 +176,7 @@ class CustomersService extends AbstractService {
 	private function respondCustomerNotFound(Payment $rqst) : Response
 	{
 		$response = new Response();
+		$response->type = $this->rqst->type;
 		$response->ordn = $rqst->getOrdernbr();
 		$response->setApproved(false);
 		$response->errorMsg = "Can't find Customer ". $rqst->getCustid() ." in database";
@@ -189,9 +190,7 @@ class CustomersService extends AbstractService {
 	 */
 	private function respondCustomerCreateFailed(Payment $rqst) : Response
 	{
-		$response = new Response();
-		$response->ordn = $rqst->getOrdernbr();
-		$response->setApproved(false);
+		$response = $this->responseFailed();
 		$response->errorMsg = "Can't create Stripe Customer for " . $rqst->getCustid();
 		if ($this->errorMsg) {
 			$response->errorMsg = $this->errorMsg;

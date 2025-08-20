@@ -21,6 +21,8 @@ use Dpay\Stripe\Api\Services\Charges\VoidCharge;
  * @property StripeCharge $sCharge
  */
 class ChargeVoidService extends AbstractChargeService {
+	const MSG_FAILED_TRANSACTION = 'Unable to void Transaction';
+
 	public string $errorMsg;
 	public Response $lastResponse;
 	protected ChargeDTO $charge;
@@ -86,7 +88,7 @@ class ChargeVoidService extends AbstractChargeService {
 		
 		if (array_key_exists($sCharge->status, VoidCharge::ACTIONABLE_STATUSES) === false) {
 			$this->errorMsg = "Unable to void status $sCharge->status";
-			$this->lastResponse = $this->responseFailedCaptureByStatus();
+			$this->lastResponse = $this->responseFailedByStatus();
 			return false;
 		}
 		return true;
@@ -128,29 +130,12 @@ class ChargeVoidService extends AbstractChargeService {
 	Responses
 ============================================================= */
 	/**
-	 * Return that transaction failed
-	 * @return Response
-	 */
-	private function responseFailedTransaction() : Response
-	{
-		$charge = $this->charge;
-		$response = new Response();
-		$response->ordn = $charge->ordernbr;
-		$response->setApproved(false);
-		$response->errorMsg = $this->errorMsg ? $this->errorMsg : "Unable to void Transaction";
-		return $response;
-	}
-
-	/**
 	 * Return that transaction failed because of status
 	 * @return Response
 	 */
-	private function responseFailedCaptureByStatus() : Response
+	private function responseFailedByStatus() : Response
 	{
-		$charge = $this->charge;
-		$response = new Response();
-		$response->ordn = $charge->ordernbr;
-		$response->setApproved(false);
+		$response = $this->responseFailedTransaction();
 		$response->errorMsg = $this->errorMsg ? $this->errorMsg : "Unable to void transaction with status";
 		return $response;
 	}

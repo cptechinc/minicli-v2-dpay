@@ -18,6 +18,7 @@ abstract class AbstractGateway {
 		
 	}
 	public string $errorMsg;
+	public Response $lastResponse;
 
 /* =============================================================
 	1. Contract Functions
@@ -30,6 +31,7 @@ abstract class AbstractGateway {
 	public function process(Payment $request) : Response
 	{
 		$this->lastResponse = new Response();
+		$this->lastResponse->type;
 
 		switch ($request->type) {
 			case 'DEBIT':
@@ -113,6 +115,7 @@ abstract class AbstractGateway {
 	protected function respondRequestNotSetup(Payment $paymentRequest) : Response
 	{
 		$response = new Response();
+		$response->type = $paymentRequest->type;
 		$response->ordn = $paymentRequest->getOrdernbr();
 		$response->setApproved(false);
 		$response->errorMsg = "$paymentRequest->type Request is not setup";
@@ -127,6 +130,7 @@ abstract class AbstractGateway {
 	protected function respondApiNotConnected(Payment $paymentRequest) : Response
 	{
 		$response = new Response();
+		$response->type = $paymentRequest->type;
 		$response->ordn = $paymentRequest->getOrdernbr();
 		$response->setApproved(false);
 		$response->errorMsg = "Could not connect to API";

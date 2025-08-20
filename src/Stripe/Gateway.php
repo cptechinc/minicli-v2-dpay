@@ -42,6 +42,7 @@ class Gateway extends AbstractGateway {
 	public function process(Payment $request) : ResponseData
 	{
 		$this->lastResponse = new ResponseData();
+		$this->lastResponse->type = $request->type;
 
 		if ($this->stripe->connect() === false) {
 			return $this->respondApiNotConnected($request);
@@ -62,7 +63,7 @@ class Gateway extends AbstractGateway {
 			return $this->lastResponse;
 		}
 		$SERVICE = new ChargeCaptureService();
-		$this->processServiceTransaction($SERVICE, $charge);
+		$this->processServiceTransaction($SERVICE, $charge, $rqst);
 		return $this->lastResponse;
 	}
 	
@@ -79,7 +80,7 @@ class Gateway extends AbstractGateway {
 			return $this->lastResponse;
 		}
 		$SERVICE = new ChargeCapturePreAuthService();
-		$this->processServiceTransaction($SERVICE, $charge);
+		$this->processServiceTransaction($SERVICE, $charge, $rqst);
 		return $this->lastResponse;
 	}
 
@@ -96,7 +97,7 @@ class Gateway extends AbstractGateway {
 			return $this->lastResponse;
 		}
 		$SERVICE = new ChargePreAuthService();
-		$this->processServiceTransaction($SERVICE, $charge);
+		$this->processServiceTransaction($SERVICE, $charge, $rqst);
 		return $this->lastResponse;
 	}
 
@@ -113,7 +114,7 @@ class Gateway extends AbstractGateway {
 			return $this->lastResponse;
 		}
 		$SERVICE = new ChargeRefundService();
-		$this->processServiceTransaction($SERVICE, $charge);
+		$this->processServiceTransaction($SERVICE, $charge, $rqst);
 		return $this->lastResponse;
 	}
 
@@ -130,7 +131,7 @@ class Gateway extends AbstractGateway {
 			return $this->lastResponse;
 		}
 		$SERVICE = new ChargeVoidService();
-		$this->processServiceTransaction($SERVICE, $charge);
+		$this->processServiceTransaction($SERVICE, $charge, $rqst);
 		return $this->lastResponse;
 	}
 
@@ -140,10 +141,10 @@ class Gateway extends AbstractGateway {
 	/**
 	 * Process Charge through Service
 	 * @param  AbstractChargeService $SERVICE
-	 * @param  ChargeDTO $charge
+	 * @param  ChargeDTO             $charge
 	 * @return bool
 	 */
-	private function processServiceTransaction(AbstractChargeService $SERVICE, ChargeDTO $charge) : bool
+	private function processServiceTransaction(AbstractChargeService $SERVICE, ChargeDTO $charge, Payment $rqst) : bool
 	{
 		$SERVICE->setCharge($charge);
 		
@@ -155,6 +156,7 @@ class Gateway extends AbstractGateway {
 		$response->ordn = $charge->ordernbr;
 		$response->setApproved(true);
 		$response->transactionid = $charge->transactionid;
+		$response->type = $rqst->type;
 		$this->lastResponse      = $response;
 		return true;
 	}

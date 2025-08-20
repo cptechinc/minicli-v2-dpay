@@ -51,4 +51,20 @@ abstract class AbstractService {
 	{
 		$this->rqst = $rqst;
 	}
+
+/* =============================================================
+	Responses
+============================================================= */
+	/**
+	 * Return that transaction failed
+	 * @return Response
+	 */
+	protected function responseFailed() : Response
+	{
+		$response = new Response();
+		$response->type = $this->rqst->type;
+		$response->ordn = $this->charge->ordernbr;
+		$response->setApproved(false);
+		return $response;
+	}
 }

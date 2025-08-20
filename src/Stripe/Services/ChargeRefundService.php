@@ -24,6 +24,8 @@ use Dpay\Stripe\Api\Services\Refunds\CreateRefund;
  * @property Payment   $rqst
  */
 class ChargeRefundService extends AbstractChargeService {
+	const MSG_FAILED_TRANSACTION = 'Unable to refund Transaction';
+
 	public string $errorMsg;
 	public Response $lastResponse;
 	protected ChargeDTO $charge;
@@ -128,37 +130,6 @@ class ChargeRefundService extends AbstractChargeService {
 		return true;
 	}
 	
-/* =============================================================
-	Responses
-============================================================= */
-	/**
-	 * Return that transaction failed
-	 * @return Response
-	 */
-	private function responseFailedTransaction() : Response
-	{
-		$charge = $this->charge;
-		$response = new Response();
-		$response->ordn = $charge->ordernbr;
-		$response->setApproved(false);
-		$response->errorMsg = $this->errorMsg ? $this->errorMsg : "Unable to refund Transaction";
-		return $response;
-	}
-
-	/**
-	 * Return that transaction failed because of status
-	 * @return Response
-	 */
-	private function responseFailedCaptureByStatus() : Response
-	{
-		$charge = $this->charge;
-		$response = new Response();
-		$response->ordn = $charge->ordernbr;
-		$response->setApproved(false);
-		$response->errorMsg = $this->errorMsg ? $this->errorMsg : "Unable to refund transaction with status";
-		return $response;
-	}
-
 /* =============================================================
 	App Database
 ============================================================= */

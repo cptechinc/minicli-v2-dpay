@@ -21,6 +21,8 @@ use Dpay\Stripe\Api\Services\Charges\PreAuthCharge;
  * @property StripeCharge $sCharge
  */
 class ChargePreAuthService extends AbstractChargeService {
+	const MSG_FAILED_TRANSACTION = 'Unable to generate Pre-Auth Transaction';
+
 	public string $errorMsg;
 	public Response $lastResponse;
 	protected ChargeDTO $charge;
@@ -75,22 +77,5 @@ class ChargePreAuthService extends AbstractChargeService {
 		$charge->status = $sCharge->status;
 		$this->sCharge  = $sCharge;
 		return true;
-	}
-
-/* =============================================================
-	Responses
-============================================================= */
-	/**
-	 * Return that transaction failed
-	 * @return Response
-	 */
-	private function responseFailedTransaction() : Response
-	{
-		$charge = $this->charge;
-		$response = new Response();
-		$response->ordn = $charge->ordernbr;
-		$response->setApproved(false);
-		$response->errorMsg = $this->errorMsg ? $this->errorMsg : "Unable to generate Pre-Auth Transaction";
-		return $response;
 	}
 }

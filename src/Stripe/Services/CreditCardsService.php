@@ -135,6 +135,7 @@ class CreditCardsService extends AbstractService {
 	{
 		$rqst = $this->rqst;
 		$response = new Response();
+		$response->type = $this->rqst->type;
 		$response->ordn = $rqst->getOrdernbr();
 		$response->setApproved(false);
 		$response->errorMsg = "Can't find CreditCard " . $rqst->getCustid() . " in database";
@@ -147,11 +148,9 @@ class CreditCardsService extends AbstractService {
 	 */
 	private function responseCreditCardCreateFailed() : Response
 	{
-		$rqst = $this->rqst;
-		$response = new Response();
-		$response->ordn = $rqst->getOrdernbr();
+		$response = $this->responseFailed();
 		$response->setApproved(false);
-		$response->errorMsg = "Can't create Stripe CreditCard for " . $rqst->getCustid();
+		$response->errorMsg = "Can't create Stripe CreditCard for " . $this->rqst->getCustid();
 		if ($this->errorMsg) {
 			$response->errorMsg = $this->errorMsg;
 		}
