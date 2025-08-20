@@ -26,7 +26,7 @@ class Refunds extends AbstractDatabaseTable {
 		'status'        => ['VARCHAR(45)', 'DEFAULT ""'],
 	];
 	const PRIMARYKEY = ['rid'];
-	const RECORD_CLASS = '\\Dpay\\Logs\\\\Database\\Data\\RefundRecord';
+	const RECORD_CLASS = '\\Dpay\\Logs\\Database\\Data\\RefundRecord';
 
 	protected static $instance;
 

@@ -28,7 +28,7 @@ class Charges extends AbstractDatabaseTable {
 		'action'          => ['VARCHAR(45)', 'DEFAULT ""'],
 	];
 	const PRIMARYKEY = ['rid'];
-	const RECORD_CLASS = '\\Dpay\\Logs\\\\Database\\Data\\ChargeRecord';
+	const RECORD_CLASS = '\\Dpay\\Logs\\Database\\Data\\ChargeRecord';
 
 	protected static $instance;
 

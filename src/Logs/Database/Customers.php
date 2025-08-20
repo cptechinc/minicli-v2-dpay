@@ -22,7 +22,7 @@ class Customers extends AbstractDatabaseTable {
 		'id'         => ['VARCHAR(100)', 'DEFAULT NULL'],
 	];
 	const PRIMARYKEY = ['rid'];
-	const RECORD_CLASS = '\\Dpay\\Logs\\\\Database\\Data\\CustomerRecord';
+	const RECORD_CLASS = '\\Dpay\\Logs\\Database\\Data\\CustomerRecord';
 
 	protected static $instance;
 
