@@ -13,15 +13,16 @@ use net\authorize\api\controller as AnetController;
  * @property bool                                     $useSandbox      Use Sandbox API?
  */
 class Request {
-	protected $auth;
-	protected $useSandbox = false;
-	protected $transaction = false;
-	protected $response = null;
+	protected AnetAPI\MerchantAuthenticationType $authentication;
+	protected AnetAPI\TransactionRequestType $transaction;
+	protected AnetAPI\CreateTransactionResponse $response;
+	protected bool $useSandbox = false;
+	
 
 	public function __construct(AnetAPI\MerchantAuthenticationType $auth, AnetAPI\TransactionRequestType $tran, $useSandbox = false) {
 		$this->authentication = $auth;
-		$this->transaction = $tran;
-		$this->useSandbox = $useSandbox;
+		$this->transaction    = $tran;
+		$this->useSandbox     = $useSandbox;
 	}
 
 /* =============================================================
