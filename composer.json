@@ -19,12 +19,14 @@
 	"require": {
 		"minicli/minicli": "^4.2",
 		"pauldro/minicli-v2": "dev-main",
+		"pauldro/minicli-v2-database": "dev-main",
 		"cptechinc/dplus-payment-model": "dev-php-upgrade",
 		"stripe/stripe-php": "^17.6@beta"
 	},
 	"require-dev": {
 		"minicli/minicli": "^4.2",
 		"pauldro/minicli-v2": "dev-main",
+		"pauldro/minicli-v2-database": "dev-main",
 		"cptechinc/dplus-payment-model": "dev-php-upgrade",
 		"stripe/stripe-php": "^17.6@beta"
 	}

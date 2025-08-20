@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e67572111746036a055ceef8b12625b",
+    "content-hash": "fe3c2cdef7fa99ec0716c7af629e20a7",
     "packages": [
         {
             "name": "cptechinc/dplus-payment-model",
@@ -146,6 +146,62 @@
                 "source": "https://github.com/Pauldro/minicli-v2/tree/main"
             },
             "time": "2025-08-20T03:50:42+00:00"
+        },
+        {
+            "name": "pauldro/minicli-v2-database",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Pauldro/minicli-v2-database.git",
+                "reference": "4904470359a24ea497ad4b029b6f9d60ffd41433"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Pauldro/minicli-v2-database/zipball/4904470359a24ea497ad4b029b6f9d60ffd41433",
+                "reference": "4904470359a24ea497ad4b029b6f9d60ffd41433",
+                "shasum": ""
+            },
+            "require": {
+                "minicli/minicli": "^4.2",
+                "pauldro/minicli-v2": "dev-main",
+                "propel/propel": "~2.0@beta",
+                "sergeytsalkov/meekrodb": "^3.1"
+            },
+            "require-dev": {
+                "minicli/minicli": "^4.2",
+                "pauldro/minicli-v2": "dev-main",
+                "propel/propel": "~2.0@beta",
+                "sergeytsalkov/meekrodb": "^3.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pauldro\\Minicli\\v2\\Database\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Gomez",
+                    "email": "pauldro952@hotmail.com"
+                }
+            ],
+            "description": "Minicli Extenders with utilities",
+            "keywords": [
+                "cli",
+                "minicli",
+                "php",
+                "php-cli"
+            ],
+            "support": {
+                "issues": "https://github.com/Pauldro/minicli-v2-database/issues",
+                "source": "https://github.com/Pauldro/minicli-v2-database/tree/main"
+            },
+            "time": "2025-08-20T06:04:14+00:00"
         },
         {
             "name": "propel/propel",
@@ -330,6 +386,56 @@
                 "source": "https://github.com/php-fig/log/tree/3.0.2"
             },
             "time": "2024-09-11T13:17:53+00:00"
+        },
+        {
+            "name": "sergeytsalkov/meekrodb",
+            "version": "v3.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SergeyTsalkov/meekrodb.git",
+                "reference": "beb054110cd945ff67568baef6984552344e6bd8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SergeyTsalkov/meekrodb/zipball/beb054110cd945ff67568baef6984552344e6bd8",
+                "reference": "beb054110cd945ff67568baef6984552344e6bd8",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "db.class.php",
+                    "orm.class.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Tsalkov",
+                    "email": "stsalkov@gmail.com"
+                }
+            ],
+            "description": "The Simple PHP/MySQL Library",
+            "homepage": "http://www.meekro.com",
+            "keywords": [
+                "database",
+                "mysql",
+                "mysqli",
+                "pdo"
+            ],
+            "support": {
+                "email": "support@meekro.com",
+                "issues": "https://github.com/SergeyTsalkov/meekrodb/issues",
+                "source": "https://github.com/SergeyTsalkov/meekrodb/tree/v3.1.4"
+            },
+            "time": "2025-06-26T04:17:05+00:00"
         },
         {
             "name": "stripe/stripe-php",
@@ -1717,6 +1823,7 @@
     "stability-flags": {
         "cptechinc/dplus-payment-model": 20,
         "pauldro/minicli-v2": 20,
+        "pauldro/minicli-v2-database": 20,
         "stripe/stripe-php": 10
     },
     "prefer-stable": false,
