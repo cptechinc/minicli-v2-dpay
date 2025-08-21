@@ -3,6 +3,7 @@
 use Payment;
 // Dpay
 use Dpay\Data\PaymentResponse as Response;
+use Dpay\Services\Logger;
 
 /**
  * AbstractGateway
@@ -10,18 +11,33 @@ use Dpay\Data\PaymentResponse as Response;
  * Contains Interface for Processing payment Requests
  * @property string   $errorMsg
  * @property Response $lastResponse
+ * @property Logger   $log
  */
 abstract class AbstractGateway {
 	const ENV_REQUIRED = [];
-
-	public function init() {
-		
-	}
+	
 	public string $errorMsg;
 	public Response $lastResponse;
+	protected Logger $log;
 
 /* =============================================================
-	1. Contract Functions
+	Inits
+============================================================= */
+	public function init() : void
+	{
+		
+	}
+
+/* =============================================================
+	Setters
+============================================================= */
+	public function setLog(Logger $logger) : void
+	{
+		$this->log = $logger;
+	}
+
+/* =============================================================
+	Contract Functions
 ============================================================= */
 	/**
 	 * Processes Request, sends Transaction Request to API
@@ -100,12 +116,12 @@ abstract class AbstractGateway {
 	}
 
 /* =============================================================
-	2. API Requests
+	API Requests
 ============================================================= */
 
 
 /* =============================================================
-	3. Responses
+	Responses
 ============================================================= */
 	/**
 	 * Return that API call is not set up
@@ -138,6 +154,6 @@ abstract class AbstractGateway {
 	}
 
 /* =============================================================
-	4. Supplemental
+	Supplemental
 ============================================================= */
 }
