@@ -20,10 +20,7 @@ use net\authorize\api\controller\CreateTransactionController;
  * @property TransactionRequestType      $transaction
  */
 class RequestChargeTransaction extends AbstractRequest {
-	protected MerchantAuthenticationType $authentication;
 	protected TransactionRequestType $transaction;
-	protected CreateTransactionRequest $request;
-	protected CreateTransactionResponse $response;
 
 	public function __construct(MerchantAuthenticationType $auth, TransactionRequestType $tran, $useSandbox = false) {
 		$this->authentication = $auth;

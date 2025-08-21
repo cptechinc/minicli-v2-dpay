@@ -23,10 +23,7 @@ class RequestTransactionDetails extends AbstractRequest {
 		'pending-settlement' => 'capturedPendingSettlement'
 	];
 	
-	protected MerchantAuthenticationType $authentication;
 	protected string $transactionid;
-	protected GetTransactionDetailsRequest  $request;
-	protected GetTransactionDetailsResponse $response;
 	
 	public function __construct(MerchantAuthenticationType $auth, string $transactionid, $useSandbox = false) {
 		$this->authentication = $auth;
