@@ -20,7 +20,8 @@ class Gateway extends AbstractGateway {
 		'AUTHORIZENET.API.TRANSACTIONKEY'
 	];
 
-	public function init() {
+	public function init() : void
+	{
 		$this->config = Config::instance();
 	}
 
