@@ -1,86 +1,49 @@
 <?php namespace Dpay\AuthorizeNet;
-// AuthorizeNet Library
-use net\authorize\api\contract\v1 as AnetAPI;
-use net\authorize\api\constants\ANetEnvironment;
-use net\authorize\api\controller as AnetController;
+// Authorize.Net SDK
+use net\authorize\api\contract\v1\CreateTransactionRequest;
+use net\authorize\api\contract\v1\CreateTransactionResponse;
+use net\authorize\api\contract\v1\MerchantAuthenticationType;
+use net\authorize\api\contract\v1\TransactionRequestType;
+use net\authorize\api\controller\CreateTransactionController;
 
 /**
  * RequestChargeTransaction
  * 
- * @property AnetAPI\MerchantAuthenticationType       $authentication  API Credentials
- * @property AnetAPI\TransactionRequestType           $transaction     SDK Transaction Request Data
- * @property AnetAPI\CreateTransactionResponse|null   $response        API Response
- * @property bool                                     $useSandbox      Use Sandbox API?
+ * Sends Charge Request to API
+ * 
+ * @method CreateTransactionResponse|null getResponse()
+ * 
+ * @property bool                        $useSandbox
+ * @property MerchantAuthenticationType  $authentication
+ * @property CreateTransactionRequest    $request
+ * @property CreateTransactionResponse   $response
+ * @property TransactionRequestType      $transaction
  */
-class RequestChargeTransaction {
-	protected AnetAPI\MerchantAuthenticationType $authentication;
-	protected AnetAPI\TransactionRequestType $transaction;
-	protected AnetAPI\CreateTransactionResponse $response;
-	protected bool $useSandbox = false;
-	
+class RequestChargeTransaction extends AbstractRequest {
+	protected MerchantAuthenticationType $authentication;
+	protected TransactionRequestType $transaction;
+	protected TransactionRequestType $request;
+	protected CreateTransactionResponse $response;
 
-	public function __construct(AnetAPI\MerchantAuthenticationType $auth, AnetAPI\TransactionRequestType $tran, $useSandbox = false) {
+	public function __construct(MerchantAuthenticationType $auth, TransactionRequestType $tran, $useSandbox = false) {
 		$this->authentication = $auth;
 		$this->transaction    = $tran;
 		$this->useSandbox     = $useSandbox;
 	}
 
 /* =============================================================
-	1. Getters, Setters
+	Authorize.Net SDK
 ============================================================= */
-	/**
-	 * Set if Requests should be sent to Sandbox
-	 * @param bool $useSandbox
-	 */
-	public function setUseSandbox($useSandbox = true) : void
+	protected function createRequest() : CreateTransactionRequest
 	{
-		$this->useSandbox = $useSandbox;
-	}
-
-	/**
-	 * Return Response
-	 * @return AnetAPI\CreateTransactionResponse
-	 */
-	public function getResponse() : AnetAPI\CreateTransactionResponse|null
-	{
-		return $this->response;
-	}
-
-/* =============================================================
-	2. Public
-============================================================= */	
-	/**
-	 * Send Transaction Request
-	 * @return void
-	 */
-	public function send() : void
-	{
-		$api = new AnetController\CreateTransactionController($this->getCreateTransactionRequest());
-		$this->response = $api->executeWithApiResponse($this->getApiUrl());
-	}
-
-/* =============================================================
-	3. AuthorizeNet SDK
-============================================================= */
-	/**
-	 * Return API URL Depending on Environment needed
-	 * @return string
-	 */
-	protected function getApiUrl() : string
-	{
-		return $this->useSandbox ? ANetEnvironment::SANDBOX : ANetEnvironment::PRODUCTION;
-	}
-
-	/**
-	 * Return Create Transaction SDK Object
-	 * @return AnetAPI\CreateTransactionRequest
-	 */
-	protected function getCreateTransactionRequest() : AnetAPI\CreateTransactionRequest
-	{
-		$t = new AnetAPI\CreateTransactionRequest();
+		$t = new CreateTransactionRequest();
 		$t->setMerchantAuthentication($this->authentication);
 		$t->setRefId('ref' . time());
 		$t->setTransactionRequest($this->transaction);
 		return $t;
+	}
+
+	protected function createRequestController() : CreateTransactionController {
+		return new CreateTransactionController($this->request);
 	}
 }

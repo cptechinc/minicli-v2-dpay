@@ -1,87 +1,52 @@
 <?php namespace Dpay\AuthorizeNet;
 // AuthorizeNet Library
-use net\authorize\api\contract\v1 as AnetAPI;
-use net\authorize\api\constants\ANetEnvironment;
-use net\authorize\api\controller as AnetController;
+use net\authorize\api\contract\v1\GetTransactionDetailsRequest;
+use net\authorize\api\contract\v1\GetTransactionDetailsResponse;
+use net\authorize\api\contract\v1\MerchantAuthenticationType;
+use net\authorize\api\controller\GetTransactionDetailsController;
 
 /**
- * RequestChargeTransaction
+ * RequestTransactionDetails
  * 
- * @property AnetAPI\MerchantAuthenticationType          $authentication  API Credentials
- * @property string                                      $transactionid   Transaction ID
- * @property bool                                        $useSandbox      Use Sandbox API?
- * @property AnetAPI\GetTransactionDetailsResponse|null  $response        API Response
+ * Request Transaction Data from API
  * 
+ * @method GetTransactionDetailsResponse getResponse()
+ * 
+ * @property bool                          $useSandbox
+ * @property MerchantAuthenticationType    $authentication
+ * @property GetTransactionDetailsRequest  $request
+ * @property GetTransactionDetailsResponse $response
+ * @property string                        $transactionid   Transaction ID
  */
-class RequestTransactionDetails {
-	protected AnetAPI\MerchantAuthenticationType $authentication;
-	protected string $transaction;
-	protected AnetAPI\GetTransactionDetailsResponse $response;
-	protected bool $useSandbox = false;
+class RequestTransactionDetails extends AbstractRequest {
+	const TRANSACTION_STATUSES = [
+		'pending-settlement' => 'capturedPendingSettlement'
+	];
 	
-
-	public function __construct(AnetAPI\MerchantAuthenticationType $auth, string $transactionid, $useSandbox = false) {
+	protected MerchantAuthenticationType $authentication;
+	protected string $transactionid;
+	protected GetTransactionDetailsRequest  $request;
+	protected GetTransactionDetailsResponse $response;
+	
+	public function __construct(MerchantAuthenticationType $auth, string $transactionid, $useSandbox = false) {
 		$this->authentication = $auth;
 		$this->transactionid  = $transactionid;
 		$this->useSandbox     = $useSandbox;
 	}
 
 /* =============================================================
-	1. Getters, Setters
+	Authorize.Net SDK
 ============================================================= */
-	/**
-	 * Set if Requests should be sent to Sandbox
-	 * @param bool $useSandbox
-	 */
-	public function setUseSandbox($useSandbox = true) : void
+	protected function createRequest() : GetTransactionDetailsRequest
 	{
-		$this->useSandbox = $useSandbox;
-	}
-
-	/**
-	 * Return Response
-	 * @return AnetAPI\GetTransactionDetailsResponse
-	 */
-	public function getResponse() : AnetAPI\GetTransactionDetailsResponse|null
-	{
-		return $this->response;
-	}
-
-/* =============================================================
-	2. Public
-============================================================= */	
-	/**
-	 * Send Transaction Request
-	 * @return void
-	 */
-	public function send() : void
-	{
-		$api = new AnetController\GetTransactionDetailsController($this->getTransactionDetailsRequest());
-		$this->response = $api->executeWithApiResponse($this->getApiUrl());
-	}
-
-/* =============================================================
-	3. AuthorizeNet SDK
-============================================================= */
-	/**
-	 * Return API URL Depending on Environment needed
-	 * @return string
-	 */
-	protected function getApiUrl() : string
-	{
-		return $this->useSandbox ? ANetEnvironment::SANDBOX : ANetEnvironment::PRODUCTION;
-	}
-
-	/**
-	 * Return Create Transaction SDK Object
-	 * @return AnetAPI\GetTransactionDetailsRequest
-	 */
-	protected function getTransactionDetailsRequest() : AnetAPI\GetTransactionDetailsRequest
-	{
-		$t = new AnetAPI\GetTransactionDetailsRequest();
+		$t = new GetTransactionDetailsRequest();
 		$t->setMerchantAuthentication($this->authentication);
 		$t->setRefId('ref' . time());
 		$t->setTransid($this->transactionid);
 		return $t;
+	}
+
+	protected function createRequestController() : GetTransactionDetailsController {
+		return new GetTransactionDetailsController($this->request);
 	}
 }
