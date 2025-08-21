@@ -53,6 +53,10 @@ class Gateway extends AbstractGateway {
 
 	protected function refund(Payment $paymentRequest) : ResponseData
 	{
+		// Void transaction if it's still pending
+		if ($this->isTransactionPendingSettlement($paymentRequest->getTransId()) === false) {
+			return $this->void($paymentRequest);
+		}
 		$transaction = new Transactions\Refund($paymentRequest);
 		return $this->processTransaction($transaction);
 	}
@@ -72,6 +76,46 @@ class Gateway extends AbstractGateway {
 		$response = new TransactionResponse($request->getResponse(), $transaction->getPaymentRequest());
 		$response->process();
 		return $response->getPaymentResponse();
+	}
+
+	/**
+	 * Get Transaction data
+	 * @param  string $id
+	 * @return AnetAPI\TransactionDetailsType
+	 */
+	private function getTransactionDetails(string $id) : AnetAPI\TransactionDetailsType {
+		$request = new RequestTransactionDetails($this->getApiAuthentication(), $id, $this->config->useSandbox);
+		$request->send();
+		return $request->getResponse()->getTransaction();
+	}
+
+	/**
+	 * Return Authorize.net Transaction's status
+	 * @param  string $id
+	 * @return string
+	 */
+	private function getTransactionStatus(string $id) : string 
+	{
+		$transaction = $this->getTransactionDetails($id);
+		return $transaction->getTransactionStatus();
+	}
+
+	/**
+	 * Check if Transaction is Pending Settlement
+	 * @param  string $id
+	 * @return bool
+	 */
+	private function isTransactionPendingSettlement(string $id) : bool
+	{
+		$status = $this->getTransactionStatus($id);
+		$notAvailable = [
+			RequestTransactionDetails::TRANSACTION_STATUSES['pending-settlement']
+		];
+
+		if (in_array($status, $notAvailable)) {
+			return false;
+		}
+		return true;
 	}
 
 /* =============================================================
