@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aca94bd4b68326907c1a95594d416569",
+    "content-hash": "6f5321a09f56a80658c15b16507b33b6",
     "packages": [
         {
             "name": "cptechinc/dplus-model",
@@ -2436,6 +2436,7 @@
         "authorizenet/authorizenet": 20,
         "cptechinc/dplus-model": 20,
         "cptechinc/dplus-payment-model": 20,
+        "guzzlehttp/guzzle": 20,
         "pauldro/minicli-v2": 20,
         "pauldro/minicli-v2-database": 20,
         "stripe/stripe-php": 10

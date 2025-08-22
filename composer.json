@@ -22,8 +22,7 @@
 		"pauldro/minicli-v2-database": "dev-main",
 		"cptechinc/dplus-payment-model": "dev-php-upgrade",
 		"cptechinc/dplus-model": "dev-php-upgrade",
-		"stripe/stripe-php": "^17.6@beta",
-		"guzzlehttp/guzzle": "*"
+		"stripe/stripe-php": "^17.6@beta"
 	},
 	"require-dev": {
 		"minicli/minicli": "^4.2",
@@ -33,6 +32,6 @@
 		"cptechinc/dplus-model": "dev-php-upgrade",
 		"stripe/stripe-php": "^17.6@beta",
 		"authorizenet/authorizenet": "dev-master",
-		"guzzlehttp/guzzle": "*"
+		"guzzlehttp/guzzle": "8.0.x-dev"
 	}
 }
