@@ -1,6 +1,6 @@
 {
-	"name": "cptechinc/minicli-v2-dpay",
-	"description": "Minicli Library for Dpay",
+	"name": "cptechinc/minicli-v2-dplus-payments",
+	"description": "Minicli Library for Dplus payments",
 	"type": "library",
 	"keywords": ["php", "cli", "php-cli", "minicli"],
 	"license": "MIT",
