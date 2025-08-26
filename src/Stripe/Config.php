@@ -41,8 +41,8 @@ class Config extends Data {
 	 */
 	public function init() : bool
 	{
-		$this->secretKey  = EnvVars::get('STRIPE.SECRET.KEY');
-		$this->useSandbox = EnvVars::getBool('STRIPE.USESANDBOX');
+		$this->secretKey  = EnvVars::get('STRIPE.API.SECRETKEY');
+		$this->useSandbox = EnvVars::getBool('STRIPE.API.USESANDBOX');
 		$this->setAllowedPaymentTypesFromEnv();
 		return true;
 	}
@@ -56,11 +56,11 @@ class Config extends Data {
 	 */
 	public function setAllowedPaymentTypesFromEnv() : bool 
 	{
-		if (EnvVars::exists('APP.ALLOWED.PAYMENT.TYPES') === false) {
+		if (EnvVars::exists('STRIPE.ALLOWED.PAYMENT.TYPES') === false) {
 			$this->allowedPaymentTypes = [];
 			return true;
 		}
-		$types = EnvVars::getArray('APP.ALLOWED.PAYMENT.TYPES');
+		$types = EnvVars::getArray('STRIPE.ALLOWED.PAYMENT.TYPES');
 		$paymentTypes = [];
 
 		foreach ($types as $type) {
