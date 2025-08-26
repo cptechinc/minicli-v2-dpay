@@ -23,7 +23,7 @@ use Dpay\Stripe\Services\ChargeVoidService;
  */
 class Gateway extends AbstractGateway {
 	const ENV_REQUIRED = [
-		'STRIPE.SECRET.KEY',
+		'STRIPE.API.SECRETKEY',
 	];
 
 	public function init() : void
