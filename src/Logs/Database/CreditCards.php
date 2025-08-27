@@ -79,14 +79,14 @@ class CreditCards extends AbstractDatabaseTable {
 	/**
 	 * Return Record by Customer ID, Last 4
 	 * @param  string $custID
-	 * @param  int    $last4
+	 * @param  string $last4
 	 * @return Record|false
 	 */
 	public function findOneByCustidLast4($custID, $last4) : Record|false
 	{
 		$table = static::TABLE;
 		$conbr = self::$conbr;
-		$sql = "SELECT * FROM $table WHERE custid=%s AND last4=%i AND conbr=%i ORDER BY rid DESC";
+		$sql = "SELECT * FROM $table WHERE custid=%s AND last4=%s AND conbr=%i ORDER BY rid DESC";
 		$result = $this->db->queryFirstRow($sql, $custID, $last4, $conbr);
 
 		if (empty($result)) {
@@ -102,10 +102,10 @@ class CreditCards extends AbstractDatabaseTable {
 ============================================================= */
 	/**
 	 * Return Record by Record ID
-	 * @param  string $id Record ID
+	 * @param  int $id Record ID
 	 * @return bool
 	 */
-	public function deleteByRid($id) : bool
+	public function deleteByRid(int $id) : bool
 	{
 		$table = static::TABLE;
 		$conbr = self::$conbr;
