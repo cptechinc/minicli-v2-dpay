@@ -48,11 +48,18 @@ class DeleteCustomer extends AbstractCrudCustomer implements DeleteCustomerInter
 		if ($this->initDpayCustomer() === false) {
 			return false;
 		}
+		$sCustomer = Endpoints\Customers::fetchById($this->id);
+
+		if (empty($sCustomer->id) || $sCustomer->offsetExists('deleted') === true) {
+			$this->sCustomer = $sCustomer;
+			return true;
+		}
+
 		$rqst = $this->generateCustomerRequest($this->dpayCustomer);
-		$this->sCustomer  = $this->processCustomer($rqst);
+		$this->sCustomer = $this->processCustomer($rqst);
 
 		if (empty($this->sCustomer) || empty($this->sCustomer->id)) {
-			$this->errorMsg = 'Customer not delete';
+			$this->errorMsg = 'Customer not deleted';
 			return false;
 		}
 		$this->dpayCustomer = $this->getDpayCustomerResponseData();

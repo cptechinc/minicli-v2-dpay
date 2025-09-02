@@ -108,18 +108,20 @@ abstract class AbstractCrudCustomer extends AbstractService {
 	public function getDpayCustomerResponseData() : DpayCustomer
 	{
 		$cust     = $this->sCustomer;
-		$metadata = $cust->metadata;
-
 		$data = new DpayCustomer();
 		$data->aid = $cust->id;
-		$data->custname = $cust->name;
-		$data->custid   = $metadata->offsetExists('custid') ? $metadata->custid : '';
-		$data->billtoaddress1 = $cust->address->line1;
-		$data->billtoaddress2 = $cust->address->line2;
-		$data->billtocity     = $cust->address->city;
-		$data->billtostate    = $cust->address->state;
-		$data->billtozipcode  = $cust->address->postal_code;
-		$data->billtocountry  = $cust->address->country;
+		$data->custname = $cust->offsetExists('address') ? $cust->name : '';
+		$data->billtoaddress1 = $cust->offsetExists('address') ? $cust->address->line1 : '';
+		$data->billtoaddress2 = $cust->offsetExists('address') ? $cust->address->line2 : '';
+		$data->billtocity     = $cust->offsetExists('address') ? $cust->address->city : '';
+		$data->billtostate    = $cust->offsetExists('address') ? $cust->address->state : '';
+		$data->billtozipcode  = $cust->offsetExists('address') ? $cust->address->postal_code : '';
+		$data->billtocountry  = $cust->offsetExists('address') ? $cust->address->country : '';
+
+		if ($cust->offsetExists('metadata')) {
+			$metadata = $cust->metadata;
+			$data->custid   = $metadata->offsetExists('custid') ? $metadata->custid : '';
+		}
 		return $data;
 	}
 
