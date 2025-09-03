@@ -12,6 +12,7 @@ use Dpay\Data\PaymentMethod\PaymentMethod;
  * @property string $secretKey            API Secret Key
  * @property array  $allowedPaymentTypes  Allowed Payment Types (ach,amazonpay), note if blank, then use stripe defaults
  * @property bool   $useSandbox
+ * @property bool   $autoConfirmPreauths  Confirm Pre-Auths?
  */
 class Config extends Data {
 	private static $instance;
@@ -33,6 +34,7 @@ class Config extends Data {
 		$this->secretKey = '';
 		$this->allowedPaymentTypes = [];
 		$this->useSandbox = false;
+		$this->autoConfirmPreauths = false;
 	}
 
 	/**
@@ -43,6 +45,7 @@ class Config extends Data {
 	{
 		$this->secretKey  = EnvVars::get('STRIPE.API.SECRETKEY');
 		$this->useSandbox = EnvVars::getBool('STRIPE.API.USESANDBOX');
+		$this->autoConfirmPreauths = EnvVars::getBool('STRIPE.API.PREAUTHS.AUTOCONFIRM');
 		$this->setAllowedPaymentTypesFromEnv();
 		return true;
 	}

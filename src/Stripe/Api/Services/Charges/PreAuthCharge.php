@@ -5,6 +5,7 @@ use Stripe\PaymentIntent as StripeCharge;
 use Dpay\Abstracts\Api\Services\Charges\PreAuthChargeInterface;
 use Dpay\Data\Charge as DpayCharge;
 use Dpay\Stripe\Api\Endpoints;
+use Dpay\Stripe\Config;
 
 /**
  * PreAuth
@@ -44,13 +45,16 @@ class PreAuthCharge extends AbstractCrudCharge implements PreAuthChargeInterface
 	 */
 	protected function generateChargeRequest(DpayCharge $charge) : StripeCharge
 	{
+		$config = Config::instance();
 		$data = parent::generateChargeRequest($charge);
 		$data->capture_method = 'manual';
 		$data->automatic_payment_methods = [
 			'enabled' => true,
 			'allow_redirects' => 'never'
 		];
-		$data->confirm = true;
+		if ($config->autoConfirmPreauths) {
+			$data->confirm = true;
+		}
 		return $data;
 	}
 
