@@ -45,6 +45,19 @@ class Refunds extends AbstractDatabaseTable {
 		return parent::insert($r);
 	}
 
+	/**
+	 * Insert / Update Record
+	 * @param  Record $r
+	 * @return bool
+	 */
+	public function insertOrUpdate(AbstractRecord $r) : bool
+	{
+		if ($r->has('rid')) {
+			return $this->update($r);
+		}
+		return $this->insert($r);
+	}
+
 /* =============================================================
 	Reads
 ============================================================= */
