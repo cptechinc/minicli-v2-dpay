@@ -10,12 +10,6 @@ interface AbstractServiceInterface {
 	Contract functions
 ============================================================= */
 	/**
-	 * Return API client
-	 * @return ApiClientInterface
-	 */
-	public function api() : ApiClientInterface;
-	
-	/**
 	 * Return if connection to API was made
 	 * @return bool
 	 */
