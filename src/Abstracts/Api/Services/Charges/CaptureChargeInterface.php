@@ -4,7 +4,7 @@ use Dpay\Data\Charge as Charge;
 
 /**
  * CaptureInterface
- * Interface for pre-authorizing a charge
+ * Interface for capturing a charge
  * 
  * @property string  $id          Generated Charge ID
  * @property Charge  $dpayCharge  Charge Data
