@@ -1,7 +1,7 @@
 <?php namespace Dpay\Stripe\Api\Services\Charges;
 // Stripe API Library
 use Stripe\PaymentIntent as StripeCharge;
-// Lib
+// Dpay
 use Dpay\Abstracts\Api\Services\Charges\CapturePreAuthChargeInterface;
 use Dpay\Data\Charge as DpayCharge;
 use Dpay\Stripe\Api\Endpoints;

@@ -1,4 +1,4 @@
-<?php namespace Dpay\PayTrace\Requests;
+<?php namespace Dpay\PayTrace\Api\Requests;
 // Guzzle Http
 use GuzzleHttp\Client as Http;
 // Dpay

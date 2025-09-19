@@ -1,4 +1,4 @@
-<?php namespace Dpay\PayTrace\Requests;
+<?php namespace Dpay\PayTrace\Api\Requests;
 // Psr
 use Psr\Http\Message\ResponseInterface;
 // Guzzle Http

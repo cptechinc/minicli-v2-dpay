@@ -1,4 +1,4 @@
-<?php namespace Dpay\PayTrace\Requests;
+<?php namespace Dpay\PayTrace\Api\Requests;
 
 /**
  * Wrapper for Guzzle HTTP to make Transaction Requests
