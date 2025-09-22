@@ -17,6 +17,8 @@
  * @property string  $country	Country
  * @property string  $brand 	Credit Card Brand
  * @property string  $cardnbr	Credit Card Number
+ * @property string  $track1    Track 1
+ * @property string  $track2    Track 2
  * @property string  $expiredate Credit Card Expire Date
  * @property string  $cvc		 Card Verification Code
  * @property string  $last4 	 Card Last 4
@@ -30,7 +32,8 @@ class CreditCard extends Data {
 		'custid', 'name', 
 		'address1', 'address2', 'address3',
 		'city', 'state', 'zipcode', 'country',
-		'cardnbr', 'expiredate', 'cvc', 'last4', 'brand'
+		'cardnbr', 'expiredate', 'cvc', 'last4', 'brand',
+		'track1', 'track2'
 	];
 	const FIELDS_EASY_SET_JSON = [
 		'custid', 'name',
@@ -42,6 +45,19 @@ class CreditCard extends Data {
 /* =============================================================
 	Constructors / Inits
 ============================================================= */
+
+/* =============================================================
+	Getters
+============================================================= */
+	public function hasTrack1() : bool
+	{
+		return empty($this->track1) === false;
+	}
+
+	public function hasTrack2() : bool
+	{
+		return empty($this->track2) === false;
+	}
 
 /* =============================================================
 	Setters
