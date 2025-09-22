@@ -23,7 +23,7 @@ abstract class AbstractCrudCharge extends AbstractService {
 	const ENDPOINT = '';
 
 	public string $id = '';
-	public StripeCharge $sCharge;
+	public ChargeResponse $rCharge;
 	protected DpayCharge $dpayCharge;
 	
 /* =============================================================
@@ -99,6 +99,10 @@ abstract class AbstractCrudCharge extends AbstractService {
 				return false;
 			}
 			$this->errorMsg = "Unable to " . static::ACTION_DESCRIPTION . " Credit Charge {$this->dpayCharge->custid}";
+			return false;
+		}
+		if ($charge->success === false) {
+			$this->errorMsg = $charge->errorMsg;
 			return false;
 		}
 		$this->rCharge = $charge;
@@ -183,6 +187,7 @@ abstract class AbstractCrudCharge extends AbstractService {
             $this->processHttpResponseError($response, $charge);
 			return $charge;
         }
+		$charge->success = true;
 		return $charge;
 	}
 
