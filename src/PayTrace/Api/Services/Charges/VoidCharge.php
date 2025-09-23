@@ -2,7 +2,6 @@
 // Dpay
 use Dpay\Abstracts\Api\Services\Charges\VoidChargeInterface;
 use Dpay\Data\Charge as DpayCharge;
-use Dpay\PayTrace\Api\Services\Charges\Data\ChargeResponse;
 use Dpay\PayTrace\Config;
 use Dpay\Util\ChargeStatus;
 
@@ -14,11 +13,8 @@ class VoidCharge extends AbstractCrudCharge implements VoidChargeInterface {
 /* =============================================================
 	Interface Contracts
 ============================================================= */
-	protected function getSuccessfulChargeStatus(ChargeResponse $response) : ChargeStatus
+	protected function getSuccessfulChargeStatus() : ChargeStatus
 	{
-		if (array_key_exists($response->responseCode, self::API_SUCCESS_RESPONSE_CODES) === false){
-			return ChargeStatus::None;
-		}
 		return ChargeStatus::Voided;
 	}
 	

@@ -124,11 +124,15 @@ abstract class AbstractCrudCharge extends AbstractService {
 		$data->amount        = $this->dpayCharge->amount;
 		$data->transactiontype = static::ACTION;
 		$data->ordernbr        = $this->dpayCharge->ordernbr;
-		$data->status          = $this->getSuccessfulChargeStatus($charge)->value;
+		$data->status          = ChargeStatus::None;
+		
+		if (array_key_exists($charge->responseCode, static::API_SUCCESS_RESPONSE_CODES)) {
+			$data->status = $this->getSuccessfulChargeStatus()->value;
+		}
 		return $data;
 	}
 
-	protected function getSuccessfulChargeStatus(ChargeResponse $response) : ChargeStatus
+	protected function getSuccessfulChargeStatus() : ChargeStatus
 	{
 		return ChargeStatus::None;
 	}
