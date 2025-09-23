@@ -17,7 +17,6 @@ use Dpay\Stripe\Api\Services\Charges\Util\ChargeStatus;
  */
 abstract class AbstractCrudCharge extends AbstractService {
 	const ACTION = 'update';
-	const ACTION_DESCRIPTION = 'update';
 	public string $id = '';
 	public StripeCharge $sCharge;
 	protected DpayCharge $dpayCharge;
