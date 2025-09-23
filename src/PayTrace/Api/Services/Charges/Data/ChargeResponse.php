@@ -9,6 +9,7 @@ use Pauldro\Minicli\v2\Util\Data;
  * @property string $errorCode
  * @property string $authCode
  * @property string $avsCode
+ * @property string $responseCode
  */
 class ChargeResponse extends Data {
     public function __construct() {
@@ -18,5 +19,6 @@ class ChargeResponse extends Data {
         $this->errorCode = '';
         $this->authCode  = '';
         $this->avsCode   = '';
+        $this->responseCode = '';
     }
 }

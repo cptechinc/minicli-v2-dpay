@@ -1,12 +1,11 @@
 <?php namespace Dpay\PayTrace\Api\Services\Charges;
-// Stripe API Library
-use Stripe\PaymentIntent as StripeCharge;
 // Dpay
 use Dpay\Data\Charge as DpayCharge;
 use Dpay\PayTrace\Api\AbstractService;
 use Dpay\PayTrace\Config;
 use Dpay\PayTrace\Api\Requests;
 use Dpay\PayTrace\Api\Services\Charges\Data\ChargeResponse;
+use Dpay\Util\ChargeStatus;
 use Dpay\Util\Data\HttpResponse;
 
 
@@ -16,14 +15,15 @@ use Dpay\Util\Data\HttpResponse;
  * 
  * @property string 	     $id		   API Charge ID
  * @property DpayCharge		 $dpayCharge   Dpay Credit Charge (Request)
- * @property ChargeResponse  $rCharge
+ * @property ChargeResponse  $response
  */
 abstract class AbstractCrudCharge extends AbstractService {
-	const ACTION_DESCRIPTION = 'update';
+	const ACTION = 'update';
+	const API_SUCCESS_RESPONSE_CODES = [];
 	const ENDPOINT = '';
 
 	public string $id = '';
-	public ChargeResponse $rCharge;
+	public ChargeResponse $response;
 	protected DpayCharge $dpayCharge;
 	
 /* =============================================================
@@ -98,14 +98,14 @@ abstract class AbstractCrudCharge extends AbstractService {
 			if ($this->errorMsg) {
 				return false;
 			}
-			$this->errorMsg = "Unable to " . static::ACTION_DESCRIPTION . " Credit Charge {$this->dpayCharge->custid}";
+			$this->errorMsg = "Unable to " . static::ACTION . " Credit Charge {$this->dpayCharge->custid}";
 			return false;
 		}
 		if ($charge->success === false) {
 			$this->errorMsg = $charge->errorMsg;
 			return false;
 		}
-		$this->rCharge = $charge;
+		$this->response = $charge;
 		$this->id	   = $charge->transactionid;
 		return true;
 	}
@@ -116,15 +116,21 @@ abstract class AbstractCrudCharge extends AbstractService {
 	 */
 	public function getDpayChargeResponseData() : DpayCharge
 	{
-		$charge = $this->rCharge;
+		$charge = $this->response;
 
 		$data = new DpayCharge();
 		$data->transactionid = $charge->transactionid;
 		$data->custid        = $this->dpayCharge->custid;
 		$data->amount        = $this->dpayCharge->amount;
-		$data->transactiontype = static::ACTION_DESCRIPTION;
+		$data->transactiontype = static::ACTION;
 		$data->ordernbr        = $this->dpayCharge->ordernbr;
+		$data->status          = $this->getSuccessfulChargeStatus($charge)->value;
 		return $data;
+	}
+
+	protected function getSuccessfulChargeStatus(ChargeResponse $response) : ChargeStatus
+	{
+		return ChargeStatus::None;
 	}
 
 /* =============================================================
@@ -175,6 +181,14 @@ abstract class AbstractCrudCharge extends AbstractService {
 
 		if (array_key_exists('transaction_id', $response->jsonData)) {
 			$charge->transactionid = $response->jsonData['transaction_id'];
+		}
+
+		if (array_key_exists('approval_code', $response->jsonData)) {
+			$charge->authCode = $response->jsonData['approval_code'];
+		}
+
+		if (array_key_exists('response_code', $response->jsonData)) {
+			$charge->responseCode = $response->jsonData['response_code'];
 		}
 
 		if ($response->jsonData['success'] && array_key_exists('transaction_id', $response->jsonData)) {

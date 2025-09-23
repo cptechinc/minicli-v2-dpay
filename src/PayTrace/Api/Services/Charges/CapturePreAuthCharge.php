@@ -2,12 +2,27 @@
 // Dpay
 use Dpay\Abstracts\Api\Services\Charges\CapturePreAuthChargeInterface;
 use Dpay\Data\Charge as DpayCharge;
+use Dpay\PayTrace\Api\Services\Charges\Data\ChargeResponse;
 use Dpay\PayTrace\Config;
+use Dpay\Util\ChargeStatus;
 
 
 class CapturePreAuthCharge extends AbstractCrudCharge implements CapturePreAuthChargeInterface {
-    const ENDPOINT = 'authorization/capture';
-	const ACTION_DESCRIPTION = 'capture pre-authorized charge';
+	const ACTION = 'capture pre-authorized';
+	const API_SUCCESS_RESPONSE_CODES = [101];
+	const ENDPOINT = 'authorization/capture';
+
+/* =============================================================
+	Interface Contracts
+============================================================= */
+	protected function getSuccessfulChargeStatus(ChargeResponse $response) : ChargeStatus
+	{
+		if (array_key_exists($response->responseCode, self::API_SUCCESS_RESPONSE_CODES) === false){
+			return ChargeStatus::None;
+		}
+		return ChargeStatus::Captured;
+	}
+	
 
 /* =============================================================
 	Contracts
