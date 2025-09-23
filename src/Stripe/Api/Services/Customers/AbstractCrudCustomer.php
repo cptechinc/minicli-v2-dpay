@@ -1,7 +1,8 @@
 <?php namespace Dpay\Stripe\Api\Services\Customers;
 // Stripe API Library
 use Stripe\Customer as StripeCustomer;
-// Lib
+// Dpay
+use Dpay\Abstracts\Api\Services\Customers\ACrudCustomerTraits;
 use Dpay\Data\Customer as DpayCustomer;
 use Dpay\Stripe\Api\AbstractService;
 
@@ -14,6 +15,8 @@ use Dpay\Stripe\Api\AbstractService;
  * @property StripeCustomer 	 $sCustomer 	Stripe API Customer
  */
 abstract class AbstractCrudCustomer extends AbstractService {
+	use ACrudCustomerTraits;
+	
 	const ACTION_DESCRIPTION = 'create';
 
 	protected string $id;

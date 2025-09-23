@@ -2,7 +2,8 @@
 // Stripe API Library
 use Dpay\Data\Charge;
 use Stripe\PaymentIntent as StripeCharge;
-// Lib
+// Dpay
+use Dpay\Abstracts\Api\Services\Charges\ACrudChargeTraits;
 use Dpay\Data\Charge as DpayCharge;
 use Dpay\Stripe\Api\AbstractService;
 use Dpay\Stripe\Api\Services\Charges\Util\ChargeStatus;
@@ -16,68 +17,20 @@ use Dpay\Stripe\Api\Services\Charges\Util\ChargeStatus;
  * @property StripeCharge 	 $sCharge 	   Stripe API Credit Charge
  */
 abstract class AbstractCrudCharge extends AbstractService {
+	use ACrudChargeTraits;
+
 	const ACTION = 'update';
 	public string $id = '';
 	public StripeCharge $sCharge;
 	protected DpayCharge $dpayCharge;
 	
 /* =============================================================
-	Inits
+	Inits @see ACrudChargeTraits
 ============================================================= */
-	/**
-	 * Init Dpay Charge
-	 * @return bool
-	 */
-	protected function initDpayCharge() : bool
-	  {
-		if (empty($this->dpayCharge)) {
-			$this->errorMsg = 'Charge Data not set';
-			return false;
-		}
-		return true;
-	}
 	
 /* =============================================================
-	Interface Contracts
+	Interface Contracts @see ACrudChargeTraits
 ============================================================= */
-	/**
-	 * Set Dpay Credit Charge
-	 * @param  DpayCharge $charge
-	 * @return void
-	 */
-	public function setDpayCharge(DpayCharge $dpayCharge) : void
-	{
-		$this->dpayCharge = $dpayCharge;
-	}
-
-	/**
-	 * Return Dpay Credit Charge
-	 * @return DpayCharge
-	 */
-	public function getDpayCharge() : Charge
-	{
-		return $this->dpayCharge;
-	}
-
-	/**
-	 * Set API ID
-	 * @param  string $id  ID / Slug for API ID
-	 * @return void
-	 */
-	public function setId($id) : void
-	{
-		$this->id = $id;
-	}
-
-	/**
-	 * Return API Credit Charge ID
-	 * @return string
-	 */
-	public function getId() : string
-	{
-		return $this->id;
-	}
-
 	/**
 	 * Process Request
 	 * @return bool

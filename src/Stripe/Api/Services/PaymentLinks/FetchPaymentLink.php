@@ -19,7 +19,7 @@ use Dpay\Data\PaymentLink as DpayPaymentLink;
  * @property string             $errorMsg
  */
 class FetchPaymentLink extends AbstractCrudPaymentLink implements FetchPaymentLinkInterface {
-	const ACTION_DESCRIPTION = 'fetch';
+	const ACTION = 'fetch';
 	public StripePaymentLink $sPaymentLink;
 	protected DpayPaymentLink $dpayPaymentLink;
 

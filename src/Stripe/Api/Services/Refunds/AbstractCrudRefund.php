@@ -2,7 +2,8 @@
 // Stripe API Library
 use Stripe\PaymentIntent as StripeCharge;
 use Stripe\Refund as StripeRefund;
-// Lib
+// Dpay
+use Dpay\Abstracts\Api\Services\Refunds\ACrudRefundTraits;
 use Dpay\Stripe\Api\AbstractService;
 use Dpay\Stripe\Api\Endpoints;
 use Dpay\Data\Refund as DpayRefund;
@@ -18,28 +19,18 @@ use Dpay\Stripe\Api\Services\Charges\Util\ChargeStatus;
  * @property StripeCharge 	 $sCharge 	   Stripe API Charge
  */
 abstract class AbstractCrudRefund extends AbstractService {
-	const ACTION_DESCRIPTION = 'update';
+	use ACrudRefundTraits;
+
+	const ACTION = 'refund';
+
 	protected string $id;
 	public StripeRefund $sRefund;
 	protected DpayRefund $dpayRefund;
 	protected StripeCharge $sCharge;
 	
 /* =============================================================
-	Inits
+	Inits @see ACrudRefundTraits
 ============================================================= */
-	/**
-	 * Init Dpay Refund
-	 * @return bool
-	 */
-	protected function initDpayRefund() : bool
-	{
-		if (empty($this->dpayRefund)) {
-			$this->errorMsg = 'Refund Data not set';
-			return false;
-		}
-		return true;
-	}
-
 	/**
 	 * Fetch Stripe Charge, verify if status can be acted on
 	 * @return bool
@@ -56,46 +47,8 @@ abstract class AbstractCrudRefund extends AbstractService {
 	}
 	
 /* =============================================================
-	Interface Contracts
+	Interface Contracts @see ACrudRefundTraits
 ============================================================= */
-	/**
-	 * Set Dpay Credit Refund
-	 * @param  DpayRefund $refund
-	 * @return void
-	 */
-	public function setDpayRefund(DpayRefund $dpayRefund) : void
-	{
-		$this->dpayRefund = $dpayRefund;
-	}
-
-	/**
-	 * Return Dpay Credit Refund
-	 * @return DpayRefund
-	 */
-	public function getDpayRefund() : DpayRefund
-	{
-		return $this->dpayRefund;
-	}
-
-	/**
-	 * Set API ID
-	 * @param  string $id  ID / Slug for API ID
-	 * @return void
-	 */
-	public function setId($id) : void
-	{
-		$this->id = $id;
-	}
-
-	/**
-	 * Return API Credit Refund ID
-	 * @return string
-	 */
-	public function getId() : string
-	{
-		return $this->id;
-	}
-
 	/**
 	 * Process Request
 	 * @return bool
@@ -115,7 +68,7 @@ abstract class AbstractCrudRefund extends AbstractService {
 			if ($this->errorMsg) {
 				return false;
 			}
-			$this->errorMsg = "Unable to " . static::ACTION_DESCRIPTION . " charge {$this->dpayRefund->charge->custid}";
+			$this->errorMsg = "Unable to " . static::ACTION . " charge {$this->dpayRefund->charge->custid}";
 			return false;
 		}
 		$this->sRefund = $stripeRefund;

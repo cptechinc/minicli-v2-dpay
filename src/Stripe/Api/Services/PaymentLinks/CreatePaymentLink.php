@@ -25,7 +25,7 @@ use Dpay\Stripe\Api\Data\PaymentLinks\LineItems as LineItemsList;
  * @property string             $errorMsg
  */
 class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePaymentLinkInterface {
-	const ACTION_DESCRIPTION = 'create';
+	const ACTION = 'create';
 	public StripePaymentLink $sPaymentLink;
 	protected DpayPaymentLink $dpayPaymentLink;
 

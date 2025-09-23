@@ -1,5 +1,6 @@
 <?php namespace Dpay\PayTrace\Api\Services\Charges;
 // Dpay
+use Dpay\Abstracts\Api\Services\Charges\ACrudChargeTraits;
 use Dpay\Data\Charge as DpayCharge;
 use Dpay\PayTrace\Api\AbstractService;
 use Dpay\PayTrace\Config;
@@ -18,6 +19,8 @@ use Dpay\Util\Data\HttpResponse;
  * @property ChargeResponse  $response
  */
 abstract class AbstractCrudCharge extends AbstractService {
+	use ACrudChargeTraits;
+	
 	const ACTION = 'update';
 	const API_SUCCESS_RESPONSE_CODES = [];
 	const ENDPOINT = '';
@@ -27,62 +30,12 @@ abstract class AbstractCrudCharge extends AbstractService {
 	protected DpayCharge $dpayCharge;
 	
 /* =============================================================
-	Inits
+	Inits @see ACrudChargeTraits
 ============================================================= */
-	/**
-	 * Init Dpay Charge
-	 * @return bool
-	 */
-	protected function initDpayCharge() : bool
-	  {
-		if (empty($this->dpayCharge)) {
-			$this->errorMsg = 'Charge Data not set';
-			return false;
-		}
-		return true;
-	}
 	
 /* =============================================================
-	Interface Contracts
+	Interface Contracts @see ACrudChargeTraits
 ============================================================= */
-	/**
-	 * Set Dpay Credit Charge
-	 * @param  DpayCharge $charge
-	 * @return void
-	 */
-	public function setDpayCharge(DpayCharge $dpayCharge) : void
-	{
-		$this->dpayCharge = $dpayCharge;
-	}
-
-	/**
-	 * Return Dpay Credit Charge
-	 * @return DpayCharge
-	 */
-	public function getDpayCharge() : DpayCharge
-	{
-		return $this->dpayCharge;
-	}
-
-	/**
-	 * Set API ID
-	 * @param  string $id  ID / Slug for API ID
-	 * @return void
-	 */
-	public function setId($id) : void
-	{
-		$this->id = $id;
-	}
-
-	/**
-	 * Return API Credit Charge ID
-	 * @return string
-	 */
-	public function getId() : string
-	{
-		return $this->id;
-	}
-
 	/**
 	 * Process Request
 	 * @return bool

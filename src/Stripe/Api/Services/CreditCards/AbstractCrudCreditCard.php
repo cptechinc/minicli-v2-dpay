@@ -1,7 +1,8 @@
 <?php namespace Dpay\Stripe\Api\Services\CreditCards;
 // Stripe API Library
 use Stripe\Card as StripeCreditCard;
-// Lib
+// Dpay
+use Dpay\Abstracts\Api\Services\CreditCards\ACrudCreditCardTraits;
 use Dpay\Data\CreditCard as DpayCreditCard;
 use Dpay\Stripe\Api\AbstractService;
 use Dpay\Stripe\Api\Data\CreditCards\CreditCardRequest as CardRequest;
@@ -20,46 +21,8 @@ abstract class AbstractCrudCreditCard extends AbstractService {
 	protected DpayCreditCard $dpayCreditCard;
 
 /* =============================================================
-	Interface Contracts
+	Interface Contracts @see ACrudCreditCardTraits
 ============================================================= */
-	/**
-	 * Set Dpay Credit Card
-	 * @param  DpayCreditCard $card
-	 * @return void
-	 */
-	public function setDpayCreditCard(DpayCreditCard $dpayCreditCard) : void
-	{
-		$this->dpayCreditCard = $dpayCreditCard;
-	}
-
-	/**
-	 * Return Dpay Credit Card
-	 * @return DpayCreditCard
-	 */
-	public function getDpayCreditCard() : DpayCreditCard
-	{
-		return $this->dpayCreditCard;
-	}
-
-	/**
-	 * Set API ID
-	 * @param  string $id  ID / Slug for API ID
-	 * @return void
-	 */
-	public function setId($id) : void
-	{
-		$this->id = $id;
-	}
-
-	/**
-	 * Return API Credit Card ID
-	 * @return string
-	 */
-	public function getId() : string
-	{
-		return $this->id;
-	}
-
 	/**
 	 * Process Request
 	 * @return bool
@@ -85,14 +48,12 @@ abstract class AbstractCrudCreditCard extends AbstractService {
 		return true;
 	}
 
-/* =============================================================
-	Interface Contracts
-============================================================= */
 	/**
 	 * Return Response data as Dpay Credit Card
 	 * @return DpayCreditCard
 	 */
-	public function getDpayCreditCardResponseData() : DpayCreditCard {
+	public function getDpayCreditCardResponseData() : DpayCreditCard
+	{
 		$sCard = $this->sCreditCard;
 
 		$dpay = new DpayCreditCard();

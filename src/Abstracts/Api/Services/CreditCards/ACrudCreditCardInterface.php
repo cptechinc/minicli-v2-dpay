@@ -1,5 +1,5 @@
 <?php namespace Dpay\Abstracts\Api\Services\CreditCards;
-// Lib
+// Dpay
 use Dpay\Abstracts\Api\AbstractServiceInterface;
 use Dpay\Data\CreditCard as CreditCard;
 

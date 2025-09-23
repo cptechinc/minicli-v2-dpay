@@ -2,7 +2,8 @@
 // Stripe API Library
 use Stripe\PaymentLink as StripePaymentLink;
 use Stripe\PaymentMethod as StripePaymentMethod;
-// Lib
+// Dpay
+use Dpay\Abstracts\Api\Services\PaymentLinks\ACrudPaymentLinkTraits;
 use Dpay\Stripe\Config;
 use Dpay\Stripe\Api\AbstractService;
 use Dpay\Stripe\Api\Data\PaymentLinks\PaymentLinkRequest; 
@@ -19,7 +20,9 @@ use Dpay\Data\PaymentLink as DpayPaymentLink;
  * @property string             $errorMsg
  */
 abstract class AbstractCrudPaymentLink extends AbstractService {
-	const ACTION_DESCRIPTION = 'update';
+	use ACrudPaymentLinkTraits;
+
+	const ACTION = 'update';
 	const PAYMENT_METHOD_TYPES = [
 		'ach'       => StripePaymentMethod::TYPE_US_BANK_ACCOUNT,
 		'amazonpay' => StripePaymentMethod::TYPE_AMAZON_PAY,
@@ -28,72 +31,20 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
 		'mobile'    => StripePaymentMethod::TYPE_MOBILEPAY,
 		'paypal'    => StripePaymentMethod::TYPE_PAYPAL,
 	];
+
 	public string $id;
 	public string $url;
 	public StripePaymentLink $sPaymentLink;
 	protected DpayPaymentLink $dpayPaymentLink;
 	
 /* =============================================================
-	Inits
+	Inits @see ACrudPaymentLinkTraits
 ============================================================= */
-	/**
-	 * Init Dpay PaymentLink
-	 * @return bool
-	 */
-	protected function initDpayPaymentLink() {
-		if (empty($this->dpayPaymentLink)) {
-			$this->errorMsg = 'PaymentLink Data not set';
-			return false;
-		}
-		return true;
-	}
+	
 	
 /* =============================================================
-	Interface Contracts
+	Interface Contracts @see ACrudPaymentLinkTraits
 ============================================================= */
-	/**
-	 * Set Dpay PaymentLink
-	 * @param  DpayPaymentLink $link
-	 * @return void
-	 */
-	public function setDpayPaymentLink(DpayPaymentLink $dpayPaymentLink) : void
-	{
-		$this->dpayPaymentLink = $dpayPaymentLink;
-	}
-
-	/**
-	 * Return Dpay PaymentLink
-	 * @return DpayPaymentLink
-	 */
-	public function getDpayPaymentLink() : DpayPaymentLink {
-		return $this->dpayPaymentLink;
-	}
-
-	/**
-	 * Set API ID
-	 * @param  string $id
-	 * @return void
-	 */
-	public function setId($id) : void {
-		$this->id = $id;
-	}
-
-	/**
-	 * Return API PaymentLink ID
-	 * @return string
-	 */
-	public function getId() : string {
-		return $this->id;
-	}
-
-	/**
-	 * Return Payment Link URL
-	 * @return string
-	 */
-	public function getUrl() : string {
-		return $this->url;
-	}
-
 	/**
 	 * Process Request
 	 * @return bool
@@ -110,7 +61,7 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
 			if ($this->errorMsg) {
 				return false;
 			}
-			$this->errorMsg = "Unable to " . static::ACTION_DESCRIPTION . " PaymentLink for {$this->dpayPaymentLink->order->ordernbr}";
+			$this->errorMsg = "Unable to " . static::ACTION . " PaymentLink for {$this->dpayPaymentLink->order->ordernbr}";
 			return false;
 		}
 		$this->sPaymentLink = $sPaymentLink;
