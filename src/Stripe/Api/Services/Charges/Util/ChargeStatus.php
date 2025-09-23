@@ -4,12 +4,12 @@ use Dpay\Util\ChargeStatus as TargetStatus;
 
 enum ChargeStatus: string
 {
+    case Captured             = TargetStatus::Captured->value;
     case None                 = TargetStatus::None->value;
     case Refunded             = TargetStatus::Refunded->value;
-    case Voided               = TargetStatus::Voided->value;
     case RequiresCapture      = TargetStatus::RequiresCapture->value;
     case RequiresConfirmation = TargetStatus::RequiresConfirmation->value;
-    case Captured             = TargetStatus::Captured->value;
+    case Voided               = TargetStatus::Voided->value;
 
     /**
      * Return Status

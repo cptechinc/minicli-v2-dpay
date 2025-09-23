@@ -2,10 +2,11 @@
 
 enum ChargeStatus: string
 {
-    case None     = '';
-    case Refunded = 'refunded';
-    case Voided   = 'canceled';
-    case RequiresCapture = 'requires_capture';
+    case Captured            = 'succeeded';
+    case Declined             = 'declined';
+    case None                 = '';
+    case Refunded             = 'refunded';
+    case RequiresCapture      = 'requires_capture';
     case RequiresConfirmation = 'requires_confirmation';
-    case Captured = 'succeeded';
+    case Voided               = 'canceled';
 }
