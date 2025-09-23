@@ -16,7 +16,7 @@ use Dpay\Stripe\Api\Endpoints;
  * @property StripeCharge    $sCharge     Stripe API Charge
  */
 class ConfirmCharge extends AbstractCrudCharge implements ConfirmChargeInterface {
-	const ACTION_DESCRIPTION = 'confirm pre-authorized';
+	const ACTION = 'confirm pre-authorized';
 
 	public StripeCharge $sCharge;
 	protected DpayCharge $dpayCharge;

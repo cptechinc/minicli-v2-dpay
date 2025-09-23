@@ -17,24 +17,14 @@ use Dpay\Stripe\Api\Endpoints;
  * @property StripeCharge    $sCharge     Stripe API Charge
  */
 class CaptureCharge extends AbstractCrudCharge implements CaptureChargeInterface {
-	const ACTION_DESCRIPTION = 'capture';
+	const ACTION = 'capture';
 	public StripeCharge $sCharge;
 	protected DpayCharge $dpayCharge;
 
 /* =============================================================
 	Interface Contracts
 ============================================================= */
-	/**
-	 * Return Response data as Dpay Credit Charge
-	 * @return DpayCharge
-	 */
-	public function getDpayChargeResponseData() : Charge
-	{
-		$data = parent::getDpayChargeResponseData();
-		$data->action = 'capture';
-		return $data;
-	}
-
+	
 /* =============================================================
 	Internal Processing
 ============================================================= */

@@ -16,7 +16,7 @@ use Dpay\Stripe\Api\Endpoints;
  * @property StripeCharge    $sCharge     Stripe API Charge
  */
 class CapturePreAuthCharge extends AbstractCrudCharge implements CapturePreAuthChargeInterface {
-	const ACTION_DESCRIPTION = 'capture pre-authorized';
+	const ACTION = 'capture pre-authorized';
 	const ACTIONABLE_STATUSES = [
 		'requires_confirmation' => 'requires_confirmation',
 		'requires_capture'      => 'requires_capture',
@@ -66,17 +66,6 @@ class CapturePreAuthCharge extends AbstractCrudCharge implements CapturePreAuthC
 			return false;
 		}
 		return parent::process();
-	}
-
-	/**
-	 * Return Response data as Dpay Credit Charge
-	 * @return DpayCharge
-	 */
-	public function getDpayChargeResponseData() : DpayCharge
-	{
-		$data = parent::getDpayChargeResponseData();
-		$data->action = 'capture';
-		return $data;
 	}
 
 /* =============================================================

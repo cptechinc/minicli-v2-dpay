@@ -17,7 +17,7 @@ use Dpay\Stripe\Api\Endpoints;
  * @property StripeCharge 	 $sCharge 	   Stripe API Charge
  */
 class CreateRefund extends AbstractCrudRefund implements CreateRefundInterface {
-	const ACTION_DESCRIPTION = 'create';
+	const ACTION = 'refund';
 	public StripeRefund $sRefund;
 	protected DpayRefund $dpayRefund;
 

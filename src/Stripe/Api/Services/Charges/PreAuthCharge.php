@@ -17,23 +17,9 @@ use Dpay\Stripe\Config;
  * @property StripeCharge    $sCharge     Stripe API Charge
  */
 class PreAuthCharge extends AbstractCrudCharge implements PreAuthChargeInterface {
-	const ACTION_DESCRIPTION = 'pre-authorize';
+	const ACTION = 'pre-authorize';
 	public StripeCharge $sCharge;
 	protected DpayCharge $dpayCharge;
-
-/* =============================================================
-	Interface Contracts
-============================================================= */
-	/**
-	 * Return Response data as Dpay Credit Charge
-	 * @return DpayCharge
-	 */
-	public function getDpayChargeResponseData() : DpayCharge
-	{
-		$data = parent::getDpayChargeResponseData();
-		$data->action = 'preauth';
-		return $data;
-	}
 
 /* =============================================================
 	Internal Processing

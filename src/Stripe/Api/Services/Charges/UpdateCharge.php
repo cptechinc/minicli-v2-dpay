@@ -16,7 +16,7 @@ use Dpay\Stripe\Api\Endpoints;
  * @property StripeCharge    $sCharge     Stripe API Charge
  */
 class UpdateCharge extends AbstractCrudCharge implements UpdateChargeInterface {
-	const ACTION_DESCRIPTION = 'update';
+	const ACTION = 'update';
 	public StripeCharge $sCharge;
 	protected DpayCharge $dpayCharge;
 
@@ -55,16 +55,6 @@ class UpdateCharge extends AbstractCrudCharge implements UpdateChargeInterface {
 			return false;
 		}
 		return parent::process();
-	}
-	/**
-	 * Return Response data as Dpay Credit Charge
-	 * @return DpayCharge
-	 */
-	public function getDpayChargeResponseData() : DpayCharge
-	{
-		$data = parent::getDpayChargeResponseData();
-		$data->action = 'update';
-		return $data;
 	}
 
 /* =============================================================

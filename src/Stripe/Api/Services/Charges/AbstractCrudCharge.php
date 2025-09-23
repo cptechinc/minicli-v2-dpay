@@ -5,6 +5,7 @@ use Stripe\PaymentIntent as StripeCharge;
 // Lib
 use Dpay\Data\Charge as DpayCharge;
 use Dpay\Stripe\Api\AbstractService;
+use Dpay\Stripe\Api\Services\Charges\Util\ChargeStatus;
 
 /**
  * AbstractCrudCharge
@@ -15,6 +16,7 @@ use Dpay\Stripe\Api\AbstractService;
  * @property StripeCharge 	 $sCharge 	   Stripe API Credit Charge
  */
 abstract class AbstractCrudCharge extends AbstractService {
+	const ACTION = 'update';
 	const ACTION_DESCRIPTION = 'update';
 	public string $id = '';
 	public StripeCharge $sCharge;
@@ -93,7 +95,7 @@ abstract class AbstractCrudCharge extends AbstractService {
 			if ($this->errorMsg) {
 				return false;
 			}
-			$this->errorMsg = "Unable to " . static::ACTION_DESCRIPTION . " Credit Charge {$this->dpayCharge->custid}";
+			$this->errorMsg = "Unable to " . static::ACTION . " Credit Charge {$this->dpayCharge->custid}";
 			return false;
 		}
 		$this->sCharge = $stripeCharge;
@@ -115,11 +117,11 @@ abstract class AbstractCrudCharge extends AbstractService {
 		$data->transactionid = $charge->id;
 		$data->acustid = $charge->customer;
 		$data->amount  = $charge->amount / 100;
-		$data->transactiontype = static::ACTION_DESCRIPTION;
+		$data->transactiontype = static::ACTION;
 		$data->card->aid = $charge->payment_method;
 		$data->ordernbr  = $metadata->offsetExists('ordernbr') ? $metadata->ordernbr : '';
 		$data->custid    = $metadata->offsetExists('custid') ? $metadata->custid : '';
-		$data->status    = $charge->status;
+		$data->status    = ChargeStatus::find($charge->status)->value;
 		return $data;
 	}
 

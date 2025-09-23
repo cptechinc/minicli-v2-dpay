@@ -6,6 +6,7 @@ use Stripe\Refund as StripeRefund;
 use Dpay\Stripe\Api\AbstractService;
 use Dpay\Stripe\Api\Endpoints;
 use Dpay\Data\Refund as DpayRefund;
+use Dpay\Stripe\Api\Services\Charges\Util\ChargeStatus;
 
 /**
  * AbstractCrudRefund
@@ -114,7 +115,7 @@ abstract class AbstractCrudRefund extends AbstractService {
 			if ($this->errorMsg) {
 				return false;
 			}
-			$this->errorMsg = "Unable to " . static::ACTION_DESCRIPTION . " Refund {$this->dpayRefund->custid}";
+			$this->errorMsg = "Unable to " . static::ACTION_DESCRIPTION . " charge {$this->dpayRefund->charge->custid}";
 			return false;
 		}
 		$this->sRefund = $stripeRefund;
@@ -136,7 +137,7 @@ abstract class AbstractCrudRefund extends AbstractService {
 		$data->transactionid = $refund->payment_intent;
 		$data->charge->transactionid = $refund->payment_intent;
 		$data->amount   = $refund->amount / 100;
-		$data->status   = $refund->status;
+		$data->status   = ChargeStatus::find($refund->status)->value;
 		return $data;
 	}
 

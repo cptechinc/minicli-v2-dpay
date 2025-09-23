@@ -16,7 +16,7 @@ use Dpay\Stripe\Api\Endpoints;
  * @property StripeCharge    $sCharge     Stripe API Charge
  */
 class VoidCharge extends AbstractCrudCharge implements VoidChargeInterface {
-	const ACTION_DESCRIPTION = 'void';
+	const ACTION = 'void';
 	const ACTIONABLE_STATUSES = [
 		'requires_action'         => 'requires_action',
 		'requires_payment_method' => 'requires_payment_method',
@@ -71,18 +71,6 @@ class VoidCharge extends AbstractCrudCharge implements VoidChargeInterface {
 			return false;
 		}
 		return parent::process();
-	}
-
-	/**
-	 * Return Response data as Dpay Credit Charge
-	 * @return DpayCharge
-	 */
-	public function getDpayChargeResponseData() : DpayCharge
-	{
-		$data = parent::getDpayChargeResponseData();
-		$data->action = 'void';
-		$data->transactiontype = 'void';
-		return $data;
 	}
 
 /* =============================================================
