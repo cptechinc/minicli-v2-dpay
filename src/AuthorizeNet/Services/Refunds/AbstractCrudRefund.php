@@ -82,6 +82,11 @@ abstract class AbstractCrudRefund extends AbstractService {
 		return $data;
 	}
 
+	public function getResponseData() : RefundResponse
+	{
+		return $this->response;
+	}
+
 /* =============================================================
 	Contracts
 ============================================================= */
