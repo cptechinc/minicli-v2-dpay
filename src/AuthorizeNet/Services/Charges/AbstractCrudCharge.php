@@ -49,6 +49,8 @@ abstract class AbstractCrudCharge extends AbstractService {
 			return false;
 		}
 		$charge = $this->processCharge();
+		$this->response = $charge;
+		$this->id	    = $charge->transactionid;
 
 		if (empty($charge)) {
 			if ($this->errorMsg) {
@@ -61,8 +63,6 @@ abstract class AbstractCrudCharge extends AbstractService {
 			$this->errorMsg = $charge->errorMsg;
 			return false;
 		}
-		$this->response = $charge;
-		$this->id	    = $charge->transactionid;
 		return true;
 	}
 

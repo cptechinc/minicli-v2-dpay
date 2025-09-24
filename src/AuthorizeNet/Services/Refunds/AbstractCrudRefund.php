@@ -48,6 +48,8 @@ abstract class AbstractCrudRefund extends AbstractService {
 			return false;
 		}
 		$refund = $this->processRefund();
+		$this->response = $refund;
+		$this->id	    = $refund->transactionid;
 
 		if (empty($refund)) {
 			if ($this->errorMsg) {
@@ -60,8 +62,6 @@ abstract class AbstractCrudRefund extends AbstractService {
 			$this->errorMsg = $refund->errorMsg;
 			return false;
 		}
-		$this->response = $refund;
-		$this->id	    = $refund->transactionid;
 		return true;
 	}
 
