@@ -13,12 +13,17 @@
  * @property string      $status
  * @property string      $action
  * @property CreditCard  $card
+ * @property string      $authcode        Authorization Code
+ * @property string      $avscode         AVS Code
  */
 class Charge extends Data {
 	const FIELDS_NUMERIC = ['ordernbr', 'amount'];
 	const FIELDS_NUMERIC_INT = ['ordernbr'];
 	const FIELDS_NUMERIC_FLOAT = ['amount'];
-	const FIELDS_STRING  = ['transactionid', 'custid', 'ordernbr', 'status', 'action'];
+	const FIELDS_STRING  = [
+		'transactionid', 'custid', 'ordernbr', 'status', 'action',
+		'avscode', 'authcode'
+	];
 	const FIELDS_EASY_SET_JSON = [
 		'custid', 'ordernbr', 'amount', 'transactionid', 'transactiontype'
 	];

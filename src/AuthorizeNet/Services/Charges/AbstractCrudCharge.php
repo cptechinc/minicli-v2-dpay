@@ -81,6 +81,8 @@ abstract class AbstractCrudCharge extends AbstractService {
 		$data->transactiontype = static::ACTION;
 		$data->ordernbr        = $this->dpayCharge->ordernbr;
 		$data->status          = $charge->status;
+		$data->authcode        = $charge->authCode;
+		$data->avscode         = $charge->avsCode;
 		return $data;
 	}
 
