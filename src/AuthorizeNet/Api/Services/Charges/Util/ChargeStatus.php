@@ -7,6 +7,7 @@ enum ChargeStatus: string
     case Captured             = TargetStatus::Captured->value;
     case Declined             = TargetStatus::Declined->value;
     case None                 = TargetStatus::None->value;
+    case PendingSettlement    = TargetStatus::PendingSettlement->value;
     case Refunded             = TargetStatus::Refunded->value;
     case RequiresCapture      = TargetStatus::RequiresCapture->value;
     case RequiresConfirmation = TargetStatus::RequiresConfirmation->value;
@@ -25,7 +26,7 @@ enum ChargeStatus: string
             'refundPendingSettlement'   => self::Refunded,
             'refundSettledSuccessfully' => self::Refunded,
             'requires_confirmation'     => self::RequiresConfirmation,
-            'capturedPendingSettlement' => self::Captured,
+            'capturedPendingSettlement' => self::PendingSettlement,
             'settledSuccessfully'       => self::Captured,
             'voided'                    => self::Voided,
             default                     => self::None

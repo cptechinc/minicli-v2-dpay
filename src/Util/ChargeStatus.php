@@ -5,6 +5,7 @@ enum ChargeStatus: string
     case Captured            = 'succeeded';
     case Declined             = 'declined';
     case None                 = '';
+    case PendingSettlement    = 'pending';
     case Refunded             = 'refunded';
     case RequiresCapture      = 'requires_capture';
     case RequiresConfirmation = 'requires_confirmation';
