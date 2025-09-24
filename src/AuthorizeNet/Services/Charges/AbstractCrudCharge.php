@@ -88,6 +88,11 @@ abstract class AbstractCrudCharge extends AbstractService {
 		return $data;
 	}
 
+	public function getResponseData() : ChargeResponse
+	{
+		return $this->response;
+	}
+
 /* =============================================================
 	Contracts
 ============================================================= */
