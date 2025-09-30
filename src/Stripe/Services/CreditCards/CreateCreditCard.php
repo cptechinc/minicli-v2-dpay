@@ -31,7 +31,8 @@ class CreateCreditCard extends AbstractCrudCreditCard implements CreateCreditCar
 	 * @param  CardRequest $rqst
 	 * @return StripeCreditCard|false
 	 */
-	protected function processCreditCard(CardRequest $rqst) : StripeCreditCard|false {
+	protected function processCreditCard(CardRequest $rqst) : StripeCreditCard|false
+	{
 		$sCard = Endpoints\CreditCards::create($rqst);
 
 		if (empty($sCard->id) === false) {

@@ -31,7 +31,8 @@ class DeleteCreditCard extends AbstractCrudCreditCard implements DeleteCreditCar
 	 * @param  CardRequest $rqst
 	 * @return StripeCreditCard|false
 	 */
-	protected function processCreditCard(CardRequest $rqst) : StripeCreditCard|false {
+	protected function processCreditCard(CardRequest $rqst) : StripeCreditCard|false
+	{
 		$sCard = Endpoints\CreditCards::delete($rqst);
 		
 		if (empty($sCard->id) || $sCard->isDeleted() === false) {

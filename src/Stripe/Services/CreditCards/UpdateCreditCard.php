@@ -31,7 +31,8 @@ class UpdateCreditCard extends AbstractCrudCreditCard implements UpdateCreditCar
 	 * @param  CardRequest $rqst
 	 * @return StripeCreditCard
 	 */
-	protected function processCreditCard(CardRequest $rqst) : StripeCreditCard {
+	protected function processCreditCard(CardRequest $rqst) : StripeCreditCard
+	{
 		$sCard = Endpoints\CreditCards::update($rqst);
 
 		if (empty($sCard->id) === false) {
