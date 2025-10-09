@@ -25,7 +25,7 @@ class LineItems extends SimpleArray {
      * Return list data as array
      * @return array[]
      */
-	public function toArray() : array 
+	public function getArray() : array 
     {
         $data = [];
 

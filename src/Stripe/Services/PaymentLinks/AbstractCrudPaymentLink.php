@@ -75,7 +75,8 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
 	 * Return Response data as Dpay PaymentLink
 	 * @return DpayPaymentLink
 	 */
-	public function getDpayPaymentLinkResponseData() : DpayPaymentLink {
+	public function getDpayPaymentLinkResponseData() : DpayPaymentLink
+	{
 		$link = $this->sPaymentLink;
 		$metadata = $link->metadata;
 
@@ -85,6 +86,13 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
 		$data->isActive = $link->active;
 		$data->order->custid   = $metadata->offsetExists('custid') ? $metadata->custid : '';
 		$data->order->ordernbr = $metadata->offsetExists('ordernbr') ? $metadata->ordernbr : '';
+
+		foreach ($metadata->toArray() as $key => $value) {
+			$data->metadata->set($key, $value);
+		}
+		if ($metadata->offsetExists('description')) {
+			$data->description = $metadata->description;
+		}
 		return $data;
 	}
 
@@ -122,7 +130,7 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
 	 * Return Array of Allowed Payment Type Codes
 	 * @return array
 	 */
-	protected static function getEnvAllowedPaymentTypes() : array
+	protected function getEnvAllowedPaymentTypes() : array
 	{
 		$config = Config::instance();
 		$allowedTypes = $config->allowedPaymentTypes;

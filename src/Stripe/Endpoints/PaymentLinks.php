@@ -7,7 +7,6 @@ use Stripe\PaymentMethod;
 use Dpay\Stripe\ApiClient;
 use Dpay\Stripe\Config;
 use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest;
-use Dpay\Stripe\Data\PaymentLinks\LineItems as LineItemsList; 
 
 /**
  * PaymentLinks
@@ -28,17 +27,12 @@ class PaymentLinks extends AbstractEndpoint {
 /* =============================================================
 	Public Processing
 ============================================================= */
-	 /**
-	  * Create PaymentLink
-	  * @param  PaymentLinkRequest $rqst
-	  * @return PaymentLink
-	  */
 	public static function create(PaymentLinkRequest $rqst) : PaymentLink
 	{
 		$stripe = ApiClient::instance();
 
 		try {
-			$link = $stripe->paymentLinks->create($rqst->requestArray());
+			$link = $stripe->paymentLinks->create($rqst->apiCreateArray());
 		} catch(ApiErrorException $e) {
 			self::$errorMsg = $e->getMessage();
 			return new PaymentLink();
@@ -46,29 +40,20 @@ class PaymentLinks extends AbstractEndpoint {
 		return $link;
 	}
 
-	 /**
-	  * Create, Return PaymentLink
-	  * @param  LineItemsList $items
-	  * @return PaymentLink
-	  */
-	public static function createFromLineItemsList(LineItemsList $items) : PaymentLink
+	public static function update(PaymentLinkRequest $rqst) : PaymentLink
 	{
 		$stripe = ApiClient::instance();
-		$data = ['line_items' => $items->toArray()];
-		$paymentTypes = self::getEnvAllowedPaymentTypes();
-
-		if (empty($paymentTypes) === false) {
-			$data['payment_method_types'] = $paymentTypes;
-		}
 
 		try {
-			$link = $stripe->paymentLinks->create($data);
+			$link = $stripe->paymentLinks->update($rqst->id, $rqst->apiUpdateArray());
 		} catch(ApiErrorException $e) {
 			self::$errorMsg = $e->getMessage();
 			return new PaymentLink();
 		}
 		return $link;
 	}
+
+	 
 
 	/**
 	 * Return PaymentLink
@@ -86,31 +71,5 @@ class PaymentLinks extends AbstractEndpoint {
 			return new PaymentLink();
 		}
 		return $link;
-	}
-	
-/* =============================================================
-	Supplemental
-============================================================= */
-	/**
-	 * Return Array of Allowed Payment Type Codes
-	 * @return array
-	 */
-	private static function getEnvAllowedPaymentTypes() : array
-	{
-		$config = Config::instance();
-		$allowedTypes = $config->allowedPaymentTypes;
-
-		if (empty($allowedTypes)) {
-			return [];
-		}
-		$types = [];
-
-		foreach ($allowedTypes as $allowedType) {
-			if (array_key_exists($allowedType, self::PAYMENT_METHOD_TYPES) === false) {
-				continue;
-			}
-			$types[] = self::PAYMENT_METHOD_TYPES[$allowedType];
-		}
-		return $types;
 	}
 }

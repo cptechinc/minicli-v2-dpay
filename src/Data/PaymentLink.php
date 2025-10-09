@@ -52,4 +52,15 @@ class PaymentLink extends Data {
 		}
 		$this->order->setFromJson($data);
 	}
+
+/* =============================================================
+	Getters
+============================================================= */
+	public function getArray() : array
+	{
+		$data = $this->data;
+		$data['order']    = $this->order->getArray();
+		$data['metadata'] = $this->metadata->getArray();
+		return $data;
+	}
 }

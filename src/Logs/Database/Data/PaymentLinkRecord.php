@@ -12,14 +12,31 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property string   $ordernbr   Order Number
  * @property string   $linkid     Link ID
  * @property string   $url        Link URL
+ * @property string   $description
+ * @property int	  $isActive
+ * @property int	  $isPaid
  */
 class PaymentLinkRecord extends AbstractRecord {
+	const DEFAULT_VALUES = [
+		'timestamp' => '',
+		'conbr' 	=> 0,
+		'ordernbr'	=> '',
+		'custid'	=> '',
+		'url'		=> '',
+		'linkid'	=> '',
+		'description' => '',
+		'isActive'    => false,
+		'isPaid'      => false
+	];
+
 	public function __construct() {
-		$this->timestamp = '';
-		$this->conbr  = 0;
-		$this->ordernbr = '';
-		$this->custid = '';
-		$this->url    = '';
-		$this->linkid = '';
+		foreach (self::DEFAULT_VALUES as $field => $value) {
+			if ($this->has($field)) {
+				continue;
+			}
+			$this->set($field, $value);
+		}
+		$this->isActive = boolval($this->isActive);
+		$this->isPaid   = boolval($this->isPaid);
 	}
 }

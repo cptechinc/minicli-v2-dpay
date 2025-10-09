@@ -54,6 +54,10 @@ class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePayment
 		$data->paymentMethodTypes = $this->getEnvAllowedPaymentTypes();
 		$data->metadata->custid   = $link->order->custid;
 		$data->metadata->ordernbr = $link->order->ordernbr;
+		foreach ($link->metadata as $key => $value) {
+			$data->metadata->set($key, $value);
+		}
+		$data->metadata->set('description', $link->description);
 		return $data;
 	}
 
@@ -63,7 +67,7 @@ class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePayment
 	 * @property DpayPaymentLink $link
 	 * @return   LineItemsList
 	 */
-	private function generateLineItemsList(DpayPaymentLink $link) : LineItemsList
+	protected function generateLineItemsList(DpayPaymentLink $link) : LineItemsList
 	{
 		$items    = new LineItemsList();
 		$products = new SimpleArray();
@@ -87,7 +91,7 @@ class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePayment
 	 * @param  DpayOrderItem $item
 	 * @return StripeProduct
 	 */
-	private function getOrCreateStripeProduct(DpayOrderItem $item) : StripeProduct
+	protected function getOrCreateStripeProduct(DpayOrderItem $item) : StripeProduct
 	{
 		$product = Endpoints\Products::fetch($item->itemid());
 		if (empty($product->id) === false) {
@@ -104,7 +108,7 @@ class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePayment
 	 * @param  StripeProduct $product
 	 * @return StripePrice
 	 */
-	private function createStripePrice(DpayOrderItem $item, StripeProduct $product) : StripePrice
+	protected function createStripePrice(DpayOrderItem $item, StripeProduct $product) : StripePrice
 	{
 		$price = new StripePrice();
 		$price->unit_amount_decimal = $item->price * 100;
@@ -120,7 +124,7 @@ class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePayment
 	 * @param  StripePrice $price
 	 * @return StripeLineItem
 	 */
-	private function newStripeLineItem(DpayOrderItem $item, StripeProduct $product, StripePrice $price) : StripeLineItem
+	protected function newStripeLineItem(DpayOrderItem $item, StripeProduct $product, StripePrice $price) : StripeLineItem
 	{
 		$line = new StripeLineItem();
 		$line->price = $price->id;
@@ -133,7 +137,7 @@ class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePayment
 	 * @param  PaymentLinkRequest $rqst
 	 * @return StripePaymentLink
 	 */
-	private function createPaymentLink(PaymentLinkRequest $rqst) : StripePaymentLink
+	protected function createPaymentLink(PaymentLinkRequest $rqst) : StripePaymentLink
 	{
 		$link = Endpoints\PaymentLinks::create($rqst);
 

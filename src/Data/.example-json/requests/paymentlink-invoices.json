@@ -1,0 +1,30 @@
+{
+	"ordernbr": "2000",
+	"type": "invoices",
+	"custid": "BECKER",
+	"redirectUrl": "",
+	"description": "Invoice #2000",
+	"metadata": {
+		"email": "paul@cptechinc.com"
+	},
+	"items": [
+		{
+			"linetype": "invoice",
+			"ordernbr": "200",
+			"linenbr": 1,
+			"itemid": "",
+			"description": "",
+			"qty": 1,
+			"price": 400.50
+		},
+		{
+			"linetype": "invoice",
+			"ordernbr": "300",
+			"linenbr": 2,
+			"itemid": "",
+			"description": "",
+			"qty": 1,
+			"price": 601.52
+		}
+	]
+}

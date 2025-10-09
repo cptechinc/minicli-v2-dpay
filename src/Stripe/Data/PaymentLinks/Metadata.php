@@ -11,7 +11,11 @@ use Dpay\Stripe\Data\Data;
  */
 class Metadata extends Data {
     public function __construct() {
-        $this->custid = '';
-        $this->ordernbr = '';
+        
+    }
+
+    public function count() : int
+    {
+        return count($this->data);
     }
 }

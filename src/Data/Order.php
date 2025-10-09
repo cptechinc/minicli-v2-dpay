@@ -16,7 +16,7 @@ class Order extends Data {
 	const FIELDS_NUMERIC_INT = ['ordernbr'];
 	const FIELDS_NUMERIC_FLOAT = [];
 	const FIELDS_STRING  = ['type', 'custid'];
-	const FIELDS_EASY_SET_JSON = ['ordernbr', 'custid'];
+	const FIELDS_EASY_SET_JSON = ['ordernbr', 'custid', 'type'];
 
 /* =============================================================
 	Constructors / Inits
@@ -49,5 +49,15 @@ class Order extends Data {
 		if ($this->items->importFromJson($data['items']) === false) {
 			return;
 		}
+	}
+	
+/* =============================================================
+	Getters
+============================================================= */
+	public function getArray() : array
+	{
+		$data = $this->data;
+		$data['items'] = $this->items->getArray();
+		return $data;
 	}
 }

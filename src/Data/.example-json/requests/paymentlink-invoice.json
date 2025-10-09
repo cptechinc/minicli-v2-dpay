@@ -1,0 +1,40 @@
+{
+	"ordernbr": "100",
+	"type": "invoice",
+	"custid": "BECKER",
+	"redirectUrl": "http://target.com",
+	"description": "",
+	"metadata": {},
+	"items": [
+		{
+			"linetype": "item",
+			"ordernbr": "",
+			"linenbr": 1,
+			"itemid": "8391",
+			"vendoritemid": "",
+			"description": "Spinner",
+			"qty": 2,
+			"price": 12.95
+		},
+		{
+			"linetype": "item",
+			"ordernbr": "",
+			"linenbr": 2,
+			"itemid": "8390",
+			"vendoritemid": "",
+			"description": "Spinner Special",
+			"qty": 1,
+			"price": 9.99
+		},
+		{
+			"linetype": "item",
+			"ordernbr": "",
+			"linenbr": 3,
+			"itemid": "N",
+			"vendoritemid": "8391-AMC",
+			"description": "Spinner Special nonstock",
+			"qty": 1,
+			"price": 20.99
+		}
+	]
+}
