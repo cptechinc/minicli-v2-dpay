@@ -98,7 +98,16 @@ class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePayment
 			return $product;
 		}
 		$product = new StripeProduct($item->itemid());
-		$product->name = $item->linetype == 'invoice' ? "Invoice #: $item->ordernbr" : $item->description;
+		$product->name = $item->description;
+
+		if (empty($item->description)) {
+			if ($item->isLinetypeBatch()) {
+				$product->name = "Payment #: $item->ordernbr";
+			}
+			if ($item->isLinetypeInvoice()) {
+				$product->name = "Invoice #: $item->ordernbr";
+			}
+		}
 		return Endpoints\Products::create($product);
 	}
 

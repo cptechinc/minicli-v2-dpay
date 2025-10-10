@@ -24,6 +24,7 @@ class Item extends Data {
 	const FIELDS_STRING  = ['aid', 'itemid', 'description', 'linetype', 'vendoritemid'];
 	const FIELDS_EASY_SET_JSON = ['linenbr', 'qty', 'price', 'itemid', 'description', 'linetype', 'ordernbr', 'vendoritemid'];
 	const ITEMID_NONSTOCK = 'N';
+	const LINETYPES = ['item', 'invoice', 'batch'];
 
 /* =============================================================
 	Constructors / Inits
@@ -64,6 +65,15 @@ class Item extends Data {
 	}
 
 	/**
+	 * Return if Line Item is batch (merged invoices)
+	 * @return bool
+	 */
+	public function isLinetypeBatch() : bool
+	{
+		return $this->linetype == 'batch';
+	}
+
+	/**
 	 * Return if Line Item is an Invoice
 	 * @return bool
 	 */
@@ -89,6 +99,9 @@ class Item extends Data {
 	{
 		if ($this->isLinetypeInvoice()) {
 			return "invc_$this->ordernbr";
+		}
+		if ($this->isLinetypeBatch()) {
+			return "batch_$this->ordernbr";
 		}
 		if ($this->isNonstock) {
 			return "$this->itemid$this->vendoritemid";

@@ -1,0 +1,21 @@
+{
+	"ordernbr": "2000",
+	"type": "consolidated",
+	"custid": "BECKER",
+	"redirectUrl": "",
+	"description": "Check #2000",
+	"metadata": {
+		"email": "paul@cptechinc.com"
+	},
+	"items": [
+		{
+			"linetype": "batch",
+			"ordernbr": "2000",
+			"linenbr": 1,
+			"itemid": "",
+			"description": "Check #2000",
+			"qty": 1,
+			"price": 400.50
+		}
+	]
+}
