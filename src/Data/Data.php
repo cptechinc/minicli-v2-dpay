@@ -7,6 +7,7 @@ use Pauldro\Minicli\v2\Util\Data as AbstractData;
  * Container For Dpay Data
  */
 class Data extends AbstractData {
+    const FIELDS_BOOL = [];
     const FIELDS_NUMERIC = [];
 	const FIELDS_NUMERIC_INT = [];
 	const FIELDS_NUMERIC_FLOAT = [];
@@ -17,6 +18,9 @@ class Data extends AbstractData {
 	Constructors / Inits
 ============================================================= */
     public function __construct() {
+        foreach (static::FIELDS_BOOL as $fieldname) {
+            $this->$fieldname = false;
+        }
         foreach (static::FIELDS_NUMERIC as $fieldname) {
             $this->$fieldname = 0;
         }
@@ -59,8 +63,13 @@ class Data extends AbstractData {
      * Return Data as array
      * @return array
      */
-    public function toArray() : array
+    public function getArray() : array
 	{
         return $this->data;
     }
+
+	public function toArray() : array
+	{
+		return $this->getArray();
+	}
 }
