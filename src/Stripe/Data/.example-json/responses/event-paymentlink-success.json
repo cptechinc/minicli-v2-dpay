@@ -1,0 +1,130 @@
+{
+  "id": "evt_1SGltMKviHmzUf3GQZsQSQar",
+  "object": "event",
+  "api_version": "2024-12-18.acacia",
+  "created": 1760124135,
+  "data": {
+    "object": {
+      "id": "cs_test_b1toUMpAsMvCAsiaXgzOb0DV5tt1ykztQHcfG135P5q6FZDbUWDpaJgq9A",
+      "object": "checkout.session",
+      "adaptive_pricing": {
+        "enabled": true
+      },
+      "after_expiration": null,
+      "allow_promotion_codes": false,
+      "amount_subtotal": 100202,
+      "amount_total": 100202,
+      "automatic_tax": {
+        "enabled": false,
+        "liability": null,
+        "provider": null,
+        "status": null
+      },
+      "billing_address_collection": "auto",
+      "cancel_url": "https://stripe.com",
+      "client_reference_id": null,
+      "client_secret": null,
+      "collected_information": null,
+      "consent": null,
+      "consent_collection": null,
+      "created": 1760124078,
+      "currency": "usd",
+      "currency_conversion": null,
+      "custom_fields": [],
+      "custom_text": {
+        "after_submit": null,
+        "shipping_address": null,
+        "submit": null,
+        "terms_of_service_acceptance": null
+      },
+      "customer": null,
+      "customer_creation": "if_required",
+      "customer_details": {
+        "address": {
+          "city": null,
+          "country": null,
+          "line1": null,
+          "line2": null,
+          "postal_code": null,
+          "state": null
+        },
+        "business_name": null,
+        "email": "paul@cptechinc.com",
+        "individual_name": null,
+        "name": "Paul Gomez",
+        "phone": null,
+        "tax_exempt": "none",
+        "tax_ids": []
+      },
+      "customer_email": null,
+      "discounts": [],
+      "expires_at": 1760210478,
+      "invoice": null,
+      "invoice_creation": {
+        "enabled": false,
+        "invoice_data": {
+          "account_tax_ids": null,
+          "custom_fields": null,
+          "description": null,
+          "footer": null,
+          "issuer": null,
+          "metadata": [],
+          "rendering_options": null
+        }
+      },
+      "livemode": false,
+      "locale": "auto",
+      "metadata": {
+        "custid": "BECKER",
+        "description": "Invoice #2000",
+        "email": "paul@cptechinc.com",
+        "ordernbr": "2000"
+      },
+      "mode": "payment",
+      "origin_context": null,
+      "payment_intent": "pi_3SGlsYKviHmzUf3G15p7QX0c",
+      "payment_link": "plink_1SG45JKviHmzUf3GarAN2ijn",
+      "payment_method_collection": "if_required",
+      "payment_method_configuration_details": null,
+      "payment_method_options": {
+        "us_bank_account": {
+          "verification_method": "automatic"
+        }
+      },
+      "payment_method_types": [
+        "us_bank_account"
+      ],
+      "payment_status": "paid",
+      "permissions": null,
+      "phone_number_collection": {
+        "enabled": false
+      },
+      "recovered_from": null,
+      "saved_payment_method_options": null,
+      "setup_intent": null,
+      "shipping_address_collection": null,
+      "shipping_cost": null,
+      "shipping_details": null,
+      "shipping_options": [],
+      "status": "complete",
+      "submit_type": "auto",
+      "subscription": null,
+      "success_url": "https://stripe.com",
+      "total_details": {
+        "amount_discount": 0,
+        "amount_shipping": 0,
+        "amount_tax": 0
+      },
+      "ui_mode": "hosted",
+      "url": null,
+      "wallet_options": null
+    }
+  },
+  "livemode": false,
+  "pending_webhooks": 0,
+  "request": {
+    "id": null,
+    "idempotency_key": null
+  },
+  "type": "checkout.session.async_payment_succeeded"
+}
