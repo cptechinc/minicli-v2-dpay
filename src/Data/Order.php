@@ -11,7 +11,7 @@
  * @property Order\ItemsList<\Dpay\Data\Order\Item> $items  List of Sales Order Items
  */
 class Order extends Data {
-	const TYPES = ['invoice', 'invoices'];
+	const TYPES = ['invoice', 'invoices', 'consolidated'];
 	const FIELDS_NUMERIC = ['ordernbr'];
 	const FIELDS_NUMERIC_INT = ['ordernbr'];
 	const FIELDS_NUMERIC_FLOAT = [];
