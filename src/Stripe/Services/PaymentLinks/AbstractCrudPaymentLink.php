@@ -29,7 +29,7 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
 		'card'      => StripePaymentMethod::TYPE_CARD,
 		'cashapp'   => StripePaymentMethod::TYPE_CASHAPP,
 		'mobile'    => StripePaymentMethod::TYPE_MOBILEPAY,
-		'paypal'    => StripePaymentMethod::TYPE_PAYPAL,
+		'paypal'    => StripePaymentMethod::TYPE_PAYPAL
 	];
 
 	public string $id;
