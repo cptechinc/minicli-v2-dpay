@@ -24,6 +24,8 @@ class Item extends Data {
 	const FIELDS_STRING  = ['aid', 'itemid', 'description', 'linetype', 'vendoritemid'];
 	const FIELDS_EASY_SET_JSON = ['linenbr', 'qty', 'price', 'itemid', 'description', 'linetype', 'ordernbr', 'vendoritemid'];
 	const ITEMID_NONSTOCK = 'N';
+	const ITEMID_PREFIX_INVOICE = 'invc_';
+	const ITEMID_PREFIX_BATCH = 'batch_';
 	const LINETYPES = ['item', 'invoice', 'batch'];
 
 /* =============================================================
@@ -98,10 +100,10 @@ class Item extends Data {
 	public function itemid() : string
 	{
 		if ($this->isLinetypeInvoice()) {
-			return "invc_$this->ordernbr";
+			return self::ITEMID_PREFIX_INVOICE . $this->ordernbr;
 		}
 		if ($this->isLinetypeBatch()) {
-			return "batch_$this->ordernbr";
+			return self::ITEMID_PREFIX_BATCH . $this->ordernbr;
 		}
 		if ($this->isNonstock) {
 			return "$this->itemid$this->vendoritemid";
