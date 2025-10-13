@@ -2,7 +2,6 @@
 // Stripe API Library
 use Stripe\Checkout\Session as StripeCheckoutSession;
 use Stripe\Event as StripeEvent;
-use Stripe\PaymentIntent as StripePaymentIntent;
 // Dpay
 use Dpay\Data\Event as DpayEvent;
 use Dpay\Data\Payment as DpayPayment;
@@ -12,12 +11,12 @@ use Dpay\Stripe\Services\PaymentLinks\Util\PaymentMethod;
 
 
 /**
- * CreateEvent
- * Service to Create Event using Stripe API
+ * Fetch
+ * Service to Fetch Event data using Stripe API
  * 
- * @property string 	     $id			API Event ID
- * @property DpayEvent		 $dpayEvent	Dpay Event
- * @property StripeEvent 	 $sEvent 	Stripe API Event
+ * @property string 	     $id		 API Event ID
+ * @property DpayEvent		 $dpayEvent	 Dpay Event
+ * @property StripeEvent 	 $sEvent 	 Stripe API Event
  */
 class FetchEvent extends AbstractService {
 	
@@ -70,7 +69,6 @@ class FetchEvent extends AbstractService {
 			return false;
 		}
 		$this->dpayEvent = $this->getDpayEventResponseData();
-		echo json_encode($this->dpayEvent->getArray());
 		return true;
 	}
 
@@ -81,15 +79,15 @@ class FetchEvent extends AbstractService {
 	public function getDpayEventResponseData() : DpayEvent
 	{
 		if ($this->sEvent->type == 'checkout.session.async_payment_succeeded') {
-			return $this->getDpayEventCheckoutResponseData();
+			return $this->getDpayEventPaymentLinkResponseData();
 		}
 		if ($this->sEvent->type == 'checkout.session.async_payment_failed') {
-			return $this->getDpayEventCheckoutResponseData();
+			return $this->getDpayEventPaymentLinkResponseData();
 		}
 		return new DpayEvent();
 	}
 
-	private function getDpayEventCheckoutResponseData() : DpayEvent
+	private function getDpayEventPaymentLinkResponseData() : DpayEvent
 	{	
 		/** @var StripeCheckoutSession */
 		$checkout      = $this->sEvent->data->object;
@@ -98,20 +96,27 @@ class FetchEvent extends AbstractService {
 		$data->type    = 'payment';
 		$data->apitype = $this->sEvent->type;
 		$data->timestamp = $this->sEvent->created;
+		$data->apidata   = $this->sEvent->toArray();
 
 		$data->object = new DpayPayment();
-		$data->object->id       = $checkout->payment_link;
+		$data->object->id            = $checkout->payment_link;
 		$data->object->transactionid = $checkout->payment_intent;
-		$data->object->type     = 'paymentlink';
+		$data->object->type          = 'paymentlink';
 		$data->object->custid   = $checkout->metadata->offsetExists('custid') ? $checkout->metadata->custid : '';
 		$data->object->ordernbr = $checkout->metadata->offsetExists('ordernbr') ? $checkout->metadata->ordernbr : '';
 		$data->object->method   = PaymentMethod::findDpayMethod($checkout->payment_method_types[0])->value;
 		$data->object->status   = $checkout->payment_status;
 		$data->object->amount   = $checkout->amount_total / 100;
-		$data->object->success  = $checkout->payment_status = 'paid';
+		$data->object->success  = $checkout->payment_status == 'paid';
 		
 		foreach ($checkout->metadata->toArray() as $key => $value) {
 			$data->object->metadata->set($key, $value);
+		}
+
+		if ($data->object->success === false) {
+			$charge = Endpoints\Charges::fetchById($data->object->transactionid);
+			$data->object->errorCode = $charge->last_payment_error->code;
+			$data->object->errorMsg  = $charge->last_payment_error->message;
 		}
 		return $data;
 	}
