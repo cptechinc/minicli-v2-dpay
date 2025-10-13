@@ -26,6 +26,19 @@ class ItemsList extends DataList {
 		}
 		return $this->count() > 0;
 	}
+
+/* =============================================================
+	Getters
+============================================================= */
+	public function getTotalAmt() : float
+	{
+		$total = 0.00;
+
+		foreach ($this as $item) {
+			$total += $item->price;
+		}
+		return $total;
+	}
 	
 /* =============================================================
 	Supplemental

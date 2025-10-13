@@ -1,13 +1,15 @@
 <?php namespace Dpay\Stripe\Services\PaymentLinks;
-// Stripe API Library
+// Stripe SDK
+use Stripe\LineItem as StripeLineItem;
 use Stripe\PaymentLink as StripePaymentLink;
 use Stripe\PaymentMethod as StripePaymentMethod;
 // Dpay
 use Dpay\Abstracts\Api\Services\PaymentLinks\ACrudPaymentLinkTraits;
-use Dpay\Stripe\Config;
-use Dpay\Stripe\Services\AbstractService;
-use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest; 
 use Dpay\Data\PaymentLink as DpayPaymentLink;
+use Dpay\Stripe\Config;
+use Dpay\Stripe\Endpoints;
+use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest; 
+use Dpay\Stripe\Services\AbstractService;
 
 /**
  * AbstractCrudPaymentLink
@@ -92,6 +94,19 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
 		}
 		if ($metadata->offsetExists('description')) {
 			$data->description = $metadata->description;
+		}
+		if ($link->id) {
+			$items = Endpoints\PaymentLinks::fetchLineItems($link->id);
+
+			foreach ($items as $item) {
+				/** @var StripeLineItem $item */
+				$orderitem = $data->order->items->new();
+				$orderitem->itemid = $item->id;
+				$orderitem->description = $item->description;
+				$orderitem->qty = $item->quantity;
+				$orderitem->price = $item->price->unit_amount / 100;
+				$data->order->items->add($orderitem);
+			}
 		}
 		return $data;
 	}
