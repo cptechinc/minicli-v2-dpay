@@ -6,9 +6,9 @@ use Dpay\Logs\Database\Data\EventRecord as Record;
 use Dpay\Abstracts\Database\MeekroDB\AbstractDatabaseTable;
 
 /**
- * Handles Logging Payment Links to Database Table
+ * Handles Logging Webhook events to database
  * 
- * @method bool    insert(EventRecord $r)  Insert Log Entry
+ * @method bool    insert(Record $r)  Insert Log Entry
  * @method Record  newRecord()                      Return instance of Record Data Class
  */
 class Events extends AbstractDatabaseTable {
@@ -19,7 +19,7 @@ class Events extends AbstractDatabaseTable {
 		'conbr'      => ['INT', 'DEFAULT NULL'],
 		'eventid'    => ['VARCHAR(100)', 'DEFAULT ""'],
 		'type'       => ['VARCHAR(100)', 'DEFAULT ""'],
-		'eventrawdata' => ['LONGTEXT', ''],
+		'raw_eventdata' => ['LONGTEXT', ''],
 	];
 	const PRIMARYKEY = ['rid'];
 	const RECORD_CLASS = '\\Dpay\\Logs\\Database\\Data\\EventRecord';
@@ -43,6 +43,19 @@ class Events extends AbstractDatabaseTable {
 /* =============================================================
 	Reads
 ============================================================= */
+	/**
+	 * Return if Event exists
+	 * @param  string $id
+	 * @return bool
+	 */
+	public function existsByEventid($id) : bool
+	{
+		$table = static::TABLE;
+		$conbr = self::$conbr;
+		$sql   = "SELECT * FROM $table WHERE eventid=%s AND conbr=%i";
+		return boolval($this->db->queryFirstColumn($sql, $id, $conbr));
+	}
+
 	/**
 	 * Return Record by Event id
 	 * @param  string $id
