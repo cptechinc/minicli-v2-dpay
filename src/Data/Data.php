@@ -67,9 +67,4 @@ class Data extends AbstractData {
 	{
         return $this->data;
     }
-
-	public function toArray() : array
-	{
-		return $this->getArray();
-	}
 }
