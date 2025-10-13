@@ -1,6 +1,6 @@
 <?php namespace Dpay\Stripe\Data\PaymentLinks;
 // Lib
-use Dpay\Stripe\Data\Data;
+use Pauldro\Minicli\v2\Util\SimpleArray;
 
 
 /**
@@ -10,7 +10,7 @@ use Dpay\Stripe\Data\Data;
  * 
  * @property string    $id
  * @property LineItems $items
- * @property Metadata  $metadata
+ * @property SimpleArray $metadata
  * @property array     $paymentMethodTypes
  * @property string    $redirectUrl
  * @property string    $description
@@ -20,7 +20,7 @@ class PaymentLinkRequest extends Data {
     public function __construct() {
         $this->id    = '';
         $this->items      = new LineItems();
-        $this->metadata   = new Metadata();
+        $this->metadata   = new SimpleArray();
         $this->paymentMethodTypes = [];
         $this->redirectUrl = '';
         $this->description = '';
