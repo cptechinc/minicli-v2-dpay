@@ -1,5 +1,6 @@
 <?php namespace Dpay\Stripe\Data\PaymentLinks;
 // Lib
+use Pauldro\Minicli\v2\Util\Data;
 use Pauldro\Minicli\v2\Util\SimpleArray;
 
 
@@ -19,7 +20,7 @@ use Pauldro\Minicli\v2\Util\SimpleArray;
 class PaymentLinkRequest extends Data {
     public function __construct() {
         $this->id    = '';
-        $this->items      = new LineItems();
+        $this->items = new LineItems();
         $this->metadata   = new SimpleArray();
         $this->paymentMethodTypes = [];
         $this->redirectUrl = '';
@@ -65,7 +66,7 @@ class PaymentLinkRequest extends Data {
 
     /**
      * Return Stripe Request
-     * @return {active: bool, line_items: array, metadata: array, payment_method_types: array, payment_intent_data: array,
+     * @return array{active: bool, line_items: array, metadata: array, payment_method_types: array, payment_intent_data: array,
      * after_completion:null|array}
      */
     public function apiUpdateArray() : array
