@@ -12,12 +12,17 @@ use Pauldro\Minicli\v2\Util\SimpleArray;
  * @property string $status
  * @property string $method
  * @property bool   $success
+ * @property string $errorCode
+ * @property string $errorMsg
  * @property SimpleArray $metadata
  */
 class Payment extends Data {
     const FIELDS_BOOL = ['success'];
     const FIELDS_NUMERIC = ['amount'];
-    const FIELDS_STRING = ['id', 'transactionid', 'type', 'status', 'ordernbr', 'custid', 'status', 'method'];
+    const FIELDS_STRING = [
+        'id', 'transactionid', 'type', 'status', 'ordernbr', 'custid', 'status', 'method',
+        'errorCode', 'errorMsg',
+    ];
     const TYPES = ['charge', 'paymentlink'];
     
     public function __construct() {
