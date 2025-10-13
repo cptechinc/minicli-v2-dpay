@@ -37,6 +37,7 @@ class PaymentLinkRequest extends Data {
             'line_items' => $this->items->getArray(),
             'metadata'   => $this->metadata->getArray(),
             'payment_method_types' => $this->paymentMethodTypes,
+            'payment_intent_data'  => []
         ];
         if ($this->redirectUrl) {
             $data['after_completion'] = [
@@ -45,10 +46,9 @@ class PaymentLinkRequest extends Data {
             ];
         }
         if ($this->description) {
-            $data['payment_intent_data'] = [
-                'statement_descriptor' => $this->description
-            ];
+            $data['payment_intent_data']['statement_descriptor'] = $this->description;
         }
+        $data['payment_intent_data']['metadata'] = $this->metadata->getArray();
         return $data;
     }
 
