@@ -9,6 +9,7 @@ enum ChargeStatus: string
     case Refunded             = TargetStatus::Refunded->value;
     case RequiresCapture      = TargetStatus::RequiresCapture->value;
     case RequiresConfirmation = TargetStatus::RequiresConfirmation->value;
+    case Unpaid               = TargetStatus::Unpaid->value;
     case Voided               = TargetStatus::Voided->value;
 
     /**
@@ -22,6 +23,7 @@ enum ChargeStatus: string
             'refunded'              => self::Refunded,
             'requires_capture'      => self::RequiresCapture,
             'requires_confirmation' => self::RequiresConfirmation,
+            'requires_payment_method' => self::Unpaid,
             'succeeded'             => self::Captured,
             default                 => self::None
         };

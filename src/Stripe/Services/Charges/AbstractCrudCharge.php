@@ -62,7 +62,6 @@ abstract class AbstractCrudCharge extends AbstractService {
 	public function getDpayChargeResponseData() : Charge
 	{
 		$charge = $this->sCharge;
-		$data = $charge->toArray();
 		$metadata = $charge->metadata;
 
 		$data = new DpayCharge();
@@ -74,6 +73,11 @@ abstract class AbstractCrudCharge extends AbstractService {
 		$data->ordernbr  = $metadata->offsetExists('ordernbr') ? $metadata->ordernbr : '';
 		$data->custid    = $metadata->offsetExists('custid') ? $metadata->custid : '';
 		$data->status    = ChargeStatus::find($charge->status)->value;
+		
+		if ($charge->offsetExists('last_payment_error')) {
+			$data->errorCode = $charge->last_payment_error->code;
+			$data->errorMsg  = $charge->last_payment_error->message;
+		}
 		return $data;
 	}
 

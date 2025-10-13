@@ -17,6 +17,9 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property string   $ordernbr         Dpay Order Number
  * @property float    $amount           Amount to be charged
  * @property string   $status           Charge Status
+ * @property string   $errorCode        Error Code
+ * @property string   $errorMsg         Error Message
+ * @property string   $authCode         Authorization Code
  */
 class ChargeStatusRecord extends AbstractRecord {
 	public function __construct() {
@@ -28,5 +31,8 @@ class ChargeStatusRecord extends AbstractRecord {
 		$this->transactionid = '';
 		$this->amount = 0.00;
 		$this->status = '';
+		$this->errorCode = '';
+		$this->errorMsg  = '';
+		$this->authCode = '';
 	}
 }
