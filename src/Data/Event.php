@@ -6,6 +6,7 @@
  * @property string  $apitype
  * @property int     $timestamp
  * @property Payment $object
+ * @property array   $apidata
  */
 class Event extends Data {
     public function getArray() : array
