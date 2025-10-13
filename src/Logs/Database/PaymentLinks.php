@@ -20,6 +20,7 @@ class PaymentLinks extends AbstractDatabaseTable {
 		'conbr'      => ['INT', 'DEFAULT NULL'],
 		'ordernbr'   => ['CHAR(10)', 'DEFAULT NULL'],
 		'custid'     => ['CHAR(10)', 'DEFAULT ""'],
+		'amount'     => ['DECIMAL(9,2)', 'DEFAULT 0.00'],
 		'linkid'     => ['VARCHAR(100)', 'DEFAULT NULL'],
 		'url'        => ['VARCHAR(100)', 'DEFAULT NULL'],
 		'description' => ['VARCHAR(100)', 'DEFAULT NULL'],

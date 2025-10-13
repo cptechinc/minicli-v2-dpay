@@ -9,6 +9,7 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property string   $timestamp  Timestamp
  * @property int      $conbr      Company Number
  * @property string   $custid     Customer ID
+ * @property float    $amount     Total Amount
  * @property string   $ordernbr   Order Number
  * @property string   $linkid     Link ID
  * @property string   $url        Link URL
