@@ -54,6 +54,7 @@ class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePayment
 		$data->paymentMethodTypes = $this->getEnvAllowedPaymentTypes();
 		$data->metadata->custid   = $link->order->custid;
 		$data->metadata->ordernbr = $link->order->ordernbr;
+		$data->metadata->ordertype = $link->order->type;
 		foreach ($link->metadata as $key => $value) {
 			$data->metadata->set($key, $value);
 		}
