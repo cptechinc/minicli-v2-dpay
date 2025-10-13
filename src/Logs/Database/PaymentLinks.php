@@ -50,6 +50,15 @@ class PaymentLinks extends AbstractDatabaseTable {
 	Reads
 ============================================================= */
 	/**
+	 * Return Last Insert ID
+	 * @return int
+	 */
+	public function lastInsertId() : mixed
+	{
+		return intval($this->db->insertId());
+	}
+	
+	/**
 	 * Return Record by Link id
 	 * @param  string $id
 	 * @return Record|false
