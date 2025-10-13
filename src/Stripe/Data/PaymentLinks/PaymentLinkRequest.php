@@ -29,7 +29,8 @@ class PaymentLinkRequest extends Data {
 
     /**
      * Return Stripe Request
-     * @return array{line_items: array, metadata: array, payment_method_types: array}
+     * @return array{active: bool,line_items: array, metadata: array, payment_method_types: array, payment_intent_data: array,
+     * after_completion:null|array}
      */
     public function apiArray() : array
     {
@@ -54,13 +55,19 @@ class PaymentLinkRequest extends Data {
 
     /**
      * Return Stripe Request
-     * @return array{line_items: array, metadata: array, payment_method_types: array}
+     * @return array{line_items: array, metadata: array, payment_method_types: array, payment_intent_data: array,
+     * after_completion:null|array}
      */
     public function apiCreateArray() : array
     {
         return $this->apiArray();
     }
 
+    /**
+     * Return Stripe Request
+     * @return {active: bool, line_items: array, metadata: array, payment_method_types: array, payment_intent_data: array,
+     * after_completion:null|array}
+     */
     public function apiUpdateArray() : array
     {
         $data = $this->apiArray();
@@ -72,6 +79,10 @@ class PaymentLinkRequest extends Data {
 
         if ($this->metadata->count() == 0) {
             unset($data['metadata']);
+
+            if (array_key_exists('metadata', $data['payment_intent_data'])) {
+                unset($data['payment_intent_data']['metadata']);
+            }
         }
 
         if ($this->redirectUrl == '') {
