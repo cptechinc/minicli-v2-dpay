@@ -10,7 +10,7 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property int      $conbr      Company Number
  * @property string   $eventid
  * @property string   $type       Type
- * @property string   $eventrawdata
+ * @property string   $raw_eventdata
  */
 class EventRecord extends AbstractRecord {
 	public function __construct() {
@@ -18,6 +18,6 @@ class EventRecord extends AbstractRecord {
 		$this->conbr = 0;
 		$this->eventid = '';
 		$this->type = '';
-        $this->eventrawdata = '';
+        $this->raw_eventdata = '';
 	}
 }
