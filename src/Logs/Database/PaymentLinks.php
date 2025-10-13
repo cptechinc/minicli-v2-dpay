@@ -23,8 +23,6 @@ class PaymentLinks extends AbstractDatabaseTable {
 		'linkid'     => ['VARCHAR(100)', 'DEFAULT NULL'],
 		'url'        => ['VARCHAR(100)', 'DEFAULT NULL'],
 		'description' => ['VARCHAR(100)', 'DEFAULT NULL'],
-		'isActive'    => ['INT(1)', 'DEFAULT 0'],
-		'isPaid'      => ['INT(1)', 'DEFAULT 0'],
 	];
 	const PRIMARYKEY = ['rid'];
 	const RECORD_CLASS = '\\Dpay\\Logs\\Database\\Data\\PaymentLinkRecord';
@@ -44,20 +42,7 @@ class PaymentLinks extends AbstractDatabaseTable {
 	{
 		$r->timestamp = date(self::FORMAT_DATETIME);
 		$r->conbr = self::$conbr;
-		$r->isActive = intval($r->isActive);
-		$r->isPaid   = intval($r->isPaid);
 		return parent::insert($r);
-	}
-
-	/**
-	 * @param  Record $r
-	 * @return bool
-	 */
-	public function update(AbstractRecord $r) : bool
-	{
-		$r->isActive = intval($r->isActive);
-		$r->isPaid   = intval($r->isPaid);
-		return parent::update($r);
 	}
 	
 /* =============================================================

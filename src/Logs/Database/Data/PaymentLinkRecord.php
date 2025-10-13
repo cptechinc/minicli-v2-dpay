@@ -13,8 +13,6 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property string   $linkid     Link ID
  * @property string   $url        Link URL
  * @property string   $description
- * @property int	  $isActive
- * @property int	  $isPaid
  */
 class PaymentLinkRecord extends AbstractRecord {
 	const DEFAULT_VALUES = [
@@ -25,8 +23,6 @@ class PaymentLinkRecord extends AbstractRecord {
 		'url'		=> '',
 		'linkid'	=> '',
 		'description' => '',
-		'isActive'    => false,
-		'isPaid'      => false
 	];
 
 	public function __construct() {
@@ -36,7 +32,5 @@ class PaymentLinkRecord extends AbstractRecord {
 			}
 			$this->set($field, $value);
 		}
-		$this->isActive = boolval($this->isActive);
-		$this->isPaid   = boolval($this->isPaid);
 	}
 }
