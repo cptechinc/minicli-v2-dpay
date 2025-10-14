@@ -60,7 +60,7 @@ class PaymentLinkStatusRecord extends AbstractRecord {
         parent::setArray($data);
 
         if ($this->raw_metadata != '') {
-            $this->metadata->setArray(json_decode($this->raw_metadata));
+            $this->metadata->setArray(json_decode($this->raw_metadata, true));
         }
         $this->isActive   = boolval($this->isActive);
         $this->isComplete = boolval($this->isComplete);
