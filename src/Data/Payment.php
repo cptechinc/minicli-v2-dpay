@@ -14,6 +14,7 @@ use Pauldro\Minicli\v2\Util\SimpleArray;
  * @property bool   $success
  * @property string $errorCode
  * @property string $errorMsg
+ * @property string $authCode
  * @property SimpleArray $metadata
  */
 class Payment extends Data {
@@ -21,7 +22,7 @@ class Payment extends Data {
     const FIELDS_NUMERIC = ['amount'];
     const FIELDS_STRING = [
         'id', 'transactionid', 'type', 'status', 'ordernbr', 'custid', 'status', 'method',
-        'errorCode', 'errorMsg',
+        'errorCode', 'errorMsg', 'authCode'
     ];
     const TYPES = ['charge', 'paymentlink'];
     
