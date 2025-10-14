@@ -54,7 +54,7 @@ class PaymentLinkEventParser extends AbstractEventParser {
 			$payment->errorMsg  = $charge->last_payment_error->message;
 		}
         if ($payment->success === false && $payment->errorCode) {
-            $payment->status = PaymentStatus::Declined;
+            $payment->status = PaymentStatus::Declined->value;
         }
         $data->object = $payment;
         return $data;
