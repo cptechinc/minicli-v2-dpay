@@ -8,7 +8,7 @@ use Dpay\Data\Payment as DpayPayment;
 use Dpay\Stripe\Endpoints;
 use Dpay\Stripe\Services\AbstractService;
 use Dpay\Stripe\Services\PaymentLinks\Util\PaymentMethod;
-
+use Dpay\Stripe\Services\Events\Util\PaymentLinkEventParser;
 
 /**
  * Fetch
@@ -79,46 +79,12 @@ class FetchEvent extends AbstractService {
 	public function getDpayEventResponseData() : DpayEvent
 	{
 		if ($this->sEvent->type == 'checkout.session.async_payment_succeeded') {
-			return $this->getDpayEventPaymentLinkResponseData();
+			return PaymentLinkEventParser::parse($this->sEvent);
 		}
 		if ($this->sEvent->type == 'checkout.session.async_payment_failed') {
-			return $this->getDpayEventPaymentLinkResponseData();
+			return PaymentLinkEventParser::parse($this->sEvent);
 		}
 		return new DpayEvent();
-	}
-
-	private function getDpayEventPaymentLinkResponseData() : DpayEvent
-	{	
-		/** @var StripeCheckoutSession */
-		$checkout      = $this->sEvent->data->object;
-		$data          = new DpayEvent();
-		$data->id      = $this->sEvent->id;
-		$data->type    = 'payment';
-		$data->apitype = $this->sEvent->type;
-		$data->timestamp = $this->sEvent->created;
-		$data->apidata   = $this->sEvent->toArray();
-
-		$data->object = new DpayPayment();
-		$data->object->id            = $checkout->payment_link;
-		$data->object->transactionid = $checkout->payment_intent;
-		$data->object->type          = 'paymentlink';
-		$data->object->custid   = $checkout->metadata->offsetExists('custid') ? $checkout->metadata->custid : '';
-		$data->object->ordernbr = $checkout->metadata->offsetExists('ordernbr') ? $checkout->metadata->ordernbr : '';
-		$data->object->method   = PaymentMethod::findDpayMethod($checkout->payment_method_types[0])->value;
-		$data->object->status   = $checkout->payment_status;
-		$data->object->amount   = $checkout->amount_total / 100;
-		$data->object->success  = $checkout->payment_status == 'paid';
-		
-		foreach ($checkout->metadata->toArray() as $key => $value) {
-			$data->object->metadata->set($key, $value);
-		}
-
-		if ($data->object->success === false) {
-			$charge = Endpoints\Charges::fetchById($data->object->transactionid);
-			$data->object->errorCode = $charge->last_payment_error->code;
-			$data->object->errorMsg  = $charge->last_payment_error->message;
-		}
-		return $data;
 	}
 
 /* =============================================================
