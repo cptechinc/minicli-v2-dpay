@@ -39,7 +39,10 @@ class PaymentLinkRequest extends Data {
             'line_items' => $this->items->getArray(),
             'metadata'   => $this->metadata->getArray(),
             'payment_method_types' => $this->paymentMethodTypes,
-            'payment_intent_data'  => []
+            'payment_intent_data'  => [],
+            'restrictions' => [
+                'completed_sessions' => ['limit' => 1]
+            ]
         ];
         if ($this->redirectUrl) {
             $data['after_completion'] = [
