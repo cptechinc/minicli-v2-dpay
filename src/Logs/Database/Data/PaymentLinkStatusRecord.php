@@ -13,6 +13,7 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property string   $updated	  Timestamp
  * @property int	  $conbr	  Company Number
  * @property string   $linkid	  Link ID
+ * @property string   $description
  * @property string   $url		  Link URL
  * @property string   $transactionid
  * @property float	  $amount	  Total Amount
@@ -33,6 +34,7 @@ class PaymentLinkStatusRecord extends AbstractRecord {
         'updated'	  => '',
         'conbr' 	  => 0,
         'linkid'	  => '',
+        'description' => '',
         'url'		  => '',
         'transactionid' => '',
         'amount'		=> 0.00,
