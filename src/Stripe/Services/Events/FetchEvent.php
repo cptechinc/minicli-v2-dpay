@@ -1,6 +1,6 @@
 <?php namespace Dpay\Stripe\Services\Events;
 // Stripe API Library
-use Stripe\Checkout\Session as StripeCheckoutSession;
+
 use Stripe\Event as StripeEvent;
 // Dpay
 use Dpay\Data\Event as DpayEvent;
