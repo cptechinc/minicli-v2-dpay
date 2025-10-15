@@ -49,8 +49,9 @@ class UpdatePaymentLink extends CreatePaymentLink implements CreatePaymentLinkIn
 		$data->paymentMethodTypes = $this->getEnvAllowedPaymentTypes();
 
 		if ($link->order->ordernbr) {
-			$data->metadata->custid   = $link->order->custid;
-			$data->metadata->ordernbr = $link->order->ordernbr;
+			$data->metadata->set('custid', $link->order->custid);
+			$data->metadata->set('ordernbr', $link->order->ordernbr);
+			$data->metadata->set('ordertype', $link->order->type);
 		}
 		
 		foreach ($link->metadata as $key => $value) {

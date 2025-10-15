@@ -1,26 +1,27 @@
 <?php namespace Dpay\Stripe\Data\PaymentLinks;
-// Lib
-use Dpay\Stripe\Data\Data;
-
+// Pauldro Minicli
+use Pauldro\Minicli\v2\Util\SimpleArray;
+// Dpay
+use Dpay\Data\Data;
 
 /**
  * PaymentLinkRequest
  * 
  * Data Container for Creating Payment Link
  * 
- * @property string    $id
- * @property LineItems $items
- * @property Metadata  $metadata
- * @property array     $paymentMethodTypes
- * @property string    $redirectUrl
- * @property string    $description
- * @property bool      $isActive
+ * @property string      $id
+ * @property LineItems   $items
+ * @property SimpleArray $metadata
+ * @property array       $paymentMethodTypes
+ * @property string      $redirectUrl
+ * @property string      $description
+ * @property bool        $isActive
  */
 class PaymentLinkRequest extends Data {
     public function __construct() {
         $this->id    = '';
         $this->items      = new LineItems();
-        $this->metadata   = new Metadata();
+        $this->metadata   = new SimpleArray();
         $this->paymentMethodTypes = [];
         $this->redirectUrl = '';
         $this->description = '';
@@ -29,7 +30,8 @@ class PaymentLinkRequest extends Data {
 
     /**
      * Return Stripe Request
-     * @return array{line_items: array, metadata: array, payment_method_types: array}
+     * @return array{active: bool,line_items: array, metadata: array, payment_method_types: array, payment_intent_data: array,
+     * after_completion:null|array}
      */
     public function apiArray() : array
     {
@@ -37,6 +39,10 @@ class PaymentLinkRequest extends Data {
             'line_items' => $this->items->getArray(),
             'metadata'   => $this->metadata->getArray(),
             'payment_method_types' => $this->paymentMethodTypes,
+            'payment_intent_data'  => [],
+            'restrictions' => [
+                'completed_sessions' => ['limit' => 1]
+            ]
         ];
         if ($this->redirectUrl) {
             $data['after_completion'] = [
@@ -45,22 +51,27 @@ class PaymentLinkRequest extends Data {
             ];
         }
         if ($this->description) {
-            $data['payment_intent_data'] = [
-                'statement_descriptor' => $this->description
-            ];
+            $data['payment_intent_data']['statement_descriptor'] = $this->description;
         }
+        $data['payment_intent_data']['metadata'] = $this->metadata->getArray();
         return $data;
     }
 
     /**
      * Return Stripe Request
-     * @return array{line_items: array, metadata: array, payment_method_types: array}
+     * @return array{line_items: array, metadata: array, payment_method_types: array, payment_intent_data: array,
+     * after_completion:null|array}
      */
     public function apiCreateArray() : array
     {
         return $this->apiArray();
     }
 
+    /**
+     * Return Stripe Request
+     * @return {active: bool, line_items: array, metadata: array, payment_method_types: array, payment_intent_data: array,
+     * after_completion:null|array}
+     */
     public function apiUpdateArray() : array
     {
         $data = $this->apiArray();
@@ -72,6 +83,10 @@ class PaymentLinkRequest extends Data {
 
         if ($this->metadata->count() == 0) {
             unset($data['metadata']);
+
+            if (array_key_exists('metadata', $data['payment_intent_data'])) {
+                unset($data['payment_intent_data']['metadata']);
+            }
         }
 
         if ($this->redirectUrl == '') {

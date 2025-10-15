@@ -10,16 +10,13 @@ class AbstractDatabaseTable extends ParentTable {
     
     protected static int $conbr;
 
-    /**
-	 * Set Company Number
-	 * @param  int $conbr
-	 * @return void
-	 */
-	public static function setConbr(int $conbr) : void {
+	public static function setConbr(int $conbr) : void
+	{
 		self::$conbr = $conbr;
 	}
 
-	public static function getConbr() : int {
+	public static function getConbr() : int
+	{
 		return static::$conbr;
 	}
 }

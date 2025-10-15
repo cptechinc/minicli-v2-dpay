@@ -2,37 +2,27 @@
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Database\MeekroDB\Record as AbstractRecord;
 // Lib
-use Dpay\Logs\Database\Data\ChargeRecord as Record;
+use Dpay\Logs\Database\Data\EventRecord as Record;
 use Dpay\Abstracts\Database\MeekroDB\AbstractDatabaseTable;
 
 /**
- * Charges
- * Handles Logging Charges to Database Table
+ * Handles Logging Webhook events to database
  * 
  * @method bool    insert(Record $r)  Insert Log Entry
  * @method Record  newRecord()                      Return instance of Record Data Class
  */
-class Charges extends AbstractDatabaseTable {
-	const TABLE  = 'app_charges';
+class Events extends AbstractDatabaseTable {
+	const TABLE  = 'app_events';
 	const COLUMNS = [
 		'rid'		 => ['INT', 'NOT NULL', 'AUTO_INCREMENT'],
 		'timestamp'  => ['DATETIME', 'DEFAULT NULL'],
 		'conbr'      => ['INT', 'DEFAULT NULL'],
-		'custid'     => ['CHAR(10)', 'DEFAULT ""'],
-		'acustid'    => ['VARCHAR(100)', 'DEFAULT ""'],
-		'ordernbr'   => ['CHAR(10)', 'DEFAULT ""'],
-		'transactionid' => ['VARCHAR(100)', 'DEFAULT NULL'],
-		'transactiontype' => ['VARCHAR(100)', 'DEFAULT NULL'],
-		'amount'          => ['DECIMAL(9,2)', 'DEFAULT 0.00'],
-		'status'          => ['VARCHAR(45)', 'DEFAULT ""'],
-		'action'          => ['VARCHAR(45)', 'DEFAULT ""'],
-		'errorCode'       => ['VARCHAR(30)', 'DEFAULT ""'],
-		'errorMsg'        => ['VARCHAR(100)', 'DEFAULT ""'],
-		'authCode'        => ['VARCHAR(30)', 'DEFAULT ""'],
+		'eventid'    => ['VARCHAR(100)', 'DEFAULT ""'],
+		'type'       => ['VARCHAR(100)', 'DEFAULT ""'],
+		'raw_eventdata' => ['LONGTEXT', ''],
 	];
 	const PRIMARYKEY = ['rid'];
-	const RECORD_CLASS = '\\Dpay\\Logs\\Database\\Data\\ChargeRecord';
-
+	const RECORD_CLASS = '\\Dpay\\Logs\\Database\\Data\\EventRecord';
 	protected static $instance;
 
 /* =============================================================
@@ -49,20 +39,33 @@ class Charges extends AbstractDatabaseTable {
 		$r->conbr = self::$conbr;
 		return parent::insert($r);
 	}
-
+	
 /* =============================================================
 	Reads
 ============================================================= */
 	/**
-	 * Return Record by Api ID
+	 * Return if Event exists
 	 * @param  string $id
-	 * @return Record|false
+	 * @return bool
 	 */
-	public function findOneByTransactionid($id) : Record|false
+	public function existsByEventid($id) : bool
 	{
 		$table = static::TABLE;
 		$conbr = self::$conbr;
-		$sql = "SELECT * FROM $table WHERE transactionid=%s AND conbr=%i ORDER BY timestamp DESC";
+		$sql   = "SELECT * FROM $table WHERE eventid=%s AND conbr=%i";
+		return boolval($this->db->queryFirstColumn($sql, $id, $conbr));
+	}
+
+	/**
+	 * Return Record by Event id
+	 * @param  string $id
+	 * @return Record|false
+	 */
+	public function findOneByEventid($id) : Record|false
+	{
+		$table = static::TABLE;
+		$conbr = self::$conbr;
+		$sql   = "SELECT * FROM $table WHERE eventid=%s AND conbr=%i";
 		$result = $this->db->queryFirstRow($sql, $id, $conbr);
 
 		if (empty($result)) {
@@ -71,16 +74,5 @@ class Charges extends AbstractDatabaseTable {
 		$r = $this->newRecord();
 		$r->setArray($result);
 		return $r;
-	}
-
-	/**
-	 * Delete Record with ID
-	 * @param  mixed $id
-	 * @return bool
-	 */
-	public function deleteByTransactionid($id) : bool
-	{
-		$this->db->delete(static::TABLE, ['transactionid' => $id]);
-		return $this->db->affectedRows() > 0;
 	}
 }

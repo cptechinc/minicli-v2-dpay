@@ -25,6 +25,9 @@ class ChargeStatuses extends AbstractDatabaseTable {
 		'ordernbr'   => ['CHAR(10)', 'DEFAULT ""'],
 		'amount'     => ['DECIMAL(9,2)', 'DEFAULT 0.00'],
 		'status'     => ['VARCHAR(45)', 'DEFAULT ""'],
+		'errorCode'  => ['VARCHAR(30)', 'DEFAULT ""'],
+		'errorMsg'   => ['VARCHAR(100)', 'DEFAULT ""'],
+		'authCode'   => ['VARCHAR(30)', 'DEFAULT ""'],
 	];
 	const PRIMARYKEY = ['rid'];
 	const RECORD_CLASS = '\\Dpay\\Logs\\Database\\Data\\ChargeStatusRecord';

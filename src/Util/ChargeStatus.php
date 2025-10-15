@@ -9,5 +9,6 @@ enum ChargeStatus: string
     case Refunded             = 'refunded';
     case RequiresCapture      = 'requires_capture';
     case RequiresConfirmation = 'requires_confirmation';
+    case Unpaid               = 'unpaid';
     case Voided               = 'canceled';
 }

@@ -1,11 +1,12 @@
 <?php namespace Dpay\Stripe\Endpoints;
-// Stripe API
+// Stripe SDK
+use Stripe\Collection;
 use Stripe\Exception\ApiErrorException;
+use Stripe\LineItem;
 use Stripe\PaymentLink;
 use Stripe\PaymentMethod;
 // Lib
 use Dpay\Stripe\ApiClient;
-use Dpay\Stripe\Config;
 use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest;
 
 /**
@@ -71,5 +72,23 @@ class PaymentLinks extends AbstractEndpoint {
 			return new PaymentLink();
 		}
 		return $link;
+	}
+
+	/**
+	 * Return Line Items in payment link
+	 * @param string $id
+	 * @return Collection<LineItem>
+	 */
+	public static function fetchLineItems(string $id) : Collection
+	{
+		$stripe = ApiClient::instance();
+
+		try {
+			$items = $stripe->paymentLinks->allLineItems($id);
+		} catch(ApiErrorException $e) {
+			self::$errorMsg = $e->getMessage();
+			return new Collection();
+		}
+		return $items;
 	}
 }
