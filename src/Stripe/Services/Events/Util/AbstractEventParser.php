@@ -25,7 +25,7 @@ abstract class AbstractEventParser {
     {
         $data = new DpayEvent();
         $data->id        = $sEvent->id;
-		$data->type      = $sEvent->type;
+        $data->type      = $sEvent->type;
         $data->apitype   = $sEvent->type;
         $data->timestamp = $sEvent->created;
         $data->apidata   = $sEvent->toArray();
