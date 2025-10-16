@@ -1,4 +1,6 @@
 <?php namespace Dpay\Stripe\Services\Events;
+// PHP
+use ReflectionProperty;
 // Stripe API Library
 use Stripe\Event as StripeEvent;
 // Dpay
@@ -6,7 +8,7 @@ use Dpay\Data\Event as DpayEvent;
 use Dpay\Stripe\Config;
 use Dpay\Stripe\Endpoints;
 use Dpay\Stripe\Services\AbstractService;
-use Dpay\Stripe\Services\Events\Util\AdefaultEventParser;
+use Dpay\Stripe\Services\Events\Util\AbstractEventParser;
 use Dpay\Stripe\Services\Events\Util\PaymentLinkEventParser;
 
 /**
@@ -76,10 +78,25 @@ class FetchEvent extends AbstractService {
 	 */
 	public function getDpayEventResponseData() : DpayEvent
 	{
+		$reflection = new ReflectionProperty($this, 'dpayEvent');
+		
+		if ($reflection->isInitialized($this)) {
+			return $this->dpayEvent;
+		}
+
+		$this->dpayEvent = $this->parseDpayEventResponseData();
+		return $this->dpayEvent;
+	}
+
+/* =============================================================
+	Internal Processing
+============================================================= */
+	protected function parseDpayEventResponseData() : DpayEvent
+	{
 		$config = Config::instance();
 
-		if ($config->actionableEvents->has($this->sEvent->type)) {
-			return AdefaultEventParser::parse($this->sEvent);
+		if ($config->actionableEvents->has($this->sEvent->type) === false) {
+			return AbstractEventParser::parseEvent($this->sEvent);
 		}
 
 		switch ($this->sEvent->type) {
@@ -88,11 +105,7 @@ class FetchEvent extends AbstractService {
 			case 'checkout.session.async_payment_succeeded':
 				return PaymentLinkEventParser::parse($this->sEvent);
 			default:
-				return AdefaultEventParser::parse($this->sEvent);
+				return AbstractEventParser::parseEvent($this->sEvent);
 		}
 	}
-
-/* =============================================================
-	Internal Processing
-============================================================= */
 }
