@@ -21,5 +21,5 @@ abstract class AbstractEventParser {
         return static::parseEvent($sEvent);
     }
 
-    abstract protected static function parseEvent(StripeEvent $sEvent) : DpayEvent;
+    abstract public static function parseEvent(StripeEvent $sEvent) : DpayEvent;
 }
