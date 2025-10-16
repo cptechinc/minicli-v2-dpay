@@ -21,5 +21,14 @@ abstract class AbstractEventParser {
         return static::parseEvent($sEvent);
     }
 
-    abstract public static function parseEvent(StripeEvent $sEvent) : DpayEvent;
+    public static function parseEvent(StripeEvent $sEvent) : DpayEvent
+    {
+        $data = new DpayEvent();
+        $data->id        = $sEvent->id;
+		$data->type      = $sEvent->type;
+        $data->apitype   = $sEvent->type;
+        $data->timestamp = $sEvent->created;
+        $data->apidata   = $sEvent->toArray();
+        return $data;
+    }
 }
