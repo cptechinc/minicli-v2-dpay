@@ -156,7 +156,7 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
         $config = Config::instance();
         $allowedTypes = $config->allowedPaymentTypes;
 
-        if (empty($allowedTypes)) {
+        if ($config->allowedPaymentTypes->count() == 0) {
             return [];
         }
         $types = [];
