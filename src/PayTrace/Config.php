@@ -1,43 +1,33 @@
 <?php namespace Dpay\PayTrace;
 // Pauldro Minicli
-use Pauldro\Minicli\v2\Util\Data;
 use Pauldro\Minicli\v2\Util\EnvVarsReader as EnvVars;
+// Dpay
+use Dpay\Abstracts\Api\AbstractApiConfig;
 
 /**
- * Config
  * Container for PayTrace API Config Data
+ * 
+ * @method static Config instance()
  * 
  * @property string $apiLogin          APILogin
  * @property string $apiPassword       API Secret Key
  * @property string $integratorID
  */
-class Config extends Data {
-	private static $instance;
+class Config extends AbstractApiConfig {
+	protected static $instance;
 
 /* =============================================================
 	Constructors / Inits
 ============================================================= */
-	public static function instance() : self
-	{
-		if (empty(self::$instance) === false) {
-			return self::$instance;
-		}
-		self::$instance = new self();
-		self::$instance->init();
-		return self::$instance;
-	}
 	
 	public function __construct() {
+		parent::__construct();
 		$this->apiLogin      = '';
 		$this->apiPassword   = '';
 		$this->integratorID  = '';
 	}
 
-	/**
-	 * Parse Field Values from $_ENV
-	 * @return void
-	 */
-	public function init() : void 
+	protected function init() : void 
 	{
 		$this->apiLogin      = EnvVars::get('PAYTRACE.API.LOGIN');
 		$this->apiPassword   = EnvVars::get('PAYTRACE.API.PASSWORD');
