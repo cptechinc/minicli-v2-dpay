@@ -1,13 +1,12 @@
 <?php namespace Dpay\Stripe\Services\Events;
 // Stripe API Library
-
 use Stripe\Event as StripeEvent;
 // Dpay
 use Dpay\Data\Event as DpayEvent;
-use Dpay\Data\Payment as DpayPayment;
+use Dpay\Stripe\Config;
 use Dpay\Stripe\Endpoints;
 use Dpay\Stripe\Services\AbstractService;
-use Dpay\Stripe\Services\PaymentLinks\Util\PaymentMethod;
+use Dpay\Stripe\Services\Events\Util\AdefaultEventParser;
 use Dpay\Stripe\Services\Events\Util\PaymentLinkEventParser;
 
 /**
@@ -19,7 +18,6 @@ use Dpay\Stripe\Services\Events\Util\PaymentLinkEventParser;
  * @property StripeEvent 	 $sEvent 	 Stripe API Event
  */
 class FetchEvent extends AbstractService {
-	
 	const ACTION_DESCRIPTION = 'fetch';
 
 	protected string $id;
@@ -78,13 +76,20 @@ class FetchEvent extends AbstractService {
 	 */
 	public function getDpayEventResponseData() : DpayEvent
 	{
-		if ($this->sEvent->type == 'checkout.session.async_payment_succeeded') {
-			return PaymentLinkEventParser::parse($this->sEvent);
+		$config = Config::instance();
+
+		if ($config->actionableEvents->has($this->sEvent->type)) {
+			return AdefaultEventParser::parse($this->sEvent);
 		}
-		if ($this->sEvent->type == 'checkout.session.async_payment_failed') {
-			return PaymentLinkEventParser::parse($this->sEvent);
+
+		switch ($this->sEvent->type) {
+			case 'checkout.session.async_payment_failed':
+				return PaymentLinkEventParser::parse($this->sEvent);
+			case 'checkout.session.async_payment_succeeded':
+				return PaymentLinkEventParser::parse($this->sEvent);
+			default:
+				return AdefaultEventParser::parse($this->sEvent);
 		}
-		return new DpayEvent();
 	}
 
 /* =============================================================
