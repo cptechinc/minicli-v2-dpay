@@ -154,14 +154,12 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
     protected function getEnvAllowedPaymentTypes() : array
     {
         $config = Config::instance();
-        $allowedTypes = $config->allowedPaymentTypes;
-
         if ($config->allowedPaymentTypes->count() == 0) {
             return [];
         }
         $types = [];
 
-        foreach ($allowedTypes as $allowedType) {
+        foreach ($config->allowedPaymentTypes as $allowedType) {
             if (array_key_exists($allowedType, self::PAYMENT_METHOD_TYPES) === false) {
                 continue;
             }
