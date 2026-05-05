@@ -9,30 +9,31 @@ use Dpay\Abstracts\Api\ApiClientInterface;
  * Extends Stripe API client
  */
 class ApiClient extends StripeClient implements ApiClientInterface {
-	private static $instance;
+    private static $instance;
 
 /* =============================================================
-	Constructors / Inits
+    Constructors / Inits
 ============================================================= */
-	public static function instance() : static
-	{
-		if (empty(self::$instance) === false) {
-			return self::$instance;
-		}
-		$config = Config::instance();
-		self::$instance = new self($config->secretKey);
-		return self::$instance;
-	}
+    public static function instance() : static
+    {
+        if (empty(self::$instance) === false) {
+            return self::$instance;
+        }
+        $config = Config::instance();
+        self::$instance = new self($config->secretKey);
+        return self::$instance;
+    }
 
 /* =============================================================
-	Interface Contracts
+    Interface Contracts
 ============================================================= */
-	public function connect() : bool {
-		try {
-			$this->products->all(['limit' => 1]);
-		} catch (ApiErrorException $e) {
-			return false;
-		}
-		return true;
-	}
+    public function connect() : bool
+    {
+        try {
+            $this->products->all(['limit' => 1]);
+        } catch (ApiErrorException $e) {
+            return false;
+        }
+        return true;
+    }
 }

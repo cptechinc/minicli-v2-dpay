@@ -1,5 +1,5 @@
 <?php namespace Dpay\Data;
-// SimpleArray
+// Pauldro Minicli
 use Pauldro\Minicli\v2\Util\SimpleArray;
 
 /**

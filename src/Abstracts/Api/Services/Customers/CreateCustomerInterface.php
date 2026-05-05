@@ -3,7 +3,6 @@
 use Dpay\Data\Customer;
 
 /**
- * CreateCustomerInterface
  * Template class for generating Customer
  * 
  * @property string    $id        Generated Customer ID

@@ -3,38 +3,36 @@
 use Pauldro\UtilityBelt\Data\DataArray;
 
 /**
- * DataList
- * 
  * Container for List of Data
  */
 class DataList extends DataArray {
 /* =============================================================
-	Setters
+    Setters
 ============================================================= */
-	/**
-	 * Add Items from JSON data
-	 * @param  array $data
-	 * @return bool
-	 */
-	public function importFromJson(array $data) : bool
-	{
-		foreach ($data as $itemData) {
-			$item = $this->new();
-			$item->setFromJson($itemData);
-			$this->add($item);
-		}
-		return $this->count() > 0;
-	}
+    /**
+     * Add Items from JSON data
+     * @param  array $data
+     * @return bool
+     */
+    public function importFromJson(array $data) : bool
+    {
+        foreach ($data as $itemData) {
+            $item = $this->new();
+            $item->setFromJson($itemData);
+            $this->add($item);
+        }
+        return $this->count() > 0;
+    }
 
 /* =============================================================
-	Supplemental
+    Supplemental
 ============================================================= */
-	/**
-	 * Return new Item
-	 * @return Data
-	 */
-	public function new() : Data
-	{
-		return new Data();
-	}
+    /**
+     * Return new Item
+     * @return Data
+     */
+    public function new() : Data
+    {
+        return new Data();
+    }
 }

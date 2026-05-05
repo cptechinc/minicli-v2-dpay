@@ -4,8 +4,6 @@ use Dpay\Stripe\Data\Data;
 
 
 /**
- * CreditCardRequest
- * 
  * Data Container for Creating CreditCard
  * 
  * @property string  $id             API ID
@@ -34,13 +32,13 @@ class CreditCardRequest extends Data {
     ];
 
 /* =============================================================
-	Constructors / Inits
+    Constructors / Inits
 ============================================================= */
-	public function __construct() {
-		foreach (self::FIELDS_STRING as $fieldname) {
-			$this->$fieldname = '';
-		}
-	}
+    public function __construct() {
+        foreach (self::FIELDS_STRING as $fieldname) {
+            $this->$fieldname = '';
+        }
+    }
 
     /**
      * Return Stripe Data Array
@@ -52,7 +50,7 @@ class CreditCardRequest extends Data {
         unset($data['id']);
         unset($data['custid']);
         unset($data['number']);
-		unset($data['cvc']);
+        unset($data['cvc']);
         return $data;
     }
 }

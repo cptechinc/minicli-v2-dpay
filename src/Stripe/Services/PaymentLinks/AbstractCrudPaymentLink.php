@@ -12,7 +12,6 @@ use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest;
 use Dpay\Stripe\Services\AbstractService;
 
 /**
- * AbstractCrudPaymentLink
  * Template Service to Create / Update PaymentLink using Stripe API
  * 
  * @property string 			$id 			  Generated Payment Link ID

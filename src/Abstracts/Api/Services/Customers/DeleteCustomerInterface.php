@@ -2,7 +2,6 @@
 
 
 /**
- * DeleteCustomerInterface
  * Template class for deleting a Customer
  * 
  * @property string              $id       API Customer ID

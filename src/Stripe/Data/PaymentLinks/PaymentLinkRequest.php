@@ -1,12 +1,10 @@
 <?php namespace Dpay\Stripe\Data\PaymentLinks;
 // Pauldro Minicli
-use Pauldro\Minicli\v2\Util\SimpleArray;
+use Pauldro\UtilityBelt\Data\SimpleArray;
 // Dpay
 use Dpay\Data\Data;
 
 /**
- * PaymentLinkRequest
- * 
  * Data Container for Creating Payment Link
  * 
  * @property string      $id

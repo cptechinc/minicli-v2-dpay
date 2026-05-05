@@ -3,23 +3,22 @@
 use PhoneBookQuery as Query;
 
 /**
- * AbstractType
  * Template Class for querying phoneadr records from database
  */
 class AbstractPhoneBookType extends AbstractPhoneBook {
-	const TYPE = '';
+    const TYPE = '';
 
-	protected static $instance;
+    protected static $instance;
 
 /* =============================================================
-	Query Functions
+    Query Functions
 ============================================================= */
-	/**
-	 * Return Query Filtered by type
-	 * @return Query
-	 */
-	public function queryType() : Query
-	{
-		return $this->query()->filterByType(static::TYPE);
-	}
+    /**
+     * Return Query Filtered by type
+     * @return Query
+     */
+    public function queryType() : Query
+    {
+        return $this->query()->filterByType(static::TYPE);
+    }
 }

@@ -4,7 +4,6 @@ use Pauldro\Minicli\v2\Util\SimpleArray;
 // Dpay
 use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
 
-
 /**
  * Container for PaymentLink Status Record
  * 

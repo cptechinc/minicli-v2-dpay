@@ -7,26 +7,26 @@ use Dpay\AuthorizeNet\Services\Charges\Util\TransactionData;
 use Dpay\Util\ChargeStatus;
 
 class PreAuthCharge extends AbstractCrudCharge implements PreAuthChargeInterface {
-	const ACTION = 'pre-authorize';
-	const ANET_TRANSACTION_TYPE = 'authOnlyTransaction';
+    const ACTION = 'pre-authorize';
+    const ANET_TRANSACTION_TYPE = 'authOnlyTransaction';
 
 /* =============================================================
-	Contracts
+    Contracts
 ============================================================= */
 
-	protected function createTransactionRequest() : ANetTransactionRequest
-	{
-		$rqst = parent::createTransactionRequest();
-		$rqst->setAmount($this->dpayCharge->amount);
-		$rqst->setOrder(TransactionData::orderType($this->dpayCharge));
-		$rqst->setBillTo(TransactionData::customerAddressType($this->dpayCharge));
-		$rqst->setCustomer(TransactionData::customerDataType($this->dpayCharge));
-		$rqst->setPayment(TransactionData::paymentType($this->dpayCharge));
-		return $rqst;
-	}
+    protected function createTransactionRequest() : ANetTransactionRequest
+    {
+        $rqst = parent::createTransactionRequest();
+        $rqst->setAmount($this->dpayCharge->amount);
+        $rqst->setOrder(TransactionData::orderType($this->dpayCharge));
+        $rqst->setBillTo(TransactionData::customerAddressType($this->dpayCharge));
+        $rqst->setCustomer(TransactionData::customerDataType($this->dpayCharge));
+        $rqst->setPayment(TransactionData::paymentType($this->dpayCharge));
+        return $rqst;
+    }
 
-	protected function getSuccessfulChargeStatus() : ChargeStatus
-	{
-		return ChargeStatus::RequiresCapture;
-	}
+    protected function getSuccessfulChargeStatus() : ChargeStatus
+    {
+        return ChargeStatus::RequiresCapture;
+    }
 }

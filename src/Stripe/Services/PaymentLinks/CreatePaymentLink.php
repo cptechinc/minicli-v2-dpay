@@ -6,7 +6,7 @@ use Stripe\LineItem as StripeLineItem;
 use Stripe\PaymentLink as StripePaymentLink;
 use Stripe\Price as StripePrice;
 use Stripe\Product as StripeProduct;
-// Lib
+// Dpay
 use Dpay\Abstracts\Api\Services\PaymentLinks\CreatePaymentLinkInterface;
 use Dpay\Data\PaymentLink as DpayPaymentLink;
 use Dpay\Data\Order\Item as DpayOrderItem;
@@ -15,7 +15,6 @@ use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest;
 use Dpay\Stripe\Data\PaymentLinks\LineItems as LineItemsList; 
 
 /**
- * CreatePaymentLink
  * Service to Create Payment Link to Stripe API
  * 
  * @property string 			$id               Generated Payment Link ID
@@ -25,136 +24,136 @@ use Dpay\Stripe\Data\PaymentLinks\LineItems as LineItemsList;
  * @property string             $errorMsg
  */
 class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePaymentLinkInterface {
-	const ACTION = 'create';
-	public StripePaymentLink $sPaymentLink;
-	protected DpayPaymentLink $dpayPaymentLink;
+    const ACTION = 'create';
+    public StripePaymentLink $sPaymentLink;
+    protected DpayPaymentLink $dpayPaymentLink;
 
 /* =============================================================
-	Internal Processing
+    Internal Processing
 ============================================================= */
-	 /**
+     /**
      * Creates Stripe PaymentLink
      * @param  PaymentLinkRequest $data
      * @return StripePaymentLink
      */
-	protected function processPaymentLink(PaymentLinkRequest $data) : StripePaymentLink
-	{
-		return $this->createPaymentLink($data);
-	}
+    protected function processPaymentLink(PaymentLinkRequest $data) : StripePaymentLink
+    {
+        return $this->createPaymentLink($data);
+    }
 
-	/**
-	 * Return Payment Link Request
-	 * @param  DpayPaymentLink $link
-	 * @return PaymentLinkRequest
-	 */
-	protected function generatePaymentLinkRequest(DpayPaymentLink $link) : PaymentLinkRequest
-	{
-		$data = new PaymentLinkRequest();
-		$data->items = $this->generateLineItemsList($link);
-		$data->paymentMethodTypes = $this->getEnvAllowedPaymentTypes();
-		$data->metadata->set('custid', $link->order->custid);
-		$data->metadata->set('ordernbr', $link->order->ordernbr);
-		$data->metadata->set('ordertype', $link->order->type);
-		foreach ($link->metadata as $key => $value) {
-			$data->metadata->set($key, $value);
-		}
-		$data->metadata->set('description', $link->description);
-		return $data;
-	}
+    /**
+     * Return Payment Link Request
+     * @param  DpayPaymentLink $link
+     * @return PaymentLinkRequest
+     */
+    protected function generatePaymentLinkRequest(DpayPaymentLink $link) : PaymentLinkRequest
+    {
+        $data = new PaymentLinkRequest();
+        $data->items = $this->generateLineItemsList($link);
+        $data->paymentMethodTypes = $this->getEnvAllowedPaymentTypes();
+        $data->metadata->set('custid', $link->order->custid);
+        $data->metadata->set('ordernbr', $link->order->ordernbr);
+        $data->metadata->set('ordertype', $link->order->type);
+        foreach ($link->metadata as $key => $value) {
+            $data->metadata->set($key, $value);
+        }
+        $data->metadata->set('description', $link->description);
+        return $data;
+    }
 
-	/**
-	 * Return LineItemsList
-	 * NOTE: will create Products, Prices
-	 * @property DpayPaymentLink $link
-	 * @return   LineItemsList
-	 */
-	protected function generateLineItemsList(DpayPaymentLink $link) : LineItemsList
-	{
-		$items    = new LineItemsList();
-		$products = new SimpleArray();
+    /**
+     * Return LineItemsList
+     * NOTE: will create Products, Prices
+     * @property DpayPaymentLink $link
+     * @return   LineItemsList
+     */
+    protected function generateLineItemsList(DpayPaymentLink $link) : LineItemsList
+    {
+        $items    = new LineItemsList();
+        $products = new SimpleArray();
 
-		foreach ($link->order->items as $item) {
-			$product = $products->get($item->itemid());
+        foreach ($link->order->items as $item) {
+            $product = $products->get($item->itemid());
 
-			if (empty($product)) {
-				$product = $this->getOrCreateStripeProduct($item);
-				$products->set($item->itemid(), $product);
-			}
-			$price	  = $this->createStripePrice($item, $product);
-			$lineitem = $this->newStripeLineItem($item, $product, $price);
-			$items->add($lineitem);
-		}
-		return $items;
-	}
+            if (empty($product)) {
+                $product = $this->getOrCreateStripeProduct($item);
+                $products->set($item->itemid(), $product);
+            }
+            $price	  = $this->createStripePrice($item, $product);
+            $lineitem = $this->newStripeLineItem($item, $product, $price);
+            $items->add($lineitem);
+        }
+        return $items;
+    }
 
-	/**
-	 * Fetch / Create Stripe Product
-	 * @param  DpayOrderItem $item
-	 * @return StripeProduct
-	 */
-	protected function getOrCreateStripeProduct(DpayOrderItem $item) : StripeProduct
-	{
-		$product = Endpoints\Products::fetch($item->itemid());
-		if (empty($product->id) === false) {
-			return $product;
-		}
-		$product = new StripeProduct($item->itemid());
-		$product->name = $item->description;
+    /**
+     * Fetch / Create Stripe Product
+     * @param  DpayOrderItem $item
+     * @return StripeProduct
+     */
+    protected function getOrCreateStripeProduct(DpayOrderItem $item) : StripeProduct
+    {
+        $product = Endpoints\Products::fetch($item->itemid());
+        if (empty($product->id) === false) {
+            return $product;
+        }
+        $product = new StripeProduct($item->itemid());
+        $product->name = $item->description;
 
-		if (empty($item->description)) {
-			if ($item->isLinetypeBatch()) {
-				$product->name = "Payment #: $item->ordernbr";
-			}
-			if ($item->isLinetypeInvoice()) {
-				$product->name = "Invoice #: $item->ordernbr";
-			}
-		}
-		return Endpoints\Products::create($product);
-	}
+        if (empty($item->description)) {
+            if ($item->isLinetypeBatch()) {
+                $product->name = "Payment #: $item->ordernbr";
+            }
+            if ($item->isLinetypeInvoice()) {
+                $product->name = "Invoice #: $item->ordernbr";
+            }
+        }
+        return Endpoints\Products::create($product);
+    }
 
-	/**
-	 * Create Stripe Price
-	 * @param  DpayOrderItem $item
-	 * @param  StripeProduct $product
-	 * @return StripePrice
-	 */
-	protected function createStripePrice(DpayOrderItem $item, StripeProduct $product) : StripePrice
-	{
-		$price = new StripePrice();
-		$price->unit_amount_decimal = $item->price * 100;
-		$price->product = $product->id;
-		$price->currency = 'usd';
-		return Endpoints\Prices::create($price);
-	}
+    /**
+     * Create Stripe Price
+     * @param  DpayOrderItem $item
+     * @param  StripeProduct $product
+     * @return StripePrice
+     */
+    protected function createStripePrice(DpayOrderItem $item, StripeProduct $product) : StripePrice
+    {
+        $price = new StripePrice();
+        $price->unit_amount_decimal = $item->price * 100;
+        $price->product = $product->id;
+        $price->currency = 'usd';
+        return Endpoints\Prices::create($price);
+    }
 
-	/**
-	 * Return new Stripe Line Item
-	 * @param  DpayOrderItem $item
-	 * @param  StripeProduct $product
-	 * @param  StripePrice $price
-	 * @return StripeLineItem
-	 */
-	protected function newStripeLineItem(DpayOrderItem $item, StripeProduct $product, StripePrice $price) : StripeLineItem
-	{
-		$line = new StripeLineItem();
-		$line->price = $price->id;
-		$line->quantity = $item->qty;
-		return $line;
-	}
+    /**
+     * Return new Stripe Line Item
+     * @param  DpayOrderItem $item
+     * @param  StripeProduct $product
+     * @param  StripePrice $price
+     * @return StripeLineItem
+     */
+    protected function newStripeLineItem(DpayOrderItem $item, StripeProduct $product, StripePrice $price) : StripeLineItem
+    {
+        $line = new StripeLineItem();
+        $line->price = $price->id;
+        $line->quantity = $item->qty;
+        return $line;
+    }
 
-	/**
-	 * Create Payment Link
-	 * @param  PaymentLinkRequest $rqst
-	 * @return StripePaymentLink
-	 */
-	protected function createPaymentLink(PaymentLinkRequest $rqst) : StripePaymentLink
-	{
-		$link = Endpoints\PaymentLinks::create($rqst);
+    /**
+     * Create Payment Link
+     * @param  PaymentLinkRequest $rqst
+     * @return StripePaymentLink
+     */
+    protected function createPaymentLink(PaymentLinkRequest $rqst) : StripePaymentLink
+    {
+        $link = Endpoints\PaymentLinks::create($rqst);
 
-		if (empty($link->id) === false) {
-			return $link;
-		}
-		$this->errorMsg = Endpoints\PaymentLinks::$errorMsg;
-		return $link;
-	}
+        if (empty($link->id) === false) {
+            return $link;
+        }
+        $this->errorMsg = Endpoints\PaymentLinks::$errorMsg;
+        return $link;
+    }
 }

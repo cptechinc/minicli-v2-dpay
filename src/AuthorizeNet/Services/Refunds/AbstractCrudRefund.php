@@ -18,155 +18,155 @@ use Dpay\Util\ChargeStatus;
  * @property RefundResponse  $response     Refund Response
  */
 abstract class AbstractCrudRefund extends AbstractService {
-	use ACrudRefundTraits;
+    use ACrudRefundTraits;
 
-	const ACTION = 'refund';
+    const ACTION = 'refund';
     const ANET_TRANSACTION_TYPE = 'refundTransaction';
     const ANET_TRANSACTION_MESSAGE_ERROR_CODES = [
-		'311' => 'This transaction has already been captured'
-	];
+        '311' => 'This transaction has already been captured'
+    ];
     const REFUND_STATUS_ON_SUCCESS = 'refunded';
 
-	protected string $id;
-	public RefundResponse $response;
-	protected DpayRefund $dpayRefund;
-	
+    protected string $id;
+    public RefundResponse $response;
+    protected DpayRefund $dpayRefund;
+    
 /* =============================================================
-	Inits @see ACrudRefundTraits
+    Inits @see ACrudRefundTraits
 ============================================================= */
-	
+    
 /* =============================================================
-	Interface Contracts @see ACrudRefundTraits
+    Interface Contracts @see ACrudRefundTraits
 ============================================================= */
-	/**
-	 * Process Request
-	 * @return bool
-	 */
-	public function process() : bool
-	{
-		if ($this->initDpayRefund() === false) {
-			return false;
-		}
-		$refund = $this->processRefund();
-		$this->response = $refund;
-		$this->id	    = $refund->transactionid;
+    /**
+     * Process Request
+     * @return bool
+     */
+    public function process() : bool
+    {
+        if ($this->initDpayRefund() === false) {
+            return false;
+        }
+        $refund = $this->processRefund();
+        $this->response = $refund;
+        $this->id	    = $refund->transactionid;
 
-		if (empty($refund)) {
-			if ($this->errorMsg) {
-				return false;
-			}
-			$this->errorMsg = "Unable to " . static::ACTION . " Credit Charge";
-			return false;
-		}
-		if ($refund->success === false) {
-			$this->errorMsg = $refund->errorMsg;
-			return false;
-		}
-		return true;
-	}
+        if (empty($refund)) {
+            if ($this->errorMsg) {
+                return false;
+            }
+            $this->errorMsg = "Unable to " . static::ACTION . " Credit Charge";
+            return false;
+        }
+        if ($refund->success === false) {
+            $this->errorMsg = $refund->errorMsg;
+            return false;
+        }
+        return true;
+    }
 
-	/**
-	 * Return Response data as Dpay Refund
-	 * @return DpayRefund
-	 */
-	public function getDpayRefundResponseData() : DpayRefund
-	{
-		$refund = $this->response;
+    /**
+     * Return Response data as Dpay Refund
+     * @return DpayRefund
+     */
+    public function getDpayRefundResponseData() : DpayRefund
+    {
+        $refund = $this->response;
 
-		$data = new DpayRefund();
-		$data->refundid       = $refund->transactionid;
-		$data->transactionid  = $refund->transactionid;
-		$data->amount         = $this->dpayRefund->charge->amount;
-		$data->status         = $refund->status;
+        $data = new DpayRefund();
+        $data->refundid       = $refund->transactionid;
+        $data->transactionid  = $refund->transactionid;
+        $data->amount         = $this->dpayRefund->charge->amount;
+        $data->status         = $refund->status;
         $data->charge->transactionid = $refund->transactionid;
-		return $data;
-	}
+        return $data;
+    }
 
-	public function getResponseData() : RefundResponse
-	{
-		return $this->response;
-	}
+    public function getResponseData() : RefundResponse
+    {
+        return $this->response;
+    }
 
 /* =============================================================
-	Contracts
+    Contracts
 ============================================================= */
     protected function processRefund() : RefundResponse
-	{
-		$data = $this->createTransactionRequest();
-		$response = $this->api()->sendChargeTransaction($data);
-		return $this->processTransactionResponse($response);
-	}
+    {
+        $data = $this->createTransactionRequest();
+        $response = $this->api()->sendChargeTransaction($data);
+        return $this->processTransactionResponse($response);
+    }
 
     protected function createTransactionRequest() : ANetTransactionRequest
-	{
-		$rqst = new ANetTransactionRequest();
-		$rqst->setTransactionType(static::ANET_TRANSACTION_TYPE);
-		$rqst->setRetail(TransactionData::transRetailInfoType($this->dpayRefund->charge));
-		$rqst->addToTransactionSettings(TransactionData::settingType());
+    {
+        $rqst = new ANetTransactionRequest();
+        $rqst->setTransactionType(static::ANET_TRANSACTION_TYPE);
+        $rqst->setRetail(TransactionData::transRetailInfoType($this->dpayRefund->charge));
+        $rqst->addToTransactionSettings(TransactionData::settingType());
 
-		if ($this->dpayRefund->transactionid) {
-			$rqst->setRefTransId($this->dpayRefund->transactionid);
-		}
-		return $rqst;
-	}
+        if ($this->dpayRefund->transactionid) {
+            $rqst->setRefTransId($this->dpayRefund->transactionid);
+        }
+        return $rqst;
+    }
 
     protected function processTransactionResponse(?ANetResponse $apiResponse = null) : RefundResponse
-	{	
-		$response = new RefundResponse();
+    {	
+        $response = new RefundResponse();
 
-		if ($apiResponse === null) {
-			$response->success = false;
-			$response->errorMsg = 'No Response';
-			return $response;
-		}
+        if ($apiResponse === null) {
+            $response->success = false;
+            $response->errorMsg = 'No Response';
+            return $response;
+        }
 
-		if ($apiResponse->getMessages()->getResultCode() != "Ok") {
-			return $this->processTransactionResponseError($apiResponse);
-		}
-		$tranResponse = $apiResponse->getTransactionResponse();
+        if ($apiResponse->getMessages()->getResultCode() != "Ok") {
+            return $this->processTransactionResponseError($apiResponse);
+        }
+        $tranResponse = $apiResponse->getTransactionResponse();
 
-		if ($tranResponse->getTransId() == 0) {
-			return $this->processTransactionResponseError($apiResponse);
-		}
+        if ($tranResponse->getTransId() == 0) {
+            return $this->processTransactionResponseError($apiResponse);
+        }
 
-		$response->success = true;
-		$response->transactionid = $tranResponse->getTransId();
-		$response->authCode      = $tranResponse->getAuthCode();
-		$response->avsCode       = $tranResponse->getAvsResultCode();
-		$response->status        = ChargeStatus::Refunded;
-		return $response;
-	}
+        $response->success = true;
+        $response->transactionid = $tranResponse->getTransId();
+        $response->authCode      = $tranResponse->getAuthCode();
+        $response->avsCode       = $tranResponse->getAvsResultCode();
+        $response->status        = ChargeStatus::Refunded;
+        return $response;
+    }
 
-	protected function processTransactionResponseError(ANetResponse $apiResponse) : RefundResponse
-	{
-		$response = new RefundResponse();
-		$response->success = false;
+    protected function processTransactionResponseError(ANetResponse $apiResponse) : RefundResponse
+    {
+        $response = new RefundResponse();
+        $response->success = false;
 
-		$tresponse = $apiResponse->getTransactionResponse();
+        $tresponse = $apiResponse->getTransactionResponse();
 
-		if ($tresponse === null || $tresponse->getMessages() === null) {
-			$response->errorCode = $apiResponse->getMessages()->getMessage()[0]->getCode();
-			$response->errorMsg  = 'ANET: ' .$apiResponse->getMessages()->getMessage()[0]->getText();
-			return $response;
-		}
+        if ($tresponse === null || $tresponse->getMessages() === null) {
+            $response->errorCode = $apiResponse->getMessages()->getMessage()[0]->getCode();
+            $response->errorMsg  = 'ANET: ' .$apiResponse->getMessages()->getMessage()[0]->getText();
+            return $response;
+        }
 
-		$errors = $tresponse->getErrors();
+        $errors = $tresponse->getErrors();
 
-		if ($errors) {
-			$response->errorCode = $errors[0]->getErrorCode();
-			$response->errorMsg  = 'ANET: ' . $errors[0]->getErrorText();
-			return $response;
-		}
+        if ($errors) {
+            $response->errorCode = $errors[0]->getErrorCode();
+            $response->errorMsg  = 'ANET: ' . $errors[0]->getErrorText();
+            return $response;
+        }
 
-		if ($tresponse->getTransId() == 0) {
-			foreach ($tresponse->getMessages() as $code => $message) {
-				if (array_key_exists($code, array_keys(static::ANET_TRANSACTION_MESSAGE_ERROR_CODES))) {
-					$response->errorCode = $code;
-					$response->errorMsg  = 'ANET: ' .$message->getDescription();
-					return $response;
-				}
-			}
-		}
-		return $response;
-	}
+        if ($tresponse->getTransId() == 0) {
+            foreach ($tresponse->getMessages() as $code => $message) {
+                if (array_key_exists($code, array_keys(static::ANET_TRANSACTION_MESSAGE_ERROR_CODES))) {
+                    $response->errorCode = $code;
+                    $response->errorMsg  = 'ANET: ' .$message->getDescription();
+                    return $response;
+                }
+            }
+        }
+        return $response;
+    }
 }

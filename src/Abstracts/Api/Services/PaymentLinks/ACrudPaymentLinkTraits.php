@@ -4,68 +4,68 @@ use Dpay\Data\PaymentLink as DpayPaymentLink;
 
 trait ACrudPaymentLinkTraits {
 /* =============================================================
-	Inits
+    Inits
 ============================================================= */
-	/**
-	 * Init Dpay PaymentLink
-	 * @return bool
-	 */
-	protected function initDpayPaymentLink() : bool
+    /**
+     * Init Dpay PaymentLink
+     * @return bool
+     */
+    protected function initDpayPaymentLink() : bool
     {
-		if (empty($this->dpayPaymentLink)) {
-			$this->errorMsg = 'PaymentLink Data not set';
-			return false;
-		}
-		return true;
-	}
+        if (empty($this->dpayPaymentLink)) {
+            $this->errorMsg = 'PaymentLink Data not set';
+            return false;
+        }
+        return true;
+    }
 
 /* =============================================================
-	Interface Contracts
+    Interface Contracts
 ============================================================= */
-	/**
-	 * Set Dpay PaymentLink
-	 * @param  DpayPaymentLink $link
-	 * @return void
-	 */
-	public function setDpayPaymentLink(DpayPaymentLink $dpayPaymentLink) : void
-	{
-		$this->dpayPaymentLink = $dpayPaymentLink;
-	}
-
-	/**
-	 * Return Dpay PaymentLink
-	 * @return DpayPaymentLink
-	 */
-	public function getDpayPaymentLink() : DpayPaymentLink
+    /**
+     * Set Dpay PaymentLink
+     * @param  DpayPaymentLink $link
+     * @return void
+     */
+    public function setDpayPaymentLink(DpayPaymentLink $link) : void
     {
-		return $this->dpayPaymentLink;
-	}
+        $this->dpayPaymentLink = $link;
+    }
 
-	/**
-	 * Set API ID
-	 * @param  string $id
-	 * @return void
-	 */
-	public function setId($id) : void
+    /**
+     * Return Dpay PaymentLink
+     * @return DpayPaymentLink
+     */
+    public function getDpayPaymentLink() : DpayPaymentLink
     {
-		$this->id = $id;
-	}
+        return $this->dpayPaymentLink;
+    }
 
-	/**
-	 * Return API PaymentLink ID
-	 * @return string
-	 */
-	public function getId() : string
+    /**
+     * Set API ID
+     * @param  string $id
+     * @return void
+     */
+    public function setId($id) : void
     {
-		return $this->id;
-	}
+        $this->id = $id;
+    }
 
-	/**
-	 * Return Payment Link URL
-	 * @return string
-	 */
-	public function getUrl() : string
+    /**
+     * Return API PaymentLink ID
+     * @return string
+     */
+    public function getId() : string
     {
-		return $this->url;
-	}
+        return $this->id;
+    }
+
+    /**
+     * Return Payment Link URL
+     * @return string
+     */
+    public function getUrl() : string
+    {
+        return $this->url;
+    }
 }

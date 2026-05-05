@@ -7,7 +7,6 @@ use Dpay\Data\Charge as DpayCharge;
 use Dpay\Stripe\Endpoints;
 
 /**
- * Update
  * Service to update CreditCard Charge using Stripe API
  * NOTE: uses PaymentIntents API
  * 
@@ -16,63 +15,63 @@ use Dpay\Stripe\Endpoints;
  * @property StripeCharge    $sCharge     Stripe API Charge
  */
 class UpdateCharge extends AbstractCrudCharge implements UpdateChargeInterface {
-	const ACTION = 'update';
-	public StripeCharge $sCharge;
-	protected DpayCharge $dpayCharge;
+    const ACTION = 'update';
+    public StripeCharge $sCharge;
+    protected DpayCharge $dpayCharge;
 
 /* =============================================================
-	Inits
+    Inits
 ============================================================= */
-	/**
-	 * Fetch Stripe Charge, verify if status can be acted on
-	 * @return bool
-	 */
-	protected function initStripeCharge() : bool
-	{
-		$this->sCharge = Endpoints\Charges::fetchById($this->id);
+    /**
+     * Fetch Stripe Charge, verify if status can be acted on
+     * @return bool
+     */
+    protected function initStripeCharge() : bool
+    {
+        $this->sCharge = Endpoints\Charges::fetchById($this->id);
 
-		if (empty($this->sCharge) || empty($this->sCharge->id)) {
-			$this->errorMsg = 'Charge not found';
-			return false;
-		}
-		return true;
-	}
+        if (empty($this->sCharge) || empty($this->sCharge->id)) {
+            $this->errorMsg = 'Charge not found';
+            return false;
+        }
+        return true;
+    }
 
 /* =============================================================
-	Interface Contracts
+    Interface Contracts
 ============================================================= */
-	/**
-	 * Process Request
-	 * @return bool
-	 */
-	public function process() : bool
-	{
-		if ($this->initDpayCharge() === false) {
-			return false;
-		}
-		$this->id = $this->dpayCharge->transactionid;
-		if ($this->initStripeCharge() === false) {
-			return false;
-		}
-		return parent::process();
-	}
+    /**
+     * Process Request
+     * @return bool
+     */
+    public function process() : bool
+    {
+        if ($this->initDpayCharge() === false) {
+            return false;
+        }
+        $this->id = $this->dpayCharge->transactionid;
+        if ($this->initStripeCharge() === false) {
+            return false;
+        }
+        return parent::process();
+    }
 
 /* =============================================================
-	Internal Processing
+    Internal Processing
 ============================================================= */
-	/**
-	 * Create Stripe Customer
-	 * @param  StripeCharge $data
-	 * @return StripeCharge|false
-	 */
-	protected function processCharge(StripeCharge $data) : StripeCharge|false
-	{
-		$stripeCharge = Endpoints\Charges::update($data);
+    /**
+     * Create Stripe Customer
+     * @param  StripeCharge $data
+     * @return StripeCharge|false
+     */
+    protected function processCharge(StripeCharge $data) : StripeCharge|false
+    {
+        $stripeCharge = Endpoints\Charges::update($data);
 
-		if (empty($stripeCharge->id) === false) {
-			return $stripeCharge;
-		}
-		$this->errorMsg = Endpoints\Charges::$errorMsg;
-		return false;
-	}
+        if (empty($stripeCharge->id) === false) {
+            return $stripeCharge;
+        }
+        $this->errorMsg = Endpoints\Charges::$errorMsg;
+        return false;
+    }
 }

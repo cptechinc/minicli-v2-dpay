@@ -1,9 +1,8 @@
 <?php namespace Dpay\Abstracts\Api\Services\Refunds;
-// Lib
+// Dpay
 use Dpay\Data\Refund as Refund;
 
 /**
- * CreateRefundInterface
  * Template class for Refund CRUD operations
  * 
  * @property string  $id          Generated Refund ID

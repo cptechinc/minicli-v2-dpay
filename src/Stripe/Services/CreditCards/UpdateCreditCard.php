@@ -1,14 +1,13 @@
 <?php namespace Dpay\Stripe\Services\CreditCards;
 // Stripe API Library
 use Stripe\Card as StripeCreditCard;
-// Lib
+// Dpay
 use Dpay\Abstracts\Api\Services\CreditCards\UpdateCreditCardInterface;
 use Dpay\Data\CreditCard as DpayCreditCard;
 use Dpay\Stripe\Endpoints;
 use Dpay\Stripe\Data\CreditCards\CreditCardRequest as CardRequest;
 
 /**
- * UpdateCreditCard
  * Service to Update Credit Card using Stripe API
  * 
  * @property string              $id              Generated Credit Card ID
@@ -16,29 +15,29 @@ use Dpay\Stripe\Data\CreditCards\CreditCardRequest as CardRequest;
  * @property StripeCreditCard    $sCreditCard     Stripe API CreditCard
  */
 class UpdateCreditCard extends AbstractCrudCreditCard implements UpdateCreditCardInterface {
-	public StripeCreditCard $sCreditCard;
-	protected DpayCreditCard $dpayCreditCard;
+    public StripeCreditCard $sCreditCard;
+    protected DpayCreditCard $dpayCreditCard;
 
 /* =============================================================
-	Interface Contracts
+    Interface Contracts
 ============================================================= */
 
 /* =============================================================
-	Internal Processing
+    Internal Processing
 ============================================================= */
-	/**
-	 * Update CreditCard
-	 * @param  CardRequest $rqst
-	 * @return StripeCreditCard
-	 */
-	protected function processCreditCard(CardRequest $rqst) : StripeCreditCard
-	{
-		$sCard = Endpoints\CreditCards::update($rqst);
+    /**
+     * Update CreditCard
+     * @param  CardRequest $rqst
+     * @return StripeCreditCard
+     */
+    protected function processCreditCard(CardRequest $rqst) : StripeCreditCard
+    {
+        $sCard = Endpoints\CreditCards::update($rqst);
 
-		if (empty($sCard->id) === false) {
-			return $sCard;
-		}
-		$this->errorMsg = Endpoints\CreditCards::$errorMsg;
-		return $sCard;
-	}
+        if (empty($sCard->id) === false) {
+            return $sCard;
+        }
+        $this->errorMsg = Endpoints\CreditCards::$errorMsg;
+        return $sCard;
+    }
 }

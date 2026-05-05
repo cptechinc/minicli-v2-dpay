@@ -1,10 +1,8 @@
 <?php namespace Dpay\Logs\Database\Data;
-// Lib
+// Dpay
 use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
 
 /**
- * ChargeRecord
- * 
  * Container for Charge Log Record
  * 
  * @property int|null $rid              Record ID
@@ -23,19 +21,19 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property string   $authCode         Authorization Code
  */
 class ChargeRecord extends AbstractRecord {
-	public function __construct() {
-		$this->timestamp = '';
-		$this->conbr = 0;
-		$this->custid = '';
-		$this->acustid = '';
-		$this->ordernbr = '';
-		$this->transactionid = '';
-		$this->transactiontype = '';
-		$this->amount = 0.00;
-		$this->status = '';
-		$this->action = '';
-		$this->errorCode = '';
-		$this->errorMsg  = '';
-		$this->authCode = '';
-	}
+    public function __construct() {
+        $this->timestamp = '';
+        $this->conbr = 0;
+        $this->custid = '';
+        $this->acustid = '';
+        $this->ordernbr = '';
+        $this->transactionid = '';
+        $this->transactiontype = '';
+        $this->amount = 0.00;
+        $this->status = '';
+        $this->action = '';
+        $this->errorCode = '';
+        $this->errorMsg  = '';
+        $this->authCode = '';
+    }
 }

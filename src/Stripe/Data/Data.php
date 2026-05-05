@@ -3,8 +3,6 @@
 use Pauldro\UtilityBelt\Data\Data as AbstractData;
 
 /**
- * Data
- * 
  * Container For Stripe Data
  */
 class Data extends AbstractData {

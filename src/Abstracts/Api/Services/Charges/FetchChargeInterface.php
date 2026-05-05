@@ -1,9 +1,8 @@
 <?php namespace Dpay\Abstracts\Api\Services\Charges;
-// Lib
+// Dpay
 use Dpay\Data\Charge as ChargeData;
 
 /**
- * FetchChargeInterface
  * Interface for fetching a Charge
  * 
  * @property string      $id       API Charge ID

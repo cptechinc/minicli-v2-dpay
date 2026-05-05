@@ -1,9 +1,8 @@
 <?php namespace Dpay\Abstracts\Api\Services\CreditCards;
-// Lib
+// Dpay
 use Dpay\Data\CreditCard as CreditCard;
 
 /**
- * DeleteCreditCardInterface
  * Template class for deleting a CreditCard
  * 
  * @property string      $id              API CreditCard ID

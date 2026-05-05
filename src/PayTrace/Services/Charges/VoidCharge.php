@@ -7,30 +7,30 @@ use Dpay\Util\ChargeStatus;
 
 class VoidCharge extends AbstractCrudCharge implements VoidChargeInterface {
     const ACTION = 'void';
-	const API_SUCCESS_RESPONSE_CODES = [106];
-	const ENDPOINT = 'void';
+    const API_SUCCESS_RESPONSE_CODES = [106];
+    const ENDPOINT = 'void';
 
 /* =============================================================
-	Interface Contracts
+    Interface Contracts
 ============================================================= */
-	protected function getSuccessfulChargeStatus() : ChargeStatus
-	{
-		return ChargeStatus::Voided;
-	}
-	
+    protected function getSuccessfulChargeStatus() : ChargeStatus
+    {
+        return ChargeStatus::Voided;
+    }
+    
 /* =============================================================
-	Contracts
+    Contracts
 ============================================================= */
-	/**
-	 * Generate Credit Charge Request Data
-	 * @param  DpayCharge $charge
-	 * @return array
-	 */
-	protected function generateChargeRequest(DpayCharge $charge) : array
-	{
-		return [
-			'integrator_id'   => Config::instance()->integratorID,
-			"transaction_id"  => $charge->transactionid,
-		];
-	}
+    /**
+     * Generate Credit Charge Request Data
+     * @param  DpayCharge $charge
+     * @return array
+     */
+    protected function generateChargeRequest(DpayCharge $charge) : array
+    {
+        return [
+            'integrator_id'   => Config::instance()->integratorID,
+            "transaction_id"  => $charge->transactionid,
+        ];
+    }
 }

@@ -1,31 +1,29 @@
 <?php namespace Dpay\Stripe\Data\PaymentLinks;
-// Pauldro Minicli
-use Pauldro\Minicli\v2\Util\SimpleArray;
+// Pauldro
+use Pauldro\UtilityBelt\Data\SimpleArray;
 // Stripe
 use Stripe\LineItem as StripeLineItem;
 
 /**
- * LineItems
- * 
  * List Container for StripeLineItems
  * 
- * @method DataArray  add(StripeLineItem $item) Add an item to the end of the list
+ * @method LineItems  add(StripeLineItem $item) Add an item to the end of the list
  */
 class LineItems extends SimpleArray {
-	/**
-	 * Return new/blank item
-	 * @return StripeLineItem
-	 */
-	public function makeBlankItem() : StripeLineItem
+    /**
+     * Return new/blank item
+     * @return StripeLineItem
+     */
+    public function makeBlankItem() : StripeLineItem
     {
-		return new StripeLineItem();
-	}
+        return new StripeLineItem();
+    }
 
     /**
      * Return list data as array
      * @return array[]
      */
-	public function getArray() : array 
+    public function getArray() : array 
     {
         $data = [];
 

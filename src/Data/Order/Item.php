@@ -1,9 +1,8 @@
 <?php namespace Dpay\Data\Order;
-// Lib
+// Dpay
 use Dpay\Data\Data;
 
 /**
- * Item
  * Container for Order Item Data
  * 
  * @property string $aid           API ID
@@ -18,96 +17,96 @@ use Dpay\Data\Data;
  * @property string $isNonstock    Is Item Nonstock?
  */
 class Item extends Data {
-	const FIELDS_NUMERIC = ['linenbr', 'qty', 'price'];
-	const FIELDS_NUMERIC_INT = ['linenbr', 'ordernbr'];
-	const FIELDS_NUMERIC_FLOAT = ['qty', 'price'];
-	const FIELDS_STRING  = ['aid', 'itemid', 'description', 'linetype', 'vendoritemid'];
-	const FIELDS_EASY_SET_JSON = ['linenbr', 'qty', 'price', 'itemid', 'description', 'linetype', 'ordernbr', 'vendoritemid'];
-	const ITEMID_NONSTOCK = 'N';
-	const ITEMID_PREFIX_INVOICE = 'invc_';
-	const ITEMID_PREFIX_BATCH = 'batch_';
-	const LINETYPES = ['item', 'invoice', 'batch'];
+    const FIELDS_NUMERIC = ['linenbr', 'qty', 'price'];
+    const FIELDS_NUMERIC_INT = ['linenbr', 'ordernbr'];
+    const FIELDS_NUMERIC_FLOAT = ['qty', 'price'];
+    const FIELDS_STRING  = ['aid', 'itemid', 'description', 'linetype', 'vendoritemid'];
+    const FIELDS_EASY_SET_JSON = ['linenbr', 'qty', 'price', 'itemid', 'description', 'linetype', 'ordernbr', 'vendoritemid'];
+    const ITEMID_NONSTOCK = 'N';
+    const ITEMID_PREFIX_INVOICE = 'invc_';
+    const ITEMID_PREFIX_BATCH = 'batch_';
+    const LINETYPES = ['item', 'invoice', 'batch'];
 
 /* =============================================================
-	Constructors / Inits
+    Constructors / Inits
 ============================================================= */
-	public function __construct() {
-		parent::__construct();
-		$this->linetype = 'item';
-		$this->isNonstock = false;
-	}
+    public function __construct() {
+        parent::__construct();
+        $this->linetype = 'item';
+        $this->isNonstock = false;
+    }
 
 /* =============================================================
-	Setters
+    Setters
 ============================================================= */
-	/**
-	 * Set Fields fom JSON array
-	 * @param  array $data
-	 * @return void
-	 */
-	public function setFromJson(array $data) : void
-	{
-		parent::setFromJson($data);
+    /**
+     * Set Fields fom JSON array
+     * @param  array $data
+     * @return void
+     */
+    public function setFromJson(array $data) : void
+    {
+        parent::setFromJson($data);
 
-		if ($this->itemid == self::ITEMID_NONSTOCK) {
-			$this->isNonstock = true;
-		}
-	}
+        if ($this->itemid == self::ITEMID_NONSTOCK) {
+            $this->isNonstock = true;
+        }
+    }
 
 /* =============================================================
-	Getters
+    Getters
 ============================================================= */
-	/**
-	 * Return Price as Cents
-	 * @return int
-	 */
-	public function priceInCents() : int
-	{
-		return $this->price * 100;
-	}
+    /**
+     * Return Price as Cents
+     * @return int
+     */
+    public function priceInCents() : int
+    {
+        return $this->price * 100;
+    }
 
-	/**
-	 * Return if Line Item is batch (merged invoices)
-	 * @return bool
-	 */
-	public function isLinetypeBatch() : bool
-	{
-		return $this->linetype == 'batch';
-	}
+    /**
+     * Return if Line Item is batch (merged invoices)
+     * @return bool
+     */
+    public function isLinetypeBatch() : bool
+    {
+        return $this->linetype == 'batch';
+    }
 
-	/**
-	 * Return if Line Item is an Invoice
-	 * @return bool
-	 */
-	public function isLinetypeInvoice() : bool
-	{
-		return $this->linetype == 'invoice';
-	}
+    /**
+     * Return if Line Item is an Invoice
+     * @return bool
+     */
+    public function isLinetypeInvoice() : bool
+    {
+        return $this->linetype == 'invoice';
+    }
 
-	/**
-	 * Return if Line Item is an Item (Product)
-	 * @return bool
-	 */
-	public function isLinetypeItem() : bool
-	{
-		return $this->linetype == 'item';
-	}
+    /**
+     * Return if Line Item is an Item (Product)
+     * @return bool
+     */
+    public function isLinetypeItem() : bool
+    {
+        return $this->linetype == 'item';
+    }
 
-	/**
-	 * Return itemid based on Line Type
-	 * @return string
-	 */
-	public function itemid() : string
-	{
-		if ($this->isLinetypeInvoice()) {
-			return self::ITEMID_PREFIX_INVOICE . $this->ordernbr;
-		}
-		if ($this->isLinetypeBatch()) {
-			return self::ITEMID_PREFIX_BATCH . $this->ordernbr;
-		}
-		if ($this->isNonstock) {
-			return "$this->itemid$this->vendoritemid";
-		}
-		return $this->itemid;
-	}
+    /**
+     * Return itemid based on Line Type
+     * @return string
+     */
+    public function itemid() : string
+    {
+        if ($this->isLinetypeInvoice()) {
+            return self::ITEMID_PREFIX_INVOICE . $this->ordernbr;
+        }
+        if ($this->isLinetypeBatch()) {
+            return self::ITEMID_PREFIX_BATCH . $this->ordernbr;
+        }
+        if ($this->isNonstock) {
+            return "$this->itemid$this->vendoritemid";
+        }
+        return $this->itemid;
+    }
 }

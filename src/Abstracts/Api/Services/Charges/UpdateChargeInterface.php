@@ -3,7 +3,6 @@
 use Dpay\Data\Charge as Charge;
 
 /**
- * UpdateInterface
  * Interface for updating a charge
  * 
  * @property string  $id          Generated Charge ID

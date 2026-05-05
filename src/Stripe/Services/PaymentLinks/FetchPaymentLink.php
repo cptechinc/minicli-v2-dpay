@@ -1,7 +1,7 @@
 <?php namespace Dpay\Stripe\Services\PaymentLinks;
 // Stripe API Library
 use Stripe\PaymentLink as StripePaymentLink;
-// Lib
+// Dpay
 use Dpay\Abstracts\Api\Services\PaymentLinks\FetchPaymentLinkInterface;
 use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest; 
 use Dpay\Stripe\Endpoints;
@@ -9,7 +9,6 @@ use Dpay\Data\PaymentLink as DpayPaymentLink;
 
 
 /**
- * FetchPaymentLink
  * Service to fetch PaymentLink from Stripe API
  * 
  * @property string 			$id               Generated Payment Link ID
@@ -19,34 +18,34 @@ use Dpay\Data\PaymentLink as DpayPaymentLink;
  * @property string             $errorMsg
  */
 class FetchPaymentLink extends AbstractCrudPaymentLink implements FetchPaymentLinkInterface {
-	const ACTION = 'fetch';
-	public StripePaymentLink $sPaymentLink;
-	protected DpayPaymentLink $dpayPaymentLink;
+    const ACTION = 'fetch';
+    public StripePaymentLink $sPaymentLink;
+    protected DpayPaymentLink $dpayPaymentLink;
 
 /* =============================================================
-	Inits
+    Inits
 ============================================================= */
-	/**
-	 * Init Dpay PaymentLink
-	 * @return bool
-	 */
-	protected function initDpayPaymentLink() : bool
-	{
-		$this->dpayPaymentLink = new DpayPaymentLink();
-		$this->dpayPaymentLink->id = $this->id;
-		return true;
-	}
+    /**
+     * Init Dpay PaymentLink
+     * @return bool
+     */
+    protected function initDpayPaymentLink() : bool
+    {
+        $this->dpayPaymentLink = new DpayPaymentLink();
+        $this->dpayPaymentLink->id = $this->id;
+        return true;
+    }
 
 /* =============================================================
-	Internal Processing
+    Internal Processing
 ============================================================= */
-	/**
-	* Return Stripe PaymentLink
-	* @param  PaymentLinkRequest $data
-	* @return StripePaymentLink
-	*/
+    /**
+    * Return Stripe PaymentLink
+    * @param  PaymentLinkRequest $data
+    * @return StripePaymentLink
+    */
    protected function processPaymentLink(PaymentLinkRequest $data) : StripePaymentLink
    {
-		return Endpoints\PaymentLinks::fetchById($data->id);
+        return Endpoints\PaymentLinks::fetchById($data->id);
    }
 }

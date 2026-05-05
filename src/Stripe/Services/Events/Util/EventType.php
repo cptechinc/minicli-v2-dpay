@@ -2,21 +2,21 @@
 
 enum EventType: string
 {
-	case CheckoutPaymentDeclined = 'checkout.session.async_payment_failed';
+    case CheckoutPaymentDeclined = 'checkout.session.async_payment_failed';
     case CheckoutPaymentSuccess = 'checkout.session.async_payment_succeeded';
 
-	/**
-	 * Return Status
-	 * @param  string $type
-	 * @return EventType
-	 */
-	public static function find(string $type) : EventType|false
+    /**
+     * Return Status
+     * @param  string $type
+     * @return EventType
+     */
+    public static function find(string $type) : EventType|false
     {
-		return match($type) {
+        return match($type) {
             'checkout.session.async_payment_failed'    => self::CheckoutPaymentDeclined,
             'checkout.session.async_payment_succeeded' => self::CheckoutPaymentSuccess,
-			default => false,
-		};
-	}
+            default => false,
+        };
+    }
 
 }

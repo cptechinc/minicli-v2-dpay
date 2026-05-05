@@ -18,65 +18,65 @@ use Dpay\Stripe\Services\Events\Util\EventType;
  * @property bool         $autoConfirmPreauths  Confirm Pre-Auths?
  */
 class Config extends AbstractApiConfig {
-	protected static $instance;
+    protected static $instance;
 
 /* =============================================================
-	Constructors / Inits
+    Constructors / Inits
 ============================================================= */
-	public function __construct() {
-		parent::__construct();
-		$this->secretKey = '';
-		$this->allowedPaymentTypes = new SimpleArray();
-		$this->useSandbox = false;
-		$this->autoConfirmPreauths = false;
-	}
+    public function __construct() {
+        parent::__construct();
+        $this->secretKey = '';
+        $this->allowedPaymentTypes = new SimpleArray();
+        $this->useSandbox = false;
+        $this->autoConfirmPreauths = false;
+    }
 
-	protected function init() : void
-	{
-		$this->secretKey  = EnvVars::get('STRIPE.API.SECRETKEY');
-		$this->useSandbox = EnvVars::getBool('STRIPE.API.USESANDBOX');
-		$this->autoConfirmPreauths = EnvVars::getBool('STRIPE.API.PREAUTHS.AUTOCONFIRM');
-		$this->setAllowedPaymentTypesFromEnv();
-		$this->setActionableEventsFromEnv();
-	}
-	
+    protected function init() : void
+    {
+        $this->secretKey  = EnvVars::get('STRIPE.API.SECRETKEY');
+        $this->useSandbox = EnvVars::getBool('STRIPE.API.USESANDBOX');
+        $this->autoConfirmPreauths = EnvVars::getBool('STRIPE.API.PREAUTHS.AUTOCONFIRM');
+        $this->setAllowedPaymentTypesFromEnv();
+        $this->setActionableEventsFromEnv();
+    }
+    
 /* =============================================================
-	Setters
+    Setters
 ============================================================= */
-	/**
-	 * Parse Payment Types from $_ENV
-	 * @return bool
-	 */
-	private function setAllowedPaymentTypesFromEnv() : void
-	{
-		if (EnvVars::exists('STRIPE.ALLOWED.PAYMENT.TYPES') === false) {
-			$this->allowedPaymentTypes = [];
-			return;
-		}
-		$types = EnvVars::getArray('STRIPE.ALLOWED.PAYMENT.TYPES');
+    /**
+     * Parse Payment Types from $_ENV
+     * @return void
+     */
+    private function setAllowedPaymentTypesFromEnv() : void
+    {
+        if (EnvVars::exists('STRIPE.ALLOWED.PAYMENT.TYPES') === false) {
+            $this->allowedPaymentTypes = [];
+            return;
+        }
+        $types = EnvVars::getArray('STRIPE.ALLOWED.PAYMENT.TYPES');
 
-		foreach ($types as $type) {
-			if (array_key_exists($type, PaymentMethod::TYPES) === false) {
-				continue;	
-			}
-			$this->allowedPaymentTypes->set($type, $type);
-		}
-	}
+        foreach ($types as $type) {
+            if (array_key_exists($type, PaymentMethod::TYPES) === false) {
+                continue;	
+            }
+            $this->allowedPaymentTypes->set($type, $type);
+        }
+    }
 
-	private function setActionableEventsFromEnv() : void
-	{
-		if (EnvVars::exists('STRIPE.EVENTS.ACTIONABLE') === false) {
-			return;
-		}
-		$types = EnvVars::getArray('STRIPE.EVENTS.ACTIONABLE');
+    private function setActionableEventsFromEnv() : void
+    {
+        if (EnvVars::exists('STRIPE.EVENTS.ACTIONABLE') === false) {
+            return;
+        }
+        $types = EnvVars::getArray('STRIPE.EVENTS.ACTIONABLE');
 
-		foreach ($types as $type) {
-			$eventType = EventType::find($type);
+        foreach ($types as $type) {
+            $eventType = EventType::find($type);
 
-			if ($eventType === false) {
-				continue;
-			}
-			$this->actionableEvents->set($type, $eventType);
-		}
-	}
+            if ($eventType === false) {
+                continue;
+            }
+            $this->actionableEvents->set($type, $eventType);
+        }
+    }
 }

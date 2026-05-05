@@ -1,9 +1,8 @@
 <?php namespace Dpay\Abstracts\Api\Services\CreditCards;
-// Lib
+// Dpay
 use Dpay\Data\CreditCard as CreditCard;
 
 /**
- * AbstractUpdateCreditInterface
  * Template class for updating CreditCard
  * 
  * @property string      $id              Generated CreditCard ID

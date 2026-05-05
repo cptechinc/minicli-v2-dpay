@@ -3,7 +3,6 @@
 use Dpay\Data\Charge as Charge;
 
 /**
- * VoidInterface
  * Interface for voiding / canceling a charge
  * 
  * @property string  $id          Generated Charge ID

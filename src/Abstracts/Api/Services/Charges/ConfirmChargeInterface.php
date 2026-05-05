@@ -1,9 +1,8 @@
 <?php namespace Dpay\Abstracts\Api\Services\Charges;
-// Lib
+// Dpay
 use Dpay\Data\Charge as Charge;
 
 /**
- * ConfirmChargeInterface
  * Interface for confirming a charge
  * 
  * @property string  $id          Generated Charge ID

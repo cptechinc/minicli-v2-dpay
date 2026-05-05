@@ -8,6 +8,7 @@ use Dpay\Abstracts\Api\ApiClientInterface;
 use Dpay\AuthorizeNet\Config;
 
 class ApiClient implements ApiClientInterface {
+	/** @var static $instance */
     private static $instance;
 	private Config $config;
 
@@ -16,9 +17,10 @@ class ApiClient implements ApiClientInterface {
 ============================================================= */
 	/**
 	 * Return Instance
-	 * @return ApiClient
+	 * @return static
 	 */
-	public static function instance() : static {
+	public static function instance() : static 
+	{
 		if (empty(self::$instance) === false) {
 			return self::$instance;
 		}

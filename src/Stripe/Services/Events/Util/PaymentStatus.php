@@ -8,17 +8,17 @@ enum PaymentStatus: string
     case Paid     = TargetStatus::Paid->value;
     case Unpaid   = TargetStatus::Unpaid->value;
 
-	/**
-	 * Return Status
-	 * @param  string $status
-	 * @return PaymentStatus
-	 */
-	public static function findDpayStatus(string $status) : PaymentStatus
+    /**
+     * Return Status
+     * @param  string $status
+     * @return PaymentStatus
+     */
+    public static function findDpayStatus(string $status) : PaymentStatus
     {
-		return match($status) {
+        return match($status) {
             'declined' => self::Declined,
             'paid'     => self::Paid,
             'unpaid'   => self::Unpaid,
-		};
-	}
+        };
+    }
 }

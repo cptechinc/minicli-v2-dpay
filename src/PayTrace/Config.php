@@ -14,24 +14,24 @@ use Dpay\Abstracts\Api\AbstractApiConfig;
  * @property string $integratorID
  */
 class Config extends AbstractApiConfig {
-	protected static $instance;
+    protected static $instance;
 
 /* =============================================================
-	Constructors / Inits
+    Constructors / Inits
 ============================================================= */
-	
-	public function __construct() {
-		parent::__construct();
-		$this->apiLogin      = '';
-		$this->apiPassword   = '';
-		$this->integratorID  = '';
-	}
+    
+    public function __construct() {
+        parent::__construct();
+        $this->apiLogin      = '';
+        $this->apiPassword   = '';
+        $this->integratorID  = '';
+    }
 
-	protected function init() : void 
-	{
-		$this->apiLogin      = EnvVars::get('PAYTRACE.API.LOGIN');
-		$this->apiPassword   = EnvVars::get('PAYTRACE.API.PASSWORD');
-		$this->integratorID  = EnvVars::getBool('PAYTRACE.API.INTEGRATORID');
-		return;
-	}
+    protected function init() : void 
+    {
+        $this->apiLogin      = EnvVars::get('PAYTRACE.API.LOGIN');
+        $this->apiPassword   = EnvVars::get('PAYTRACE.API.PASSWORD');
+        $this->integratorID  = EnvVars::getBool('PAYTRACE.API.INTEGRATORID');
+        return;
+    }
 }

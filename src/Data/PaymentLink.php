@@ -3,7 +3,6 @@
 use Pauldro\Minicli\v2\Util\SimpleArray;
 
 /**
- * PaymentLink
  * Container for PaymentLink Data
  * 
  * @property string $id        Payment Link ID / URL
@@ -15,52 +14,53 @@ use Pauldro\Minicli\v2\Util\SimpleArray;
  * @property SimpleArray $metadata           Metadata
  */
 class PaymentLink extends Data {
-	const FIELDS_STRING  = ['id', 'url', 'redirectUrl', 'description'];
+    const FIELDS_STRING  = ['id', 'url', 'redirectUrl', 'description'];
 
 /* =============================================================
-	Constructors / Inits
+    Constructors / Inits
 ============================================================= */
-	public function __construct() {
-		parent::__construct();
-		$this->isActive = false;
-		$this->order    = new Order();
-		$this->metadata = new SimpleArray();
-	}
+    public function __construct() {
+        parent::__construct();
+        $this->isActive = false;
+        $this->order    = new Order();
+        $this->metadata = new SimpleArray();
+    }
 
 /* =============================================================
-	Setters
+    Setters
 ============================================================= */
-	/**
-	 * Set Fields fom JSON array
-	 * @param  array $data
-	 * @return void
-	 */
-	public function setFromJson(array $data) : void {
-		if (array_key_exists('ordernbr', $data) === false) {
-			return;
-		}
-		if (array_key_exists('redirectUrl', $data)) {
-			$this->redirectUrl = $data['redirectUrl'];
-		}
-		if (array_key_exists('description', $data)) {
-			$this->description = $data['description'];
-		}
-		if (array_key_exists('metadata', $data)) {
-			foreach ($data['metadata'] as $key => $value) {
-				$this->metadata->set($key, $value);
-			}
-		}
-		$this->order->setFromJson($data);
-	}
+    /**
+     * Set Fields fom JSON array
+     * @param  array $data
+     * @return void
+     */
+    public function setFromJson(array $data) : void
+    {
+        if (array_key_exists('ordernbr', $data) === false) {
+            return;
+        }
+        if (array_key_exists('redirectUrl', $data)) {
+            $this->redirectUrl = $data['redirectUrl'];
+        }
+        if (array_key_exists('description', $data)) {
+            $this->description = $data['description'];
+        }
+        if (array_key_exists('metadata', $data)) {
+            foreach ($data['metadata'] as $key => $value) {
+                $this->metadata->set($key, $value);
+            }
+        }
+        $this->order->setFromJson($data);
+    }
 
 /* =============================================================
-	Getters
+    Getters
 ============================================================= */
-	public function getArray() : array
-	{
-		$data = $this->data;
-		$data['order']    = $this->order->getArray();
-		$data['metadata'] = $this->metadata->getArray();
-		return $data;
-	}
+    public function getArray() : array
+    {
+        $data = $this->data;
+        $data['order']    = $this->order->getArray();
+        $data['metadata'] = $this->metadata->getArray();
+        return $data;
+    }
 }

@@ -7,27 +7,28 @@ use Pauldro\UtilityBelt\Data\SimpleArray;
  * @property SimpleArray $actionableEvents
  */
 abstract class AbstractApiConfig extends Data {
+    /** @var static $instance  */
     protected static $instance;
 
 /* =============================================================
-	Constructors / Inits
+    Constructors / Inits
 ============================================================= */
-	public static function instance() : static
-	{
-		if (empty(static::$instance) === false) {
-			return static::$instance;
-		}
-		static::$instance = new static();
-		static::$instance->init();
-		return static::$instance;
-	}
+    public static function instance() : static
+    {
+        if (empty(static::$instance) === false) {
+            return static::$instance;
+        }
+        static::$instance = new static();
+        static::$instance->init();
+        return static::$instance;
+    }
 
     public function __construct() {
         $this->actionableEvents = new SimpleArray();
     }
 
-	protected function init() : void
-	{
+    protected function init() : void
+    {
 
-	}
+    }
 }

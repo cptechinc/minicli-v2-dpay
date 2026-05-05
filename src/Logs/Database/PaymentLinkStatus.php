@@ -1,7 +1,7 @@
 <?php namespace Dpay\Logs\Database;
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Database\MeekroDB\Record as AbstractRecord;
-// Lib
+// Dpay
 use Dpay\Logs\Database\Data\PaymentLinkStatusRecord  as Record;
 use Dpay\Abstracts\Database\MeekroDB\AbstractDatabaseTable;
 
@@ -9,7 +9,7 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractDatabaseTable;
  * Handles Logging Payment Links to Database Table
  * 
  * @method bool    insert(Record $r)  Insert Log Entry
- * @method Record  newRecord()                      Return instance of Record Data Class
+ * @method Record  newRecord()        Return instance of Record Data Class
  */
 class PaymentLinkStatus extends AbstractDatabaseTable {
     const TABLE  = 'app_paymentlink_status';
@@ -32,7 +32,7 @@ class PaymentLinkStatus extends AbstractDatabaseTable {
         'raw_metadata'  => ['LONGTEXT', ''],
     ];
     const PRIMARYKEY = ['rid'];
-    const RECORD_CLASS = '\\Dpay\\Logs\\Database\\Data\\PaymentLinkStatusRecord';
+    const RECORD_CLASS = Record::class;
 
     protected static $instance;
 
@@ -71,17 +71,17 @@ class PaymentLinkStatus extends AbstractDatabaseTable {
     }
 
     /**
-	 * Insert / Update Record
-	 * @param  Record $r
-	 * @return bool
-	 */
-	public function insertOrUpdate(AbstractRecord $r) : bool
-	{
-		if ($r->has('rid')) {
-			return $this->update($r);
-		}
-		return $this->insert($r);
-	}
+     * Insert / Update Record
+     * @param  Record $r
+     * @return bool
+     */
+    public function insertOrUpdate(AbstractRecord $r) : bool
+    {
+        if ($r->has('rid')) {
+            return $this->update($r);
+        }
+        return $this->insert($r);
+    }
     
 /* =============================================================
     Reads

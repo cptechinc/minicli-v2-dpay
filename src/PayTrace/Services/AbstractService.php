@@ -1,4 +1,6 @@
 <?php namespace Dpay\PayTrace\Services;
+// Dpay
+use Dpay\PayTrace\Requests;
 
 
 /**
@@ -8,56 +10,56 @@
  * @property string $token    Oauth Token
  */
 abstract class AbstractService {
-	public string $errorMsg = '';
-	
-	protected string $token;
+    public string $errorMsg = '';
+    
+    protected string $token;
 
 /* =============================================================
-	Getters
+    Getters
 ============================================================= */
-	/**
-	 * Return if Error has occurred
-	 * @return bool
-	 */
-	public function hasError() : bool
-	{
-		return empty($errorMsg) === false;
-	}
-	
-	/**
-	 * Return if connection to API was made
-	 * @return bool
-	 */
-	public function connect() : bool
-	{
-		return $this->initOauth();
-	}
+    /**
+     * Return if Error has occurred
+     * @return bool
+     */
+    public function hasError() : bool
+    {
+        return empty($errorMsg) === false;
+    }
+    
+    /**
+     * Return if connection to API was made
+     * @return bool
+     */
+    public function connect() : bool
+    {
+        return $this->initOauth();
+    }
 
 /* =============================================================
-	Contract functions
+    Contract functions
 ============================================================= */
-	/**
-	 * Process Request
-	 * @return bool
-	 */
-	abstract public function process() : bool;
+    /**
+     * Process Request
+     * @return bool
+     */
+    abstract public function process() : bool;
 
 /* =============================================================
-	API Requests
+    API Requests
 ============================================================= */
-	/**
-	 * Send Oauth Request to get Token
-	 * @return bool
-	 */
-	private function initOauth() : bool
-	{
-		$auth = new Requests\Oauth();
-		$hasToken = $auth->generate();
+    /**
+     * Send Oauth Request to get Token
+     * @return bool
+     */
+    private function initOauth() : bool
+    {
+        $auth = new Requests\Oauth();
+        $hasToken = $auth->generate();
 
-		if ($hasToken === false) {
-			return false;
-		}
-		$this->token = $auth->getToken();
-		return true;
-	}
+        if ($hasToken === false) {
+            return false;
+        }
+        $this->token = $auth->getToken();
+        return true;
+    }
 }

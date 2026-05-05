@@ -1,21 +1,20 @@
 <?php namespace Dpay\Data;
-// Pauldro\Minicli
+// Pauldro Minicli
 use Pauldro\UtilityBelt\Data\Data as AbstractData;
 
 /**
- * Data
  * Container For Dpay Data
  */
 class Data extends AbstractData {
     const FIELDS_BOOL = [];
     const FIELDS_NUMERIC = [];
-	const FIELDS_NUMERIC_INT = [];
-	const FIELDS_NUMERIC_FLOAT = [];
-	const FIELDS_STRING = [];
+    const FIELDS_NUMERIC_INT = [];
+    const FIELDS_NUMERIC_FLOAT = [];
+    const FIELDS_STRING = [];
     const FIELDS_EASY_SET_JSON = [];
 
 /* =============================================================
-	Constructors / Inits
+    Constructors / Inits
 ============================================================= */
     public function __construct() {
         foreach (static::FIELDS_BOOL as $fieldname) {
@@ -30,37 +29,37 @@ class Data extends AbstractData {
     }
 
 /* =============================================================
-	Setters
+    Setters
 ============================================================= */
-	public function setFromJson(array $data) : void
-	{
-		foreach (static::FIELDS_EASY_SET_JSON as $fieldname) {
-			if (array_key_exists($fieldname, $data) === false) {
-				continue;
-			}
+    public function setFromJson(array $data) : void
+    {
+        foreach (static::FIELDS_EASY_SET_JSON as $fieldname) {
+            if (array_key_exists($fieldname, $data) === false) {
+                continue;
+            }
 
-			if (array_key_exists($fieldname, self::FIELDS_NUMERIC_FLOAT)) {
-				$this->$fieldname = floatval($data[$fieldname]);
-				continue;
-			}
+            if (array_key_exists($fieldname, self::FIELDS_NUMERIC_FLOAT)) {
+                $this->$fieldname = floatval($data[$fieldname]);
+                continue;
+            }
 
-			if (array_key_exists($fieldname, self::FIELDS_NUMERIC_INT)) {
-				$this->$fieldname = intval($data[$fieldname]);
-				continue;
-			}
-			$this->$fieldname = $data[$fieldname];
-		}
-	}
+            if (array_key_exists($fieldname, self::FIELDS_NUMERIC_INT)) {
+                $this->$fieldname = intval($data[$fieldname]);
+                continue;
+            }
+            $this->$fieldname = $data[$fieldname];
+        }
+    }
 
 /* =============================================================
-	Getters
+    Getters
 ============================================================= */
     /**
      * Return Data as array
      * @return array
      */
     public function getArray() : array
-	{
+    {
         return $this->data;
     }
 }

@@ -1,13 +1,12 @@
 <?php namespace Dpay\Stripe\Services\Charges;
 // Stripe API Library
 use Stripe\PaymentIntent as StripeCharge;
-// Lib
+// Dpay
 use Dpay\Abstracts\Api\Services\Charges\ConfirmChargeInterface;
 use Dpay\Data\Charge as DpayCharge;
 use Dpay\Stripe\Endpoints;
 
 /**
- * ConfirmCharge
  * Service to Confirm CreditCard Charge using Stripe API
  * NOTE: uses PaymentIntents API
  * 
@@ -16,42 +15,42 @@ use Dpay\Stripe\Endpoints;
  * @property StripeCharge    $sCharge     Stripe API Charge
  */
 class ConfirmCharge extends AbstractCrudCharge implements ConfirmChargeInterface {
-	const ACTION = 'confirm pre-authorized';
+    const ACTION = 'confirm pre-authorized';
 
-	public StripeCharge $sCharge;
-	protected DpayCharge $dpayCharge;
-
-/* =============================================================
-	Interface Contracts
-============================================================= */
-	/**
-	 * Return Response data as Dpay Credit Charge
-	 * @return DpayCharge
-	 */
-	public function getDpayChargeResponseData() : DpayCharge
-	{
-		$data = parent::getDpayChargeResponseData();
-		$data->action = 'confirm';
-		return $data;
-	}
+    public StripeCharge $sCharge;
+    protected DpayCharge $dpayCharge;
 
 /* =============================================================
-	Internal Processing
+    Interface Contracts
+============================================================= */
+    /**
+     * Return Response data as Dpay Credit Charge
+     * @return DpayCharge
+     */
+    public function getDpayChargeResponseData() : DpayCharge
+    {
+        $data = parent::getDpayChargeResponseData();
+        $data->action = 'confirm';
+        return $data;
+    }
+
+/* =============================================================
+    Internal Processing
 ============================================================= */
 
-	/**
-	 * Create Stripe Customer
-	 * @param  StripeCharge $data
-	 * @return StripeCharge|false
-	 */
-	protected function processCharge(StripeCharge $data) : StripeCharge|false
-	{
-		$stripeCharge = Endpoints\Charges::confirm($data);
+    /**
+     * Create Stripe Customer
+     * @param  StripeCharge $data
+     * @return StripeCharge|false
+     */
+    protected function processCharge(StripeCharge $data) : StripeCharge|false
+    {
+        $stripeCharge = Endpoints\Charges::confirm($data);
 
-		if (empty($stripeCharge->id) === false) {
-			return $stripeCharge;
-		}
-		$this->errorMsg = Endpoints\Charges::$errorMsg;
-		return false;
-	}
+        if (empty($stripeCharge->id) === false) {
+            return $stripeCharge;
+        }
+        $this->errorMsg = Endpoints\Charges::$errorMsg;
+        return false;
+    }
 }

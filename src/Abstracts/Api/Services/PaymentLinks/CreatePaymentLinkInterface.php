@@ -1,9 +1,8 @@
 <?php namespace Dpay\Abstracts\Api\Services\PaymentLinks;
-// Lib
+// Dpay
 use Dpay\Data\PaymentLink as DpayPaymentLink;
 
 /**
- * CreateDpayPaymentLinkInterface
  * Interface for creating Payment Links
  * 
  * @property string 			$id               Generated Payment Link ID

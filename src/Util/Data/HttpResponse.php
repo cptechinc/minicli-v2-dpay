@@ -3,8 +3,6 @@
 use Pauldro\UtilityBelt\Data\Data;
 
 /**
- * HttpResponse
- * 
  * Container for HTTP Response data
  *
  * @property bool   $error    Did Error Occur?
@@ -15,12 +13,12 @@ use Pauldro\UtilityBelt\Data\Data;
  * @property array  $jsonData
  */
 class HttpResponse extends Data {
-	public function __construct() {
-		$this->error = false;
-		$this->message = '';
-		$this->json = '';
-		$this->httpCode = 0;
-		$this->headers = [];
-		$this->jsonData = [];
-	}
+    public function __construct() {
+        $this->error = false;
+        $this->message = '';
+        $this->json = '';
+        $this->httpCode = 0;
+        $this->headers = [];
+        $this->jsonData = [];
+    }
 }

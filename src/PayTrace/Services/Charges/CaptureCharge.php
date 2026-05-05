@@ -9,43 +9,43 @@ use Dpay\Util\ChargeStatus;
 class CaptureCharge extends AbstractCrudCharge implements CaptureChargeInterface {
     const ENDPOINT = 'sale/keyed';
     const ACTION = 'capture';
-	const API_SUCCESS_RESPONSE_CODES = [112];
+    const API_SUCCESS_RESPONSE_CODES = [112];
 
 /* =============================================================
-	Interface Contracts
+    Interface Contracts
 ============================================================= */
-	protected function getSuccessfulChargeStatus() : ChargeStatus
-	{
-		return ChargeStatus::Captured;
-	}
+    protected function getSuccessfulChargeStatus() : ChargeStatus
+    {
+        return ChargeStatus::Captured;
+    }
 
 /* =============================================================
-	Contracts
+    Contracts
 ============================================================= */
-	/**
-	 * Generate Credit Charge Request Data
-	 * @param  DpayCharge $charge
-	 * @return array
-	 */
-	protected function generateChargeRequest(DpayCharge $charge) : array
-	{
-		return [
-			'integrator_id' => Config::instance()->integratorID,
-			'invoice_id'    => $charge->ordernbr,
-			"amount"        => $charge->amount,
-			"credit_card"=> [
-				 "number"           => $charge->card->cardnbr,
-				 "expiration_month" => $charge->card->expiredateMonth(),
-				 "expiration_year"  => $charge->card->expiredateYear()
-			],
-			"csc"             => $charge->card->cvc,
-			"billing_address" => [
-				"name"           => $charge->card->name,
-				"street_address" => $charge->card->address1,
-				"city"           => "",
-				"state"          => "",
-				"zip"            => $charge->card->zipcode
-			]
-		];
-	}
+    /**
+     * Generate Credit Charge Request Data
+     * @param  DpayCharge $charge
+     * @return array
+     */
+    protected function generateChargeRequest(DpayCharge $charge) : array
+    {
+        return [
+            'integrator_id' => Config::instance()->integratorID,
+            'invoice_id'    => $charge->ordernbr,
+            "amount"        => $charge->amount,
+            "credit_card"=> [
+                 "number"           => $charge->card->cardnbr,
+                 "expiration_month" => $charge->card->expiredateMonth(),
+                 "expiration_year"  => $charge->card->expiredateYear()
+            ],
+            "csc"             => $charge->card->cvc,
+            "billing_address" => [
+                "name"           => $charge->card->name,
+                "street_address" => $charge->card->address1,
+                "city"           => "",
+                "state"          => "",
+                "zip"            => $charge->card->zipcode
+            ]
+        ];
+    }
 }

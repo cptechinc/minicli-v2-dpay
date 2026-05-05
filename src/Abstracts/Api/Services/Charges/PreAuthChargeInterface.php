@@ -1,9 +1,8 @@
 <?php namespace Dpay\Abstracts\Api\Services\Charges;
-// Lib
+// Dpay
 use Dpay\Data\Charge as Charge;
 
 /**
- * PreAuthInterface
  * Interface for pre-authorizing a charge
  * 
  * @property string  $id          Generated Charge ID

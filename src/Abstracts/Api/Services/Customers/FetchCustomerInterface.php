@@ -1,9 +1,8 @@
 <?php namespace Dpay\Abstracts\Api\Services\Customers;
-// Lib
+// Dpay
 use Dpay\Data\Customer as CustomerData;
 
 /**
- * FetchCustomerInterface
  * Template class for fetching a Customer
  * 
  * @property string              $id       API Customer ID

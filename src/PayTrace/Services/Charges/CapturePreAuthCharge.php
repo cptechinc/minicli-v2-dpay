@@ -7,32 +7,31 @@ use Dpay\Util\ChargeStatus;
 
 
 class CapturePreAuthCharge extends AbstractCrudCharge implements CapturePreAuthChargeInterface {
-	const ACTION = 'capture pre-authorized';
-	const API_SUCCESS_RESPONSE_CODES = [101];
-	const ENDPOINT = 'authorization/capture';
+    const ACTION = 'capture pre-authorized';
+    const API_SUCCESS_RESPONSE_CODES = [101];
+    const ENDPOINT = 'authorization/capture';
 
 /* =============================================================
-	Interface Contracts
+    Interface Contracts
 ============================================================= */
-	protected function getSuccessfulChargeStatus() : ChargeStatus
-	{
-		return ChargeStatus::Captured;
-	}
-	
-
+    protected function getSuccessfulChargeStatus() : ChargeStatus
+    {
+        return ChargeStatus::Captured;
+    }
+    
 /* =============================================================
-	Contracts
+    Contracts
 ============================================================= */
-	/**
-	 * Generate Credit Charge Request Data
-	 * @param  DpayCharge $charge
-	 * @return array
-	 */
-	protected function generateChargeRequest(DpayCharge $charge) : array
-	{
-		return [
-			'integrator_id'  => Config::instance()->integratorID,
-			'transaction_id' => $charge->transactionid
-		];
-	}
+    /**
+     * Generate Credit Charge Request Data
+     * @param  DpayCharge $charge
+     * @return array
+     */
+    protected function generateChargeRequest(DpayCharge $charge) : array
+    {
+        return [
+            'integrator_id'  => Config::instance()->integratorID,
+            'transaction_id' => $charge->transactionid
+        ];
+    }
 }

@@ -1,9 +1,8 @@
 <?php namespace Dpay\Abstracts\Api\Services\Customers;
-// Lib
+// Dpay
 use Dpay\Data\Customer;
 
 /**
- * UpdateCustomerInterface
  * Template class for updating Customer
  * 
  * @property Customer  $dpayCustomer  Customer Data

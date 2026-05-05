@@ -2,13 +2,12 @@
 // Stripe API Library
 use Stripe\PaymentIntent as StripeCharge;
 use Stripe\Refund as StripeRefund;
-// Lib
+// Dpay
 use Dpay\Abstracts\Api\Services\Refunds\CreateRefundInterface;
 use Dpay\Data\Refund as DpayRefund;
 use Dpay\Stripe\Endpoints;
 
 /**
- * CreateRfund
  * Service to Refund using Stripe API
  * 
  * @property string          $id          Generated Credit Refund ID
@@ -17,31 +16,31 @@ use Dpay\Stripe\Endpoints;
  * @property StripeCharge 	 $sCharge 	   Stripe API Charge
  */
 class CreateRefund extends AbstractCrudRefund implements CreateRefundInterface {
-	const ACTION = 'refund';
-	public StripeRefund $sRefund;
-	protected DpayRefund $dpayRefund;
+    const ACTION = 'refund';
+    public StripeRefund $sRefund;
+    protected DpayRefund $dpayRefund;
 
 /* =============================================================
-	Interface Contracts
+    Interface Contracts
 ============================================================= */
 
 /* =============================================================
-	Internal Processing
+    Internal Processing
 ============================================================= */
 
-	/**
-	 * Create Stripe Customer
-	 * @param  StripeRefund $data
-	 * @return StripeRefund|false
-	 */
-	protected function processRefund(StripeRefund $data) : StripeRefund|false
-	{
-		$stripeRefund = Endpoints\Refunds::create($data);
+    /**
+     * Create Stripe Customer
+     * @param  StripeRefund $data
+     * @return StripeRefund|false
+     */
+    protected function processRefund(StripeRefund $data) : StripeRefund|false
+    {
+        $stripeRefund = Endpoints\Refunds::create($data);
 
-		if (empty($stripeRefund->id) === false) {
-			return $stripeRefund;
-		}
-		$this->errorMsg = Endpoints\Refunds::$errorMsg;
-		return false;
-	}
+        if (empty($stripeRefund->id) === false) {
+            return $stripeRefund;
+        }
+        $this->errorMsg = Endpoints\Refunds::$errorMsg;
+        return false;
+    }
 }

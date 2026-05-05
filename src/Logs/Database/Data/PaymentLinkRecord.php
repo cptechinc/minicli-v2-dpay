@@ -1,5 +1,5 @@
 <?php namespace Dpay\Logs\Database\Data;
-// Lib
+// Dpay
 use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
 
 /**
@@ -16,22 +16,22 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property string   $description
  */
 class PaymentLinkRecord extends AbstractRecord {
-	const DEFAULT_VALUES = [
-		'timestamp' => '',
-		'conbr' 	=> 0,
-		'ordernbr'	=> '',
-		'custid'	=> '',
-		'url'		=> '',
-		'linkid'	=> '',
-		'description' => '',
-	];
+    const DEFAULT_VALUES = [
+        'timestamp' => '',
+        'conbr' 	=> 0,
+        'ordernbr'	=> '',
+        'custid'	=> '',
+        'url'		=> '',
+        'linkid'	=> '',
+        'description' => '',
+    ];
 
-	public function __construct() {
-		foreach (self::DEFAULT_VALUES as $field => $value) {
-			if ($this->has($field)) {
-				continue;
-			}
-			$this->set($field, $value);
-		}
-	}
+    public function __construct() {
+        foreach (self::DEFAULT_VALUES as $field => $value) {
+            if ($this->has($field)) {
+                continue;
+            }
+            $this->set($field, $value);
+        }
+    }
 }

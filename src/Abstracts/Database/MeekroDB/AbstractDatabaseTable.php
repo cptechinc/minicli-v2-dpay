@@ -8,13 +8,13 @@ class AbstractDatabaseTable extends ParentTable {
     
     protected static int $conbr;
 
-	public static function setConbr(int $conbr) : void
-	{
-		self::$conbr = $conbr;
-	}
+    public static function setConbr(int $conbr) : void
+    {
+        self::$conbr = $conbr;
+    }
 
-	public static function getConbr() : int
-	{
-		return static::$conbr;
-	}
+    public static function getConbr() : int
+    {
+        return static::$conbr;
+    }
 }

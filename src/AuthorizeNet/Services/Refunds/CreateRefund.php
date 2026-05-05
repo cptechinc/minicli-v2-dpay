@@ -11,13 +11,13 @@ class CreateRefund extends AbstractCrudRefund implements CreateRefundInterface {
     const REFUND_STATUS_ON_SUCCESS = 'refunded';
 
     protected function createTransactionRequest() : ANetTransactionRequest
-	{
-		$rqst = parent::createTransactionRequest();
-		$rqst->setAmount($this->dpayRefund->charge->amount);
-		$rqst->setOrder(TransactionData::orderType($this->dpayRefund->charge));
-		$rqst->setBillTo(TransactionData::customerAddressType($this->dpayRefund->charge));
-		$rqst->setCustomer(TransactionData::customerDataType($this->dpayRefund->charge));
-		$rqst->setPayment(TransactionData::paymentType($this->dpayRefund->charge));
-		return $rqst;
-	}
+    {
+        $rqst = parent::createTransactionRequest();
+        $rqst->setAmount($this->dpayRefund->charge->amount);
+        $rqst->setOrder(TransactionData::orderType($this->dpayRefund->charge));
+        $rqst->setBillTo(TransactionData::customerAddressType($this->dpayRefund->charge));
+        $rqst->setCustomer(TransactionData::customerDataType($this->dpayRefund->charge));
+        $rqst->setPayment(TransactionData::paymentType($this->dpayRefund->charge));
+        return $rqst;
+    }
 }

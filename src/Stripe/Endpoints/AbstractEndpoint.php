@@ -1,5 +1,5 @@
 <?php namespace Dpay\Stripe\Endpoints;
-// Lib
+// Dpay
 use Dpay\Stripe\ApiClient;
 
 /**
@@ -8,14 +8,14 @@ use Dpay\Stripe\ApiClient;
  * @static string $errorMsg Error Message
  */
 abstract class AbstractEndpoint {
-	public static string $errorMsg;
-	
-	/**
-	 * Return API client
-	 * @return ApiClient
-	 */
-	public static function api() : ApiClient
-	{
-		return ApiClient::instance();
-	}
+    public static string $errorMsg;
+    
+    /**
+     * Return API client
+     * @return ApiClient
+     */
+    public static function api() : ApiClient
+    {
+        return ApiClient::instance();
+    }
 }

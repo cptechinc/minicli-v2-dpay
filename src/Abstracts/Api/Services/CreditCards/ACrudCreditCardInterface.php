@@ -4,7 +4,6 @@ use Dpay\Abstracts\Api\AbstractServiceInterface;
 use Dpay\Data\CreditCard as CreditCard;
 
 /**
- * ACrudCreditCardInterface
  * Template class for CreditCard CRUD operations
  * 
  * @property string      $id              Generated CreditCard ID
@@ -14,33 +13,33 @@ use Dpay\Data\CreditCard as CreditCard;
 interface ACrudCreditCardInterface extends AbstractServiceInterface {
 
 /* =============================================================
-	Setters
+    Setters
 ============================================================= */
-	/**
-	 * Set CreditCard
-	 * @param  CreditCard $card
-	 * @return void
-	 */
-	public function setDpayCreditCard(CreditCard $card) : void;
+    /**
+     * Set CreditCard
+     * @param  CreditCard $card
+     * @return void
+     */
+    public function setDpayCreditCard(CreditCard $card) : void;
 
 /* =============================================================
-	Getters
+    Getters
 ============================================================= */
-	/**
-	 * Return Generated CreditCard ID
-	 * @return string
-	 */
-	public function getId() : string;
+    /**
+     * Return Generated CreditCard ID
+     * @return string
+     */
+    public function getId() : string;
 
-	/**
-	 * Return if Error has occurred
-	 * @return bool
-	 */
-	public function hasError() : bool;
-	
-	/**
-	 * Return Response data as Dpay Credit Card
-	 * @return CreditCard
-	 */
-	public function getDpayCreditCardResponseData() : CreditCard;
+    /**
+     * Return if Error has occurred
+     * @return bool
+     */
+    public function hasError() : bool;
+    
+    /**
+     * Return Response data as Dpay Credit Card
+     * @return CreditCard
+     */
+    public function getDpayCreditCardResponseData() : CreditCard;
 }

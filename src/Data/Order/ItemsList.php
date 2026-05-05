@@ -1,54 +1,53 @@
 <?php namespace Dpay\Data\Order;
-// Lib
+// Dpay
 use Dpay\Data\DataList;
 
 /**
- * ItemList
  * Container for List of Items
  */
 class ItemsList extends DataList {
 /* =============================================================
-	Setters
+    Setters
 ============================================================= */
-	/**
-	 * Add Items from JSON data
-	 * @param  array $data
-	 * @return bool
-	 */
-	public function importFromJson(array $data) : bool {
-		foreach ($data as $itemData) {
-			if (array_key_exists('linenbr', $itemData) === false) {
-				continue;
-			}
-			$item = $this->new();
-			$item->setFromJson($itemData);
-			$this->set($item->linenbr, $item);
-		}
-		return $this->count() > 0;
-	}
+    /**
+     * Add Items from JSON data
+     * @param  array $data
+     * @return bool
+     */
+    public function importFromJson(array $data) : bool {
+        foreach ($data as $itemData) {
+            if (array_key_exists('linenbr', $itemData) === false) {
+                continue;
+            }
+            $item = $this->new();
+            $item->setFromJson($itemData);
+            $this->set($item->linenbr, $item);
+        }
+        return $this->count() > 0;
+    }
 
 /* =============================================================
-	Getters
+    Getters
 ============================================================= */
-	public function getTotalAmt() : float
-	{
-		$total = 0.00;
+    public function getTotalAmt() : float
+    {
+        $total = 0.00;
 
-		foreach ($this as $item) {
-			$total += $item->price;
-		}
-		return $total;
-	}
-	
+        foreach ($this as $item) {
+            $total += $item->price;
+        }
+        return $total;
+    }
+    
 /* =============================================================
-	Supplemental
+    Supplemental
 ============================================================= */
-	/**
-	 * Return new Item
-	 * @return Item
-	 */
-	public function new() : Item
-	{
-		return new Item();
-	}
+    /**
+     * Return new Item
+     * @return Item
+     */
+    public function new() : Item
+    {
+        return new Item();
+    }
 }

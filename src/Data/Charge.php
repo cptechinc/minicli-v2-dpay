@@ -1,7 +1,6 @@
 <?php namespace Dpay\Data;
 
 /**
- * Charge
  * Container for Charge Data
  * 
  * @property string      $transactionid    API ID
@@ -19,57 +18,57 @@
  * @property string      $errorMsg        Error Msg
  */
 class Charge extends Data {
-	const FIELDS_NUMERIC = ['ordernbr', 'amount'];
-	const FIELDS_NUMERIC_INT = ['ordernbr'];
-	const FIELDS_NUMERIC_FLOAT = ['amount'];
-	const FIELDS_STRING  = [
-		'transactionid', 'custid', 'ordernbr', 'status', 'action',
-		'avsCode', 'authCode', 'errorCode', 'errorMsg',
-	];
-	const FIELDS_EASY_SET_JSON = [
-		'custid', 'ordernbr', 'amount', 'transactionid', 'transactiontype'
-	];
-	const STATUSES = [
-		'requires_confirmation' => 'requires_confirmation'
-	];
+    const FIELDS_NUMERIC = ['ordernbr', 'amount'];
+    const FIELDS_NUMERIC_INT = ['ordernbr'];
+    const FIELDS_NUMERIC_FLOAT = ['amount'];
+    const FIELDS_STRING  = [
+        'transactionid', 'custid', 'ordernbr', 'status', 'action',
+        'avsCode', 'authCode', 'errorCode', 'errorMsg',
+    ];
+    const FIELDS_EASY_SET_JSON = [
+        'custid', 'ordernbr', 'amount', 'transactionid', 'transactiontype'
+    ];
+    const STATUSES = [
+        'requires_confirmation' => 'requires_confirmation'
+    ];
 
 /* =============================================================
-	Constructors / Inits
+    Constructors / Inits
 ============================================================= */
-	public function __construct() {
-		parent::__construct();
-		$this->card = new CreditCard();
-	}
+    public function __construct() {
+        parent::__construct();
+        $this->card = new CreditCard();
+    }
 
 /* =============================================================
-	Setters
+    Setters
 ============================================================= */
-	/**
-	 * Set Fields fom JSON array
-	 * @param  array $data
-	 * @return void
-	 */
-	public function setFromJson(array $data) : void
-	{
-		if (array_key_exists('custid', $data) === false) {
-			return;
-		}
+    /**
+     * Set Fields fom JSON array
+     * @param  array $data
+     * @return void
+     */
+    public function setFromJson(array $data) : void
+    {
+        if (array_key_exists('custid', $data) === false) {
+            return;
+        }
 
-		parent::setFromJson($data);
-		$this->card->setFromJson($data['card']);
-	}
+        parent::setFromJson($data);
+        $this->card->setFromJson($data['card']);
+    }
 
 /* =============================================================
-	Getters
+    Getters
 ============================================================= */
-	/**
-	 * Return Array
-	 * @return array
-	 */
-	public function getArray() : array
-	{
-		$json = $this->data;
-		$json['card'] = $this->card->getArray();
-		return $json;
-	}
+    /**
+     * Return Array
+     * @return array
+     */
+    public function getArray() : array
+    {
+        $json = $this->data;
+        $json['card'] = $this->card->getArray();
+        return $json;
+    }
 }

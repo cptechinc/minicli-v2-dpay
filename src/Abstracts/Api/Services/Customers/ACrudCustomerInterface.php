@@ -4,7 +4,6 @@ use Dpay\Abstracts\Api\AbstractServiceInterface;
 use Dpay\Data\Customer as Customer;
 
 /**
- * ACrudCustomerInterface
  * Template class for Customer CRUD operations
  * 
  * @property string    $id            Generated Customer ID
@@ -14,40 +13,40 @@ use Dpay\Data\Customer as Customer;
 interface ACrudCustomerInterface extends AbstractServiceInterface {
 
 /* =============================================================
-	Setters
+    Setters
 ============================================================= */
-	/**
-	 * Set Customer
-	 * @param  Customer $customer
-	 * @return void
-	 */
-	public function setDpayCustomer(Customer $customer) : void;
+    /**
+     * Set Customer
+     * @param  Customer $customer
+     * @return void
+     */
+    public function setDpayCustomer(Customer $customer) : void;
 
-	/**
-	 * Set API ID
-	 * @param  string $id  ID / Slug for API ID
-	 * @return void
-	 */
-	public function setId($id) : void;
+    /**
+     * Set API ID
+     * @param  string $id  ID / Slug for API ID
+     * @return void
+     */
+    public function setId($id) : void;
 
 /* =============================================================
-	Getters
+    Getters
 ============================================================= */
-	/**
-	 * Return Generated Customer ID
-	 * @return string
-	 */
-	public function getId() : string;
+    /**
+     * Return Generated Customer ID
+     * @return string
+     */
+    public function getId() : string;
 
-	/**
-	 * Return if Error has occurred
-	 * @return bool
-	 */
-	public function hasError() : bool;
+    /**
+     * Return if Error has occurred
+     * @return bool
+     */
+    public function hasError() : bool;
 
-	/**
-	 * Return Response data as Dpay Customer
-	 * @return Customer
-	 */
-	public function getDpayCustomerResponseData() : Customer;
+    /**
+     * Return Response data as Dpay Customer
+     * @return Customer
+     */
+    public function getDpayCustomerResponseData() : Customer;
 }

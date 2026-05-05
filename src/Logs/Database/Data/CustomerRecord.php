@@ -1,9 +1,8 @@
 <?php namespace Dpay\Logs\Database\Data;
-// Lib
+// Dpay
 use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
 
 /**
- * CustomerRecord
  * Container for Customer data
  * 
  * @property int|null $rid        Record ID
@@ -13,10 +12,10 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property string   $id         API ID
  */
 class CustomerRecord extends AbstractRecord {
-	public function __construct() {
-		$this->timestamp = '';
-		$this->conbr = 0;
-		$this->custid = '';
-		$this->id = '';
-	}
+    public function __construct() {
+        $this->timestamp = '';
+        $this->conbr = 0;
+        $this->custid = '';
+        $this->id = '';
+    }
 }
