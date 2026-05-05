@@ -1,6 +1,6 @@
 <?php namespace Dpay\Data;
-// Pauldro\Minicli\Data
-use Pauldro\Minicli\v2\Util\Data as AbstractData;
+// Pauldro\Minicli
+use Pauldro\UtilityBelt\Data\Data as AbstractData;
 
 /**
  * Data
@@ -32,12 +32,8 @@ class Data extends AbstractData {
 /* =============================================================
 	Setters
 ============================================================= */
-	/**
-	 * Set Fields fom JSON array
-	 * @param  array $data
-	 * @return bool
-	 */
-	public function setFromJson(array $data) : void {
+	public function setFromJson(array $data) : void
+	{
 		foreach (static::FIELDS_EASY_SET_JSON as $fieldname) {
 			if (array_key_exists($fieldname, $data) === false) {
 				continue;

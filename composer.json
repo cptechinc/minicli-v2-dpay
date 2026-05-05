@@ -17,6 +17,7 @@
 		}
 	},
 	"require": {
+		"pauldro/utility-belt-v2": "dev-main",
 		"minicli/minicli": "^4.2",
 		"pauldro/minicli-v2": "dev-main",
 		"pauldro/minicli-v2-database": "dev-main",
@@ -27,6 +28,7 @@
 		"authorizenet/authorizenet": "dev-master"
 	},
 	"require-dev": {
+		"pauldro/utility-belt-v2": "dev-main",
 		"minicli/minicli": "^4.2",
 		"pauldro/minicli-v2": "dev-main",
 		"pauldro/minicli-v2-database": "dev-main",

@@ -1,6 +1,6 @@
 <?php namespace Dpay\AuthorizeNet\Services\Charges\Data;
 // Pauldro Minicli
-use Pauldro\Minicli\v2\Util\Data;
+use Pauldro\UtilityBelt\Data\Data;
 
 /**
  * @property string $success

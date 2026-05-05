@@ -2,6 +2,9 @@
 // Dpay
 use Dpay\Data\Charge as DpayCharge;
 
+/**
+ * @property string $errorMsg
+ */
 trait ACrudChargeTraits {
 /* =============================================================
 	Inits
@@ -20,7 +23,7 @@ trait ACrudChargeTraits {
 ============================================================= */
     /**
 	 * Set Dpay Credit Charge
-	 * @param  DpayCharge $charge
+	 * @param  DpayCharge $dpayCharge
 	 * @return void
 	 */
 	public function setDpayCharge(DpayCharge $dpayCharge) : void

@@ -134,7 +134,6 @@ class TransactionData {
 
 	/**
 	 * Return API SettingType
-	 * @param  Payment $payRequest  Payment Request Data
 	 * @return SettingType
 	 */
 	public static function settingType() : SettingType

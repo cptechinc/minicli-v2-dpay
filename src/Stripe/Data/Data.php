@@ -1,6 +1,6 @@
 <?php namespace Dpay\Stripe\Data;
-// Pauldro\Minicli\Data
-use Pauldro\Minicli\v2\Util\Data as AbstractData;
+// Pauldro
+use Pauldro\UtilityBelt\Data\Data as AbstractData;
 
 /**
  * Data

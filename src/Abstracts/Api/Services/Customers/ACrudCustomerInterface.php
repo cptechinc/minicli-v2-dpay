@@ -1,5 +1,5 @@
 <?php namespace Dpay\Abstracts\Api\Services\Customers;
-// Lib
+// Dpay
 use Dpay\Abstracts\Api\AbstractServiceInterface;
 use Dpay\Data\Customer as Customer;
 

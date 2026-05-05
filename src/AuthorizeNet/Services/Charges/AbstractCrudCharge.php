@@ -116,7 +116,7 @@ abstract class AbstractCrudCharge extends AbstractService {
 		return $rqst;
 	}
 
-	protected function processTransactionResponse(ANetResponse $apiResponse = null) : ChargeResponse
+	protected function processTransactionResponse(?ANetResponse $apiResponse = null) : ChargeResponse
 	{
 		$response = new ChargeResponse();
 

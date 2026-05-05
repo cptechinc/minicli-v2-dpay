@@ -6,7 +6,6 @@ use Stripe\Exception\ApiErrorException;
 use Dpay\Abstracts\Api\ApiClientInterface;
 
 /**
- * ApiClient
  * Extends Stripe API client
  */
 class ApiClient extends StripeClient implements ApiClientInterface {
@@ -15,11 +14,8 @@ class ApiClient extends StripeClient implements ApiClientInterface {
 /* =============================================================
 	Constructors / Inits
 ============================================================= */
-	/**
-	 * Return Instance
-	 * @return ApiClient
-	 */
-	public static function instance() : static {
+	public static function instance() : static
+	{
 		if (empty(self::$instance) === false) {
 			return self::$instance;
 		}
@@ -31,10 +27,6 @@ class ApiClient extends StripeClient implements ApiClientInterface {
 /* =============================================================
 	Interface Contracts
 ============================================================= */
-	/**
-	 * Return if APi is able to be connected to
-	 * @return bool
-	 */
 	public function connect() : bool {
 		try {
 			$this->products->all(['limit' => 1]);

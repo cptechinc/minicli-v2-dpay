@@ -3,7 +3,6 @@
 use Dpay\Stripe\ApiClient;
 
 /**
- * AbstractEndpoint
  * Wrapper for Stripe API to interface with a given endpoint
  * 
  * @static string $errorMsg Error Message

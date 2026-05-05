@@ -60,7 +60,7 @@ class Refund extends Data {
 	public function toArray() : array
 	{
 		$json = $this->data;
-		$json['charge'] = $this->charge->toArray();
+		$json['charge'] = $this->charge->getArray();
 		return $json;
 	}
 }

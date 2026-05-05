@@ -1,7 +1,6 @@
 <?php namespace Dpay\Abstracts\Api;
 
 /**
- * ApiClientInterface
  * Interface for API clients
  */
 interface ApiClientInterface {

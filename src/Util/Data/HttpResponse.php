@@ -1,6 +1,6 @@
 <?php namespace Dpay\Util\Data;
-// Pauldro Minicli
-use Pauldro\Minicli\v2\Util\Data;
+// Pauldro
+use Pauldro\UtilityBelt\Data\Data;
 
 /**
  * HttpResponse

@@ -110,7 +110,7 @@ abstract class AbstractCrudRefund extends AbstractService {
 		return $rqst;
 	}
 
-    protected function processTransactionResponse(ANetResponse $apiResponse = null) : RefundResponse
+    protected function processTransactionResponse(?ANetResponse $apiResponse = null) : RefundResponse
 	{	
 		$response = new RefundResponse();
 

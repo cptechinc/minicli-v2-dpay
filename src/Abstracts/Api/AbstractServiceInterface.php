@@ -1,7 +1,6 @@
 <?php namespace Dpay\Abstracts\Api;
 
 /**
- * AbstractServiceInterface
  * Interface for API Services
  */
 interface AbstractServiceInterface {

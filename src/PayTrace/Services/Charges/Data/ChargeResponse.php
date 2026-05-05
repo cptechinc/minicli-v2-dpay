@@ -1,6 +1,6 @@
 <?php namespace Dpay\PayTrace\Services\Charges\Data;
 //
-use Pauldro\Minicli\v2\Util\Data;
+use Pauldro\UtilityBelt\Data\Data;
 
 /**
  * @property string $success

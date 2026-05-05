@@ -8,7 +8,7 @@ use Dpay\PayTrace\Environment;
 class AbstractEndpointRequest extends AbstractRequest {
 	const ENDPOINTPATH = '';
 
-    public function __construct($token) {
+    public function __construct(string $token) {
 		$this->token = $token;
         $this->http  = $this->createHttpClient();
 	}

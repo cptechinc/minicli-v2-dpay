@@ -89,6 +89,4 @@ class Oauth extends AbstractRequest {
 		$this->token = $json['access_token'];
 		return true;
 	}
-
-	
 }

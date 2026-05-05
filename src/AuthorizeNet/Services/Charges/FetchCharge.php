@@ -78,7 +78,7 @@ class FetchCharge extends AbstractCrudCharge implements FetchChargeInterface {
 		return $this->processTransactionDetailsResponse($response);
 	}
 
-	protected function processTransactionDetailsResponse(ANetResponse $apiResponse = null) : ChargeResponse
+	protected function processTransactionDetailsResponse(?ANetResponse $apiResponse = null) : ChargeResponse
 	{
 		$response = new ChargeResponse();
 

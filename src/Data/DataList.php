@@ -1,6 +1,6 @@
 <?php namespace Dpay\Data;
 // Pauldro Minicli
-use Pauldro\Minicli\v2\Util\DataArray;
+use Pauldro\UtilityBelt\Data\DataArray;
 
 /**
  * DataList

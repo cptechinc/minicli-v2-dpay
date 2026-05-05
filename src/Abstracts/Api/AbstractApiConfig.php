@@ -1,7 +1,7 @@
 <?php namespace Dpay\Abstracts\Api;
 // Pauldro Minicli
-use Pauldro\Minicli\v2\Util\Data;
-use Pauldro\Minicli\v2\Util\SimpleArray;
+use Pauldro\UtilityBelt\Data\Data;
+use Pauldro\UtilityBelt\Data\SimpleArray;
 
 /**
  * @property SimpleArray $actionableEvents

@@ -66,10 +66,10 @@ class Charge extends Data {
 	 * Return Array
 	 * @return array
 	 */
-	public function toArray() : array
+	public function getArray() : array
 	{
 		$json = $this->data;
-		$json['card'] = $this->card->toArray();
+		$json['card'] = $this->card->getArray();
 		return $json;
 	}
 }

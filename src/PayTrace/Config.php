@@ -1,6 +1,6 @@
 <?php namespace Dpay\PayTrace;
 // Pauldro Minicli
-use Pauldro\Minicli\v2\Util\EnvVarsReader as EnvVars;
+use Pauldro\UtilityBelt\SuperGlobals\EnvVarsReader as EnvVars;
 // Dpay
 use Dpay\Abstracts\Api\AbstractApiConfig;
 

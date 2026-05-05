@@ -2,9 +2,7 @@
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Database\MeekroDB\AbstractTable as ParentTable;
 
-/**
- * Summary of AbstractTable
- */
+
 class AbstractDatabaseTable extends ParentTable {
     const SESSION_CONNECTION_NAME = 'app';
     
