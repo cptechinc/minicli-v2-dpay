@@ -2357,12 +2357,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "5828985407afcd88caa55b26c9a566f944cbd0b9"
+                "reference": "61531d8d73719cb18507d9b9bef1d1ed7d010337"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/5828985407afcd88caa55b26c9a566f944cbd0b9",
-                "reference": "5828985407afcd88caa55b26c9a566f944cbd0b9",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/61531d8d73719cb18507d9b9bef1d1ed7d010337",
+                "reference": "61531d8d73719cb18507d9b9bef1d1ed7d010337",
                 "shasum": ""
             },
             "require": {
@@ -2448,7 +2448,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-14T06:29:11+00:00"
+            "time": "2026-05-04T13:00:01+00:00"
         },
         {
             "name": "symfony/translation-contracts",
@@ -2640,12 +2640,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "323ed2d2fbd1376c59b8fd07b00ae3557b905b9c"
+                "reference": "f8d2f4af29053842c01b4cae6bd4c2c3191fc63c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/323ed2d2fbd1376c59b8fd07b00ae3557b905b9c",
-                "reference": "323ed2d2fbd1376c59b8fd07b00ae3557b905b9c",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/f8d2f4af29053842c01b4cae6bd4c2c3191fc63c",
+                "reference": "f8d2f4af29053842c01b4cae6bd4c2c3191fc63c",
                 "shasum": ""
             },
             "require": {
@@ -2708,7 +2708,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-04-13T14:11:12+00:00"
+            "time": "2026-05-05T06:55:40+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
