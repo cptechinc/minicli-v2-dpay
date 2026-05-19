@@ -3,7 +3,7 @@
 use Pauldro\UtilityBelt\Data\Data;
 
 /**
- * @property string $success
+ * @property bool   $success
  * @property string $transactionid
  * @property string $errorMsg
  * @property string $errorCode
