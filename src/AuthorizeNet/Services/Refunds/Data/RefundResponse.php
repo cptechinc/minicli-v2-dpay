@@ -3,7 +3,7 @@
 use Dpay\AuthorizeNet\Services\Charges\Data\ChargeResponse;
 
 /**
- * @property string $success
+ * @property bool   $success
  * @property string $transactionid
  * @property string $errorMsg
  * @property string $errorCode
