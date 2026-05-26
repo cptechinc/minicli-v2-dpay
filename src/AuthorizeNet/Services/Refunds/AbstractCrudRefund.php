@@ -133,7 +133,7 @@ abstract class AbstractCrudRefund extends AbstractService {
         $response->transactionid = $tranResponse->getTransId();
         $response->authCode      = $tranResponse->getAuthCode();
         $response->avsCode       = $tranResponse->getAvsResultCode();
-        $response->status        = ChargeStatus::Refunded;
+        $response->status        = ChargeStatus::Refunded->value;
         return $response;
     }
 
