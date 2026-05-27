@@ -19,7 +19,8 @@ enum ChargeStatus: string
      * @param  string $status
      * @return ChargeStatus
      */
-    public static function find(string $status) : ChargeStatus {
+    public static function find(string $status) : ChargeStatus
+    {
         return match($status) {
             'authorizedPendingCapture'  => self::RequiresCapture,
             'declined'                  => self::Declined,
