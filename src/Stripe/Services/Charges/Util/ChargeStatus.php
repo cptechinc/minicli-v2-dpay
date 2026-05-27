@@ -17,15 +17,16 @@ enum ChargeStatus: string
      * @param  string $status
      * @return ChargeStatus
      */
-    public static function find(string $status) : ChargeStatus {
+    public static function find(string $status) : ChargeStatus
+    {
         return match($status) {
-            'canceled'              => self::Voided,
-            'refunded'              => self::Refunded,
-            'requires_capture'      => self::RequiresCapture,
-            'requires_confirmation' => self::RequiresConfirmation,
+            'canceled'                => self::Voided,
+            'refunded'                => self::Refunded,
+            'requires_capture'        => self::RequiresCapture,
+            'requires_confirmation'   => self::RequiresConfirmation,
             'requires_payment_method' => self::Unpaid,
-            'succeeded'             => self::Captured,
-            default                 => self::None
+            'succeeded'               => self::Captured,
+            default                   => self::None
         };
     }
 }
