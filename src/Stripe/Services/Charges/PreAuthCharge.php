@@ -30,6 +30,9 @@ class PreAuthCharge extends AbstractCrudCharge implements PreAuthChargeInterface
      */
     protected function generateChargeRequest(DpayCharge $charge) : StripeCharge
     {
+        if ($charge->has('transactionid')) { // skip sending charge id, because it will be generated
+            $charge->remove('transactionid');
+        }
         $config = Config::instance();
         $data = parent::generateChargeRequest($charge);
         $data->capture_method = 'manual';
