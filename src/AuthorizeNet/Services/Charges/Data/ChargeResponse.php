@@ -4,7 +4,7 @@ use Pauldro\UtilityBelt\Data\Data;
 
 /**
  * @property bool   $success
- * @property string $transactionid
+ * @property string $transactionid  API Transaction ID
  * @property string $errorMsg
  * @property string $errorCode
  * @property string $authCode

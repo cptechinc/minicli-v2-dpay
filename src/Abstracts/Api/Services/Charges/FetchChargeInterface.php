@@ -1,13 +1,13 @@
 <?php namespace Dpay\Abstracts\Api\Services\Charges;
 // Dpay
-use Dpay\Data\Charge as ChargeData;
+use Dpay\Data\Charge;
 
 /**
  * Interface for fetching a Charge
  * 
- * @property string      $id       API Charge ID
- * @property ChargeData  $dpayCharge
- * @property string      $errorMsg
+ * @property string  $id          API Charge ID
+ * @property Charge  $dpayCharge
+ * @property string  $errorMsg
  */
 interface FetchChargeInterface extends ACrudChargeInterface {
 

@@ -6,7 +6,7 @@ use Dpay\Data\Charge as Charge;
 /**
  * Template class for Charge CRUD operations
  * 
- * @property string  $id          Generated Charge ID
+ * @property string  $id          API Charge ID
  * @property Charge  $dpayCharge  Charge Data
  * @property string  $errorMsg
  */

@@ -108,7 +108,7 @@ abstract class AbstractCrudCharge extends AbstractService {
         $rqst = new ANetTransactionRequest();
         $rqst->setTransactionType(static::ANET_TRANSACTION_TYPE);
         $rqst->setRetail(TransactionData::transRetailInfoType($this->dpayCharge));
-        $rqst->addToTransactionSettings(TransactionData::settingType());
+        $rqst->addToTransactionSettings(TransactionData::settingTypeDuplicateWindow());
 
         if ($this->dpayCharge->transactionid) {
             $rqst->setRefTransId($this->dpayCharge->transactionid);

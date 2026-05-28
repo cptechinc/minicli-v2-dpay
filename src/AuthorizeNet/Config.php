@@ -5,11 +5,11 @@ use Pauldro\Minicli\v2\Util\EnvVarsReader as EnvVars;
 use Dpay\Abstracts\Api\AbstractApiConfig;
 
 /**
- * Container for Authorize.net API Config Data
+ * Container for Authorize.Net API Config Data
  * 
  * @method static Config instance()
  * 
- * @property string $apiLogin          Api Login
+ * @property string $apiLogin          API Login
  * @property string $apiKey            API Secret Key
  * @property bool   $useSandbox        Use API Sandbox?
  */

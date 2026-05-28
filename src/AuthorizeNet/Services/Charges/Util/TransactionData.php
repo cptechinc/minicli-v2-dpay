@@ -133,14 +133,13 @@ class TransactionData {
     }
 
     /**
-     * Return API SettingType
+     * Return API SettingType for Duplicate Window
      * @return SettingType
      */
-    public static function settingType() : SettingType
+    public static function settingTypeDuplicateWindow() : SettingType
     {
         $settings = new SettingType();
         $settings->setSettingName("duplicateWindow");
-        // $settings->setSettingValue("60");
         $settings->setSettingValue("15");
         return $settings;
     }

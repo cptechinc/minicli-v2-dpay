@@ -12,7 +12,6 @@ enum ChargeStatus: string
     case RequiresCapture      = TargetStatus::RequiresCapture->value;
     case RequiresConfirmation = TargetStatus::RequiresConfirmation->value;
     case Voided               = TargetStatus::Voided->value;
-    
 
     /**
      * Return Status

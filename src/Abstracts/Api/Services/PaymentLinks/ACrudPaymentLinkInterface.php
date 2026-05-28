@@ -6,8 +6,8 @@ use Dpay\Data\PaymentLink as DpayPaymentLink;
 /**
  * Template interface for PaymentLink CRUD operations
  * 
- * @property string 			$id               Generated Payment Link ID
- * @property string 			$url	          Generated Payment Link URL
+ * @property string 			$id               API Payment Link ID
+ * @property string 			$url	          Payment Link URL
  * @property DpayPaymentLink	$dpayPaymentLink  Dpay PaymentLink Data
  * @property string             $errorMsg
  */

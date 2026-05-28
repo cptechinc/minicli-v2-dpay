@@ -2,7 +2,9 @@
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Database\MeekroDB\AbstractTable as ParentTable;
 
-
+/**
+ * Template for App Database tables
+ */
 class AbstractDatabaseTable extends ParentTable {
     const SESSION_CONNECTION_NAME = 'app';
     

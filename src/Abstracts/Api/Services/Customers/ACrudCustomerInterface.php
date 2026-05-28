@@ -6,7 +6,7 @@ use Dpay\Data\Customer as Customer;
 /**
  * Template class for Customer CRUD operations
  * 
- * @property string    $id            Generated Customer ID
+ * @property string    $id            API Customer ID
  * @property Customer  $dpayCustomer  Customer Data
  * @property string    $errorMsg
  */

@@ -4,6 +4,8 @@ use Pauldro\UtilityBelt\Data\Data;
 use Pauldro\UtilityBelt\Data\SimpleArray;
 
 /**
+ * Container for API config data
+ * 
  * @property SimpleArray $actionableEvents
  */
 abstract class AbstractApiConfig extends Data {

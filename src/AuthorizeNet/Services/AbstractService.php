@@ -3,7 +3,6 @@
 use Dpay\AuthorizeNet\ApiClient;
 use Dpay\AuthorizeNet\Config;
 
-
 /**
  * Template for API Services for Authorize.net
  * 

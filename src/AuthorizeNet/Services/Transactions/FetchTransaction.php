@@ -7,7 +7,7 @@ use Dpay\AuthorizeNet\Services\Charges\Util\ChargeStatus;
 use Dpay\AuthorizeNet\Services\Transactions\Data\Transaction as TrResponse;
 
 /**
- * Service to Fetch Transaction Data using Authorize.net API
+ * Service to Fetch Transaction Data using Authorize.Net API
  * 
  * @property string 	     $id		   Transaction ID
  * @property TrResponse      $response

@@ -23,7 +23,7 @@ abstract class AbstractCrudRefund extends AbstractService {
     const ACTION = 'refund';
     const ANET_TRANSACTION_TYPE = 'refundTransaction';
     const ANET_TRANSACTION_MESSAGE_ERROR_CODES = [
-        '311' => 'This transaction has already been captured'
+        '311' => 'This transaction has already been refunded'
     ];
     const REFUND_STATUS_ON_SUCCESS = 'refunded';
 
@@ -102,7 +102,7 @@ abstract class AbstractCrudRefund extends AbstractService {
         $rqst = new ANetTransactionRequest();
         $rqst->setTransactionType(static::ANET_TRANSACTION_TYPE);
         $rqst->setRetail(TransactionData::transRetailInfoType($this->dpayRefund->charge));
-        $rqst->addToTransactionSettings(TransactionData::settingType());
+        $rqst->addToTransactionSettings(TransactionData::settingTypeDuplicateWindow());
 
         if ($this->dpayRefund->transactionid) {
             $rqst->setRefTransId($this->dpayRefund->transactionid);

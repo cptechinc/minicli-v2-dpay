@@ -5,7 +5,7 @@ use Dpay\Data\CreditCard as CreditCard;
 /**
  * Template class for updating CreditCard
  * 
- * @property string      $id              Generated CreditCard ID
+ * @property string      $id              API CreditCard ID
  * @property CreditCard  $dpayCreditCard  CreditCard Data
  * @property string      $errorMsg
  */

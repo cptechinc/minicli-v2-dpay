@@ -5,7 +5,7 @@ use Dpay\Data\Customer;
 /**
  * Template class for generating Customer
  * 
- * @property string    $id        Generated Customer ID
+ * @property string    $id        API Customer ID (Generated)
  * @property Customer  $customer  Customer Data
  * @property string    $errorMsg
  */
