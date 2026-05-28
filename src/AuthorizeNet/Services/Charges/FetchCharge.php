@@ -110,7 +110,7 @@ class FetchCharge extends AbstractCrudCharge implements FetchChargeInterface {
 
         if ($transaction === null) {
             $response->errorCode = $apiResponse->getMessages()->getMessage()[0]->getCode();
-            $response->errorMsg  = 'ANET: Transaction not found';
+            $response->errorMsg  = 'Transaction not found';
             return $response;
         }
         return $response;

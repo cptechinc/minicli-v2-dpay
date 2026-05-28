@@ -86,9 +86,10 @@ class FetchTransaction extends AbstractService {
             $message = $apiResponse->getMessages()->getMessage()[0];
             $response->exists  = false;
             $response->errorCode = $message->getCode();
-            $response->errorMsg  = 'ANET: ' . $message->getText();
-            if ($response->errorCode === 'E00040') {
-                $response->errorMsg = 'ANET: Transaction not found';
+            $response->errorMsg  =  $message->getText();
+
+            if ($response->errorCode == 'E00040') {
+                $response->errorMsg = 'Transaction not found';
             }
             return $response;
         }
