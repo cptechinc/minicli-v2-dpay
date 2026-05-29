@@ -73,7 +73,7 @@ abstract class AbstractCrudCharge extends AbstractService {
         $data->custid    = $metadata->offsetExists('custid') ? $metadata->custid : '';
         $data->status    = ChargeStatus::find($charge->status)->value;
         
-        if ($charge->offsetExists('last_payment_error')) {
+        if ($charge->offsetExists('last_payment_error') && $charge->last_payment_error != null) {
             $data->errorCode = $charge->last_payment_error->code;
             $data->errorMsg  = $charge->last_payment_error->message;
         }
