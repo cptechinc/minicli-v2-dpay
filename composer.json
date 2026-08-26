@@ -21,8 +21,8 @@
 		"minicli/minicli": "^4.2",
 		"pauldro/minicli-v2": "dev-main",
 		"pauldro/minicli-v2-database": "dev-main",
-		"cptechinc/dplus-payment-model": "dev-php-upgrade",
-		"cptechinc/dplus-model": "dev-php-upgrade",
+		"cptechinc/dplus-payment-model": "dev-php-8-upgrade",
+		"cptechinc/dplus-model": "dev-php-8-upgrade",
 		"stripe/stripe-php": "^17.6@beta",
 		"guzzlehttp/guzzle": "8.0.x-dev",
 		"authorizenet/authorizenet": "dev-master"
@@ -32,8 +32,8 @@
 		"minicli/minicli": "^4.2",
 		"pauldro/minicli-v2": "dev-main",
 		"pauldro/minicli-v2-database": "dev-main",
-		"cptechinc/dplus-payment-model": "dev-php-upgrade",
-		"cptechinc/dplus-model": "dev-php-upgrade",
+		"cptechinc/dplus-payment-model": "dev-php-8-upgrade",
+		"cptechinc/dplus-model": "dev-php-8-upgrade",
 		"stripe/stripe-php": "^17.6@beta",
 		"guzzlehttp/guzzle": "8.0.x-dev",
 		"authorizenet/authorizenet": "dev-master"
