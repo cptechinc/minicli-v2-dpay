@@ -1,11 +1,11 @@
 <?php namespace Dpay\Stripe\Data\CreditCards;
+
 // Lib
 use Dpay\Stripe\Data\Data;
 
-
 /**
  * Data Container for Creating CreditCard
- * 
+ *
  * @property string  $id             API ID
  * @property string  $custid         Stripe Customer ID
  * @property string  $name           Card Holder Name
@@ -20,8 +20,9 @@ use Dpay\Stripe\Data\Data;
  * @property string  $address_zip      Address Zipcode
  * @property string  $address_country  Address country
  */
-class CreditCardRequest extends Data {
-    const FIELDS_STRING  = [
+class CreditCardRequest extends Data
+{
+    public const FIELDS_STRING  = [
         'id', 'custid',
         'name',
         'address_city', 'address_country',
@@ -31,10 +32,11 @@ class CreditCardRequest extends Data {
         'number'
     ];
 
-/* =============================================================
-    Constructors / Inits
-============================================================= */
-    public function __construct() {
+    /* =============================================================
+        Constructors / Inits
+    ============================================================= */
+    public function __construct()
+    {
         foreach (self::FIELDS_STRING as $fieldname) {
             $this->$fieldname = '';
         }
@@ -42,15 +44,12 @@ class CreditCardRequest extends Data {
 
     /**
      * Return Stripe Data Array
-     * @return array
      */
-    public function toApiArray() : array
+    public function toApiArray(): array
     {
         $data = $this->toArray();
-        unset($data['id']);
-        unset($data['custid']);
-        unset($data['number']);
-        unset($data['cvc']);
+        unset($data['id'], $data['custid'], $data['number'], $data['cvc']);
+
         return $data;
     }
 }

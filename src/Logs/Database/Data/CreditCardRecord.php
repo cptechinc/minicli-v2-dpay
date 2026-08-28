@@ -1,10 +1,11 @@
 <?php namespace Dpay\Logs\Database\Data;
+
 // Dpay
 use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
 
 /**
  * Container for CreditCard Record
- * 
+ *
  * @property int|null $rid        Record ID
  * @property string   $timestamp  Timestamp
  * @property int      $conbr      Company Number
@@ -14,8 +15,10 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property string   $issuer     Card Issuer
  * @property string   $last4      Last 4 Card
  */
-class CreditCardRecord extends AbstractRecord {
-    public function __construct() {
+class CreditCardRecord extends AbstractRecord
+{
+    public function __construct()
+    {
         $this->timestamp = '';
         $this->conbr  = 0;
         $this->custid = '';

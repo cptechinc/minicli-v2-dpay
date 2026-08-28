@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Refunds;
+
 // Stripe API Library
 use Stripe\PaymentIntent as StripeCharge;
 use Stripe\Refund as StripeRefund;
@@ -11,30 +12,30 @@ use Dpay\Stripe\Services\Charges\Util\ChargeStatus;
 
 /**
  * Service to Create Refund using Stripe API
- * 
+ *
  * @property string 	     $id		   API Refund ID
  * @property DpayRefund		 $dpayRefund   Dpay Refund (Request)
  * @property StripeRefund 	 $sRefund 	   Stripe API Refund
  * @property StripeCharge 	 $sCharge 	   Stripe API Charge
  */
-abstract class AbstractCrudRefund extends AbstractService {
+abstract class AbstractCrudRefund extends AbstractService
+{
     use ACrudRefundTraits;
 
-    const ACTION = 'refund';
+    public const ACTION = 'refund';
 
     protected string $id;
     public StripeRefund $sRefund;
     protected DpayRefund $dpayRefund;
     protected StripeCharge $sCharge;
-    
-/* =============================================================
-    Inits @see ACrudRefundTraits
-============================================================= */
+
+    /* =============================================================
+        Inits @see ACrudRefundTraits
+    ============================================================= */
     /**
      * Fetch Stripe Charge, verify if status can be acted on
-     * @return bool
      */
-    protected function initStripeCharge() : bool
+    protected function initStripeCharge(): bool
     {
         $this->sCharge = Endpoints\Charges::fetchById($this->dpayRefund->transactionid);
 
@@ -44,15 +45,14 @@ abstract class AbstractCrudRefund extends AbstractService {
         }
         return true;
     }
-    
-/* =============================================================
-    Interface Contracts @see ACrudRefundTraits
-============================================================= */
+
+    /* =============================================================
+        Interface Contracts @see ACrudRefundTraits
+    ============================================================= */
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if ($this->initDpayRefund() === false) {
             return false;
@@ -67,7 +67,7 @@ abstract class AbstractCrudRefund extends AbstractService {
             if ($this->errorMsg) {
                 return false;
             }
-            $this->errorMsg = "Unable to " . static::ACTION . " charge {$this->dpayRefund->charge->custid}";
+            $this->errorMsg = 'Unable to ' . static::ACTION . " charge {$this->dpayRefund->charge->custid}";
             return false;
         }
         $this->sRefund = $stripeRefund;
@@ -77,9 +77,8 @@ abstract class AbstractCrudRefund extends AbstractService {
 
     /**
      * Return Response data as Dpay Refund
-     * @return DpayRefund
      */
-    public function getDpayRefundResponseData() : DpayRefund
+    public function getDpayRefundResponseData(): DpayRefund
     {
         $refund = $this->sRefund;
         $data   = $refund->toArray();
@@ -93,15 +92,13 @@ abstract class AbstractCrudRefund extends AbstractService {
         return $data;
     }
 
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+        Internal Processing
+    ============================================================= */
     /**
      * Generate Credit Refund Request Data
-     * @param  DpayRefund $refund
-     * @return StripeRefund
      */
-    protected function generateRefundRequest(DpayRefund $refund) : StripeRefund
+    protected function generateRefundRequest(DpayRefund $refund): StripeRefund
     {
         $data = new StripeRefund();
         if ($refund->refundid) {
@@ -116,8 +113,6 @@ abstract class AbstractCrudRefund extends AbstractService {
 
     /**
      * Creates Stripe Credit Refund
-     * @param  StripeRefund $data
-     * @return StripeRefund|false
      */
-    abstract protected function processRefund(StripeRefund $data) : StripeRefund|false;
+    abstract protected function processRefund(StripeRefund $data): StripeRefund|false;
 }

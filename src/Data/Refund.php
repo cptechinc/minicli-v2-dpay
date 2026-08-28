@@ -2,43 +2,44 @@
 
 /**
  * Container for Refund Data
- * 
+ *
  * @property string  $refundid       API ID
  * @property string  $transactionid  API transaction ID to refund
  * @property string  $status
  * @property float   $amount
  * @property Charge  $charge
  */
-class Refund extends Data {
-    const FIELDS_NUMERIC = [];
-    const FIELDS_NUMERIC_INT = [];
-    const FIELDS_NUMERIC_FLOAT = ['amount'];
-    const FIELDS_STRING  = ['refundid', 'transactionid', 'status'];
-    const FIELDS_EASY_SET_JSON = ['refundid'];
-    const STATUSES = [
+class Refund extends Data
+{
+    public const FIELDS_NUMERIC = [];
+    public const FIELDS_NUMERIC_INT = [];
+    public const FIELDS_NUMERIC_FLOAT = ['amount'];
+    public const FIELDS_STRING  = ['refundid', 'transactionid', 'status'];
+    public const FIELDS_EASY_SET_JSON = ['refundid'];
+    public const STATUSES = [
         'requires_action' => 'requires_action',
         'succeeded'       => 'succeeded',
         'failed'          => 'failed',
         'canceled'        => 'canceled',
     ];
 
-/* =============================================================
-    Constructors / Inits
-============================================================= */
-    public function __construct() {
+    /* =============================================================
+        Constructors / Inits
+    ============================================================= */
+    public function __construct()
+    {
         parent::__construct();
         $this->charge = new Charge();
     }
 
-/* =============================================================
-    Setters
-============================================================= */
+    /* =============================================================
+        Setters
+    ============================================================= */
     /**
      * Set Fields fom JSON array
-     * @param  array $data
-     * @return void
      */
-    public function setFromJson(array $data) : void {
+    public function setFromJson(array $data): void
+    {
         if (array_key_exists('transactionid', $data) === false) {
             return;
         }
@@ -49,14 +50,13 @@ class Refund extends Data {
         $this->transactionid = $this->charge->transactionid;
     }
 
-/* =============================================================
-    Getters
-============================================================= */
+    /* =============================================================
+        Getters
+    ============================================================= */
     /**
      * Return Array
-     * @return array
      */
-    public function getArray() : array
+    public function getArray(): array
     {
         $json = $this->data;
         $json['charge'] = $this->charge->getArray();

@@ -1,44 +1,50 @@
 <?php namespace Dpay\Dplus\Db\Tables;
+
 // Dplus Models
-use CustomerQuery as Query, Customer as Record;
+use CustomerQuery as Query;
+use Customer as Record;
 // Dplus
 use Pauldro\Minicli\v2\Database\Propel\AbstractQueryWrapper;
 
 /**
  * Reads Records from Customer table
- * 
+ *
  * @method Query query()
  * @static self  $instance
  */
-class Customers extends AbstractQueryWrapper {
-    const MODEL              = 'Customer';
-    const MODEL_KEY          = 'custid';
-    const MODEL_TABLE        = 'ar_cust_mast';
-    const DESCRIPTION        = 'Dplus Customers table';
+class Customers extends AbstractQueryWrapper
+{
+    public const MODEL              = 'Customer';
+    public const MODEL_KEY          = 'custid';
+    public const MODEL_TABLE        = 'ar_cust_mast';
+    public const DESCRIPTION        = 'Dplus Customers table';
 
+    #[\Override]
     protected static $instance;
 
-/* =============================================================
-    Query Functions
-============================================================= */
+    /* =============================================================
+        Query Functions
+    ============================================================= */
     /**
      * Return Query Filtered By Customer ID
      * @param  int   $custid
      * @return Query
      */
-    public function queryCustid($custid) {
+    public function queryCustid($custid)
+    {
         return $this->query()->filterByCustid($custid);
     }
-    
-/* =============================================================
-    Reads
-============================================================= */
+
+    /* =============================================================
+        Reads
+    ============================================================= */
     /**
      * Return if Order Exists
      * @param  int $custid
      * @return bool
      */
-    public function exists($custid) {
+    public function exists($custid)
+    {
         return boolval($this->queryCustid($custid)->count());
     }
 
@@ -47,7 +53,8 @@ class Customers extends AbstractQueryWrapper {
      * @param  string $custid
      * @return Record
      */
-    public function findOne($custid) {
+    public function findOne($custid)
+    {
         return $this->queryCustid($custid)->findOne();
     }
 }

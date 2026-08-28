@@ -1,4 +1,5 @@
 <?php namespace Dpay\AuthorizeNet\Services\Refunds\Data;
+
 // Dpay
 use Dpay\AuthorizeNet\Services\Charges\Data\ChargeResponse;
 
@@ -10,6 +11,6 @@ use Dpay\AuthorizeNet\Services\Charges\Data\ChargeResponse;
  * @property string $authCode
  * @property string $status
  */
-class RefundResponse extends ChargeResponse {
-    
+class RefundResponse extends ChargeResponse
+{
 }

@@ -1,4 +1,5 @@
 <?php namespace Dpay\AuthorizeNet\Services\Charges\Data;
+
 // Pauldro Minicli
 use Pauldro\UtilityBelt\Data\Data;
 
@@ -11,8 +12,10 @@ use Pauldro\UtilityBelt\Data\Data;
  * @property string $avsCode
  * @property string $status
  */
-class ChargeResponse extends Data {
-    public function __construct() {
+class ChargeResponse extends Data
+{
+    public function __construct()
+    {
         $this->success = false;
         $this->transactionid = '';
         $this->errorMsg  = '';

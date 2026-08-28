@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Customers;
+
 // Stripe API Library
 use Stripe\Customer as StripeCustomer;
 // Dpay
@@ -8,28 +9,28 @@ use Dpay\Stripe\Services\AbstractService;
 
 /**
  * Service to Create Customer using Stripe API
- * 
+ *
  * @property string 			 $id			API Customer ID
  * @property DpayCustomer		 $dpayCustomer	Dpay Customer
  * @property StripeCustomer 	 $sCustomer 	Stripe API Customer
  */
-abstract class AbstractCrudCustomer extends AbstractService {
+abstract class AbstractCrudCustomer extends AbstractService
+{
     use ACrudCustomerTraits;
-    
-    const ACTION_DESCRIPTION = 'create';
+
+    public const ACTION_DESCRIPTION = 'create';
 
     protected string $id;
     public StripeCustomer $sCustomer;
     protected DpayCustomer $dpayCustomer;
 
-/* =============================================================
-    Inits
-============================================================= */
+    /* =============================================================
+            Inits
+        ============================================================= */
     /**
      * Init Dpay Customer
-     * @return bool
      */
-    protected function initDpayCustomer() : bool
+    protected function initDpayCustomer(): bool
     {
         if (empty($this->dpayCustomer)) {
             $this->errorMsg = 'Customer not set';
@@ -38,24 +39,21 @@ abstract class AbstractCrudCustomer extends AbstractService {
         return true;
     }
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
+    /* =============================================================
+            Interface Contracts
+        ============================================================= */
     /**
      * Set Dpay Customer
-     * @param  DpayCustomer $customer
-     * @return void
      */
-    public function setDpayCustomer(DpayCustomer $customer) : void
+    public function setDpayCustomer(DpayCustomer $customer): void
     {
         $this->dpayCustomer = $customer;
     }
 
     /**
      * Return Dpay Customer
-     * @return DpayCustomer
      */
-    public function getDpayCustomer() : DpayCustomer
+    public function getDpayCustomer(): DpayCustomer
     {
         return $this->dpayCustomer;
     }
@@ -63,27 +61,24 @@ abstract class AbstractCrudCustomer extends AbstractService {
     /**
      * Set API ID
      * @param  string $id  ID / Slug for API ID
-     * @return void
      */
-    public function setId($id) : void
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
     /**
      * Return API Customer ID
-     * @return string
      */
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if ($this->initDpayCustomer() === false) {
             return false;
@@ -95,7 +90,7 @@ abstract class AbstractCrudCustomer extends AbstractService {
             if ($this->errorMsg) {
                 return false;
             }
-            $this->errorMsg = "Unable to " . static::ACTION_DESCRIPTION . " Customer {$this->dpayCustomer->custid}";
+            $this->errorMsg = 'Unable to ' . static::ACTION_DESCRIPTION . " Customer {$this->dpayCustomer->custid}";
             return false;
         }
         $this->id = $this->sCustomer->id;
@@ -105,9 +100,8 @@ abstract class AbstractCrudCustomer extends AbstractService {
 
     /**
      * Return Response data as Dpay Customer
-     * @return DpayCustomer
      */
-    public function getDpayCustomerResponseData() : DpayCustomer
+    public function getDpayCustomerResponseData(): DpayCustomer
     {
         $cust     = $this->sCustomer;
         $data = new DpayCustomer();
@@ -127,15 +121,13 @@ abstract class AbstractCrudCustomer extends AbstractService {
         return $data;
     }
 
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+            Internal Processing
+        ============================================================= */
     /**
      * Generate Customer Request
-     * @param  DpayCustomer $customer
-     * @return StripeCustomer
      */
-    protected function generateCustomerRequest(DpayCustomer $customer) : StripeCustomer
+    protected function generateCustomerRequest(DpayCustomer $customer): StripeCustomer
     {
         $sCustomer = $customer->aid ? new StripeCustomer($customer->aid) : new StripeCustomer();
         $sCustomer->name = $customer->custname;
@@ -153,8 +145,6 @@ abstract class AbstractCrudCustomer extends AbstractService {
 
     /**
      * Process Stripe Customer Request
-     * @param  StripeCustomer $rqst
-     * @return StripeCustomer|false
      */
-    abstract protected function processCustomer(StripeCustomer $rqst) : StripeCustomer|false;
+    abstract protected function processCustomer(StripeCustomer $rqst): StripeCustomer|false;
 }

@@ -1,4 +1,5 @@
 <?php namespace Dpay\AuthorizeNet\Services\Transactions;
+
 // Authorize.Net Library
 use net\authorize\api\contract\v1\GetTransactionDetailsResponse as ANetTransactionResponse;
 // Dpay
@@ -8,41 +9,41 @@ use Dpay\AuthorizeNet\Services\Transactions\Data\Transaction as TrResponse;
 
 /**
  * Service to Fetch Transaction Data using Authorize.Net API
- * 
+ *
  * @property string 	     $id		   Transaction ID
  * @property TrResponse      $response
  */
-class FetchTransaction extends AbstractService {
+class FetchTransaction extends AbstractService
+{
     public string $id = '';
     public TrResponse $response;
     protected ANetTransactionResponse $aResponse;
 
-    public function setId(string $id) : void
+    public function setId(string $id): void
     {
         $this->id = $id;
     }
 
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getResponseData() : TrResponse
+    public function getResponseData(): TrResponse
     {
         return $this->response;
     }
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
+    /* =============================================================
+        Interface Contracts
+    ============================================================= */
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if (empty($this->id)) {
-            $this->errorMsg = "Transaction ID was not provided";
+            $this->errorMsg = 'Transaction ID was not provided';
             return false;
         }
         $transaction = $this->fetchTransaction($this->id);
@@ -62,27 +63,27 @@ class FetchTransaction extends AbstractService {
         return true;
     }
 
-/* =============================================================
-    Internal Processing
-============================================================= */
-    protected function fetchTransaction(string $id) : TrResponse
+    /* =============================================================
+        Internal Processing
+    ============================================================= */
+    protected function fetchTransaction(string $id): TrResponse
     {
         $response = $this->api()->fetchTransactionDetails($this->id);
         $this->aResponse = $response;
         return $this->processTransactionResponse($response);
     }
 
-    protected function processTransactionResponse(?ANetTransactionResponse $apiResponse = null) : TrResponse
+    protected function processTransactionResponse(?ANetTransactionResponse $apiResponse = null): TrResponse
     {
         $response = new TrResponse();
 
-        if ($apiResponse === null) {
+        if (!$apiResponse instanceof \net\authorize\api\contract\v1\GetTransactionDetailsResponse) {
             $response->exists  = false;
             $response->errorMsg = 'Transaction not found';
             return $response;
         }
 
-        if ($apiResponse->getMessages()->getResultCode() != "Ok") {
+        if ($apiResponse->getMessages()->getResultCode() != 'Ok') {
             $message = $apiResponse->getMessages()->getMessage()[0];
             $response->exists  = false;
             $response->errorCode = $message->getCode();
@@ -107,5 +108,4 @@ class FetchTransaction extends AbstractService {
         $response->type = $tDetails->getTransactionType();
         return $response;
     }
-
 }

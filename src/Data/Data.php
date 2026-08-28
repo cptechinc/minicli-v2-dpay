@@ -1,22 +1,25 @@
 <?php namespace Dpay\Data;
+
 // Pauldro Minicli
 use Pauldro\UtilityBelt\Data\Data as AbstractData;
 
 /**
  * Container For Dpay Data
  */
-class Data extends AbstractData {
-    const FIELDS_BOOL = [];
-    const FIELDS_NUMERIC = [];
-    const FIELDS_NUMERIC_INT = [];
-    const FIELDS_NUMERIC_FLOAT = [];
-    const FIELDS_STRING = [];
-    const FIELDS_EASY_SET_JSON = [];
+class Data extends AbstractData
+{
+    public const FIELDS_BOOL = [];
+    public const FIELDS_NUMERIC = [];
+    public const FIELDS_NUMERIC_INT = [];
+    public const FIELDS_NUMERIC_FLOAT = [];
+    public const FIELDS_STRING = [];
+    public const FIELDS_EASY_SET_JSON = [];
 
-/* =============================================================
-    Constructors / Inits
-============================================================= */
-    public function __construct() {
+    /* =============================================================
+        Constructors / Inits
+    ============================================================= */
+    public function __construct()
+    {
         foreach (static::FIELDS_BOOL as $fieldname) {
             $this->$fieldname = false;
         }
@@ -28,13 +31,13 @@ class Data extends AbstractData {
         }
     }
 
-/* =============================================================
-    Setters
-============================================================= */
-    public function setFromJson(array $data) : void
+    /* =============================================================
+        Setters
+    ============================================================= */
+    public function setFromJson(array $data): void
     {
         foreach (static::FIELDS_EASY_SET_JSON as $fieldname) {
-            if (array_key_exists($fieldname, $data) === false) {
+            if (array_key_exists((string) $fieldname, $data) === false) {
                 continue;
             }
 
@@ -51,14 +54,13 @@ class Data extends AbstractData {
         }
     }
 
-/* =============================================================
-    Getters
-============================================================= */
+    /* =============================================================
+        Getters
+    ============================================================= */
     /**
      * Return Data as array
-     * @return array
      */
-    public function getArray() : array
+    public function getArray(): array
     {
         return $this->data;
     }

@@ -7,16 +7,14 @@ enum EventType: string
 
     /**
      * Return Status
-     * @param  string $type
      * @return EventType
      */
-    public static function find(string $type) : EventType|false
+    public static function find(string $type): EventType|false
     {
-        return match($type) {
+        return match ($type) {
             'checkout.session.async_payment_failed'    => self::CheckoutPaymentDeclined,
             'checkout.session.async_payment_succeeded' => self::CheckoutPaymentSuccess,
             default => false,
         };
     }
-
 }

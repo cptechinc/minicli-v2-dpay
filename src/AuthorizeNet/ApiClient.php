@@ -1,4 +1,5 @@
 <?php namespace Dpay\AuthorizeNet;
+
 // AuthorizeNet Library
 use net\authorize\api\constants\ANetEnvironment;
 use net\authorize\api\contract\v1 as AnetAPI;
@@ -7,15 +8,16 @@ use net\authorize\api\controller as AnetController;
 use Dpay\Abstracts\Api\ApiClientInterface;
 use Dpay\AuthorizeNet\Config;
 
-class ApiClient implements ApiClientInterface {
+class ApiClient implements ApiClientInterface
+{
     /** @var static $instance */
     private static $instance;
     private Config $config;
 
-/* =============================================================
-    Constructors / Inits
-============================================================= */
-    public static function instance() : static 
+    /* =============================================================
+        Constructors / Inits
+    ============================================================= */
+    public static function instance(): static
     {
         if (empty(self::$instance) === false) {
             return self::$instance;
@@ -25,23 +27,23 @@ class ApiClient implements ApiClientInterface {
         return self::$instance;
     }
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
-    public function connect() : bool
+    /* =============================================================
+        Interface Contracts
+    ============================================================= */
+    public function connect(): bool
     {
         $response = $this->fetchMerchantDetails();
 
-        if ($response == null || $response->getMessages()->getResultCode() != "Ok") {
+        if ($response == null || $response->getMessages()->getResultCode() != 'Ok') {
             return false;
         }
         return true;
     }
 
-/* =============================================================
-    API requests
-============================================================= */
-    public function fetchMerchantDetails() : AnetAPI\GetMerchantDetailsResponse
+    /* =============================================================
+        API requests
+    ============================================================= */
+    public function fetchMerchantDetails(): AnetAPI\GetMerchantDetailsResponse
     {
         $rqst = new AnetAPI\GetMerchantDetailsRequest();
         $rqst->setMerchantAuthentication($this->getApiAuthentication());
@@ -50,7 +52,7 @@ class ApiClient implements ApiClientInterface {
         return $api->executeWithApiResponse($this->getApiUrl());
     }
 
-    public function sendChargeTransaction(AnetAPI\TransactionRequestType $transaction) : AnetAPI\CreateTransactionResponse 
+    public function sendChargeTransaction(AnetAPI\TransactionRequestType $transaction): AnetAPI\CreateTransactionResponse
     {
         $rqst = new AnetAPI\CreateTransactionRequest();
         $rqst->setMerchantAuthentication($this->getApiAuthentication());
@@ -61,7 +63,7 @@ class ApiClient implements ApiClientInterface {
         return $api->executeWithApiResponse($this->getApiUrl());
     }
 
-    public function fetchTransactionDetails(string $id) : AnetAPI\GetTransactionDetailsResponse
+    public function fetchTransactionDetails(string $id): AnetAPI\GetTransactionDetailsResponse
     {
         $rqst = new AnetAPI\GetTransactionDetailsRequest();
         $rqst->setMerchantAuthentication($this->getApiAuthentication());
@@ -72,10 +74,10 @@ class ApiClient implements ApiClientInterface {
         return $api->executeWithApiResponse($this->getApiUrl());
     }
 
-/* =============================================================
-    Supplemental
-============================================================= */
-    protected function getApiAuthentication() : AnetAPI\MerchantAuthenticationType
+    /* =============================================================
+        Supplemental
+    ============================================================= */
+    protected function getApiAuthentication(): AnetAPI\MerchantAuthenticationType
     {
         $auth = new AnetAPI\MerchantAuthenticationType();
         $auth->setName($this->config->apiLogin);
@@ -83,7 +85,7 @@ class ApiClient implements ApiClientInterface {
         return $auth;
     }
 
-    protected function getApiUrl() : string
+    protected function getApiUrl(): string
     {
         return $this->config->useSandbox ? ANetEnvironment::SANDBOX : ANetEnvironment::PRODUCTION;
     }

@@ -1,10 +1,11 @@
 <?php namespace Dpay\Logs\Database\Data;
+
 // Dpay
 use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
 
 /**
  * Container for Charge Status Log Record
- * 
+ *
  * @property int|null $rid              Record ID
  * @property string   $transactionid    API Transaction ID
  * @property string   $createdtimestamp Created Timestamp
@@ -19,8 +20,10 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property string   $errorMsg         Error Message
  * @property string   $authCode         Authorization Code
  */
-class ChargeStatusRecord extends AbstractRecord {
-    public function __construct() {
+class ChargeStatusRecord extends AbstractRecord
+{
+    public function __construct()
+    {
         $this->timestamp = '';
         $this->conbr = 0;
         $this->custid = '';

@@ -1,4 +1,5 @@
 <?php namespace Dpay\Logs\Database;
+
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Database\MeekroDB\Record as AbstractRecord;
 // Dpay
@@ -7,13 +8,15 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractDatabaseTable;
 
 /**
  * Handles Logging Webhook events to database
- * 
+ *
  * @method bool    insert(Record $r)  Insert Log Entry
  * @method Record  newRecord()        Return instance of Record Data Class
  */
-class Events extends AbstractDatabaseTable {
-    const TABLE  = 'app_events';
-    const COLUMNS = [
+class Events extends AbstractDatabaseTable
+{
+    public $db;
+    public const TABLE  = 'app_events';
+    public const COLUMNS = [
         'rid'		 => ['INT', 'NOT NULL', 'AUTO_INCREMENT'],
         'timestamp'  => ['DATETIME', 'DEFAULT NULL'],
         'conbr'      => ['INT', 'DEFAULT NULL'],
@@ -21,34 +24,33 @@ class Events extends AbstractDatabaseTable {
         'type'       => ['VARCHAR(100)', 'DEFAULT ""'],
         'raw_eventdata' => ['LONGTEXT', ''],
     ];
-    const PRIMARYKEY = ['rid'];
-    const RECORD_CLASS = Record::class;
+    public const PRIMARYKEY = ['rid'];
+    public const RECORD_CLASS = Record::class;
+    #[\Override]
     protected static $instance;
 
-/* =============================================================
-    Creates
-============================================================= */
+    /* =============================================================
+        Creates
+    ============================================================= */
     /**
      * Insert Record
      * @param  Record $r
-     * @return bool
      */
-    public function insert(AbstractRecord $r) : bool
+    public function insert(AbstractRecord $r): bool
     {
         $r->timestamp = date(self::FORMAT_DATETIME);
         $r->conbr = self::$conbr;
         return parent::insert($r);
     }
-    
-/* =============================================================
-    Reads
-============================================================= */
+
+    /* =============================================================
+            Reads
+        ============================================================= */
     /**
      * Return if Event exists
      * @param  string $id
-     * @return bool
      */
-    public function existsByEventid($id) : bool
+    public function existsByEventid($id): bool
     {
         $table = static::TABLE;
         $conbr = self::$conbr;
@@ -59,9 +61,8 @@ class Events extends AbstractDatabaseTable {
     /**
      * Return Record by Event id
      * @param  string $id
-     * @return Record|false
      */
-    public function findOneByEventid($id) : Record|false
+    public function findOneByEventid($id): Record|false
     {
         $table = static::TABLE;
         $conbr = self::$conbr;

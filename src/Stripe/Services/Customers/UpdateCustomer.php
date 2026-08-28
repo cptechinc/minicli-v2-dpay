@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Customers;
+
 // Stripe API Library
 use Stripe\Customer as StripeCustomer;
 // Dpay
@@ -8,29 +9,30 @@ use Dpay\Stripe\Endpoints;
 
 /**
  * Service to Update Customer using Stripe API
- * 
- * @property string              $id            Updated Customer ID 
+ *
+ * @property string              $id            Updated Customer ID
  * @property DpayCustomer        $dpayCustomer  Customer Data
  * @property StripeCustomer      $sCustomer     Stripe API Customer
  */
-class UpdateCustomer extends AbstractCrudCustomer implements UpdateCustomerInterface {
-    const ACTION_DESCRIPTION = 'update';
+class UpdateCustomer extends AbstractCrudCustomer implements UpdateCustomerInterface
+{
+    public const ACTION_DESCRIPTION = 'update';
+    #[\Override]
     public StripeCustomer $sCustomer;
+    #[\Override]
     protected DpayCustomer $dpayCustomer;
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
-
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+            Interface Contracts
+        ============================================================= */
+    /* =============================================================
+        Internal Processing
+    ============================================================= */
     /**
      * Update Stripe Customer
-     * @param  StripeCustomer $rqst
-     * @return StripeCustomer
      */
-    protected function processCustomer(StripeCustomer $rqst) : StripeCustomer {
+    protected function processCustomer(StripeCustomer $rqst): StripeCustomer
+    {
         $sCustomer = Endpoints\Customers::update($rqst);
 
         if (empty($sCustomer->id) === false) {

@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Charges;
+
 // Stripe API Library
 use Dpay\Data\Charge;
 use Stripe\PaymentIntent as StripeCharge;
@@ -10,31 +11,27 @@ use Dpay\Stripe\Services\Charges\Util\ChargeStatus;
 
 /**
  * Service to Create Credit Charge using Stripe API
- * 
+ *
  * @property string 	     $id		   API Charge ID
  * @property DpayCharge		 $dpayCharge   Dpay Credit Charge (Request)
  * @property StripeCharge 	 $sCharge 	   Stripe API Credit Charge
  */
-abstract class AbstractCrudCharge extends AbstractService {
+abstract class AbstractCrudCharge extends AbstractService
+{
     use ACrudChargeTraits;
 
-    const ACTION = 'update';
+    public const ACTION = 'update';
     public string $id = '';
     public StripeCharge $sCharge;
     protected DpayCharge $dpayCharge;
-    
-/* =============================================================
-    Inits @see ACrudChargeTraits
-============================================================= */
-    
-/* =============================================================
-    Interface Contracts @see ACrudChargeTraits
-============================================================= */
-    /**
-     * Process Request
-     * @return bool
-     */
-    public function process() : bool
+
+    /* =============================================================
+        Inits @see ACrudChargeTraits
+    ============================================================= */
+    /* =============================================================
+        Interface Contracts @see ACrudChargeTraits
+    ============================================================= */
+    public function process(): bool
     {
         if ($this->initDpayCharge() === false) {
             return false;
@@ -46,7 +43,7 @@ abstract class AbstractCrudCharge extends AbstractService {
             if ($this->errorMsg) {
                 return false;
             }
-            $this->errorMsg = "Unable to " . static::ACTION . " Credit Charge {$this->dpayCharge->custid}";
+            $this->errorMsg = 'Unable to ' . static::ACTION . " Credit Charge {$this->dpayCharge->custid}";
             return false;
         }
         $this->sCharge = $stripeCharge;
@@ -56,9 +53,8 @@ abstract class AbstractCrudCharge extends AbstractService {
 
     /**
      * Return Response data as Dpay Charge
-     * @return DpayCharge
      */
-    public function getDpayChargeResponseData() : Charge
+    public function getDpayChargeResponseData(): Charge
     {
         $charge = $this->sCharge;
         $metadata = $charge->metadata;
@@ -72,7 +68,7 @@ abstract class AbstractCrudCharge extends AbstractService {
         $data->ordernbr  = $metadata->offsetExists('ordernbr') ? $metadata->ordernbr : '';
         $data->custid    = $metadata->offsetExists('custid') ? $metadata->custid : '';
         $data->status    = ChargeStatus::find($charge->status)->value;
-        
+
         if ($charge->offsetExists('last_payment_error') && $charge->last_payment_error != null) {
             $data->errorCode = $charge->last_payment_error->code;
             $data->errorMsg  = $charge->last_payment_error->message;
@@ -80,15 +76,13 @@ abstract class AbstractCrudCharge extends AbstractService {
         return $data;
     }
 
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+            Internal Processing
+        ============================================================= */
     /**
      * Generate Credit Charge Request Data
-     * @param  DpayCharge $charge
-     * @return StripeCharge
      */
-    protected function generateChargeRequest(DpayCharge $charge) : StripeCharge
+    protected function generateChargeRequest(DpayCharge $charge): StripeCharge
     {
         $data = new StripeCharge();
         if ($charge->transactionid) {
@@ -104,8 +98,6 @@ abstract class AbstractCrudCharge extends AbstractService {
 
     /**
      * Creates Stripe Credit Charge
-     * @param  StripeCharge $data
-     * @return StripeCharge|false
      */
-    abstract protected function processCharge(StripeCharge $data) : StripeCharge|false;
+    abstract protected function processCharge(StripeCharge $data): StripeCharge|false;
 }

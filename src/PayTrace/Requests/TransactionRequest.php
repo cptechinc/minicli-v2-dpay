@@ -3,6 +3,7 @@
 /**
  * Wrapper for Guzzle HTTP to make Transaction Requests
  */
-class TransactionRequest extends AbstractEndpointRequest {
-    const ENDPOINTPATH = 'transactions';
+class TransactionRequest extends AbstractEndpointRequest
+{
+    public const ENDPOINTPATH = 'transactions';
 }

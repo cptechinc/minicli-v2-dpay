@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Endpoints;
+
 // Stripe API
 use Stripe\Exception\ApiErrorException;
 use Stripe\Card as StripeCard;
@@ -12,18 +13,18 @@ use Dpay\Stripe\Data\CreditCards\CreditCardRequest as CardRequest;
  * Wrapper for Stripe API to interface with the CreditCards Endpoint
  * NOTE: there's no sdk functionality for fetching card data
  */
-class CreditCards extends AbstractEndpoint {
+class CreditCards extends AbstractEndpoint
+{
+    #[\Override]
     public static string $errorMsg;
 
-/* =============================================================
-    Create
-============================================================= */
-     /**
-      * Create StripeCard
-      * @param  CardRequest $rqst
-      * @return StripeCard
-      */
-    public static function create(CardRequest $rqst) : StripeCard
+    /* =============================================================
+           Create
+       ============================================================= */
+    /**
+     * Create Credit Card
+     */
+    public static function create(CardRequest $rqst): StripeCard
     {
         $stripe = ApiClient::instance();
 
@@ -45,50 +46,46 @@ class CreditCards extends AbstractEndpoint {
 
         try {
             $rqst = $stripe->customers->createSource($rqst->custid, ['source' => $token->id]);
-        } catch(ApiErrorException $e) {
+        } catch (ApiErrorException $e) {
             self::$errorMsg = $e->getMessage();
             return new StripeCard('');
         }
         return $rqst;
     }
 
-/* =============================================================
-    Update
-============================================================= */
-     /**
-      * Update StripeCard
-      * @param  CardRequest $rqst
-      * @return StripeCard
-      */
-    public static function update(CardRequest $rqst) : StripeCard
+    /* =============================================================
+           Update
+       ============================================================= */
+    /**
+     * Update Credit Card info
+     */
+    public static function update(CardRequest $rqst): StripeCard
     {
         $stripe = ApiClient::instance();
         $data   = $rqst->toApiArray();
 
         try {
             $rqst = $stripe->customers->updateSource($rqst->custid, $rqst->id, $data);
-        } catch(ApiErrorException $e) {
+        } catch (ApiErrorException $e) {
             self::$errorMsg = $e->getMessage();
             return new StripeCard();
         }
         return $rqst;
     }
 
-/* =============================================================
-    Delete
-============================================================= */
+    /* =============================================================
+           Delete
+       ============================================================= */
     /**
-     * Delete StripeCard
-     * @param  CardRequest $rqst
-     * @return StripeCard
+     * Delete Credit Card
      */
-    public static function delete(CardRequest $rqst) : StripeCard
-     {
+    public static function delete(CardRequest $rqst): StripeCard
+    {
         $stripe = ApiClient::instance();
 
         try {
             $rqst = $stripe->customers->deleteSource($rqst->custid, $rqst->id, []);
-        } catch(ApiErrorException $e) {
+        } catch (ApiErrorException $e) {
             self::$errorMsg = $e->getMessage();
             return new StripeCard();
         }

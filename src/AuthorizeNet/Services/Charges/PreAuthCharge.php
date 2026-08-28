@@ -1,4 +1,5 @@
 <?php namespace Dpay\AuthorizeNet\Services\Charges;
+
 // AuthorizeNet Library
 use net\authorize\api\contract\v1\TransactionRequestType as ANetTransactionRequest;
 // Dpay
@@ -6,15 +7,16 @@ use Dpay\Abstracts\Api\Services\Charges\PreAuthChargeInterface;
 use Dpay\AuthorizeNet\Services\Charges\Util\TransactionData;
 use Dpay\Util\ChargeStatus;
 
-class PreAuthCharge extends AbstractCrudCharge implements PreAuthChargeInterface {
-    const ACTION = 'pre-authorize';
-    const ANET_TRANSACTION_TYPE = 'authOnlyTransaction';
+class PreAuthCharge extends AbstractCrudCharge implements PreAuthChargeInterface
+{
+    public const ACTION = 'pre-authorize';
+    public const ANET_TRANSACTION_TYPE = 'authOnlyTransaction';
 
-/* =============================================================
-    Contracts
-============================================================= */
+    /* =============================================================
+        Contracts
+    ============================================================= */
 
-    protected function createTransactionRequest() : ANetTransactionRequest
+    protected function createTransactionRequest(): ANetTransactionRequest
     {
         $rqst = parent::createTransactionRequest();
         $rqst->setAmount($this->dpayCharge->amount);
@@ -25,7 +27,7 @@ class PreAuthCharge extends AbstractCrudCharge implements PreAuthChargeInterface
         return $rqst;
     }
 
-    protected function getSuccessfulChargeStatus() : ChargeStatus
+    protected function getSuccessfulChargeStatus(): ChargeStatus
     {
         return ChargeStatus::RequiresCapture;
     }

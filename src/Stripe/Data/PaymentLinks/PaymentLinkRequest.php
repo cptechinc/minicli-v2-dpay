@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Data\PaymentLinks;
+
 // Pauldro Minicli
 use Pauldro\UtilityBelt\Data\SimpleArray;
 // Dpay
@@ -6,7 +7,7 @@ use Dpay\Data\Data;
 
 /**
  * Data Container for Creating Payment Link
- * 
+ *
  * @property string      $id
  * @property LineItems   $items
  * @property SimpleArray $metadata
@@ -15,8 +16,10 @@ use Dpay\Data\Data;
  * @property string      $description
  * @property bool        $isActive
  */
-class PaymentLinkRequest extends Data {
-    public function __construct() {
+class PaymentLinkRequest extends Data
+{
+    public function __construct()
+    {
         $this->id    = '';
         $this->items      = new LineItems();
         $this->metadata   = new SimpleArray();
@@ -31,7 +34,7 @@ class PaymentLinkRequest extends Data {
      * @return array{active: bool,line_items: array, metadata: array, payment_method_types: array, payment_intent_data: array,
      * after_completion:null|array}
      */
-    public function apiArray() : array
+    public function apiArray(): array
     {
         $data = [
             'line_items' => $this->items->getArray(),
@@ -60,7 +63,7 @@ class PaymentLinkRequest extends Data {
      * @return array{line_items: array, metadata: array, payment_method_types: array, payment_intent_data: array,
      * after_completion:null|array}
      */
-    public function apiCreateArray() : array
+    public function apiCreateArray(): array
     {
         return $this->apiArray();
     }
@@ -70,7 +73,7 @@ class PaymentLinkRequest extends Data {
      * @return {active: bool, line_items: array, metadata: array, payment_method_types: array, payment_intent_data: array,
      * after_completion:null|array}
      */
-    public function apiUpdateArray() : array
+    public function apiUpdateArray(): array
     {
         $data = $this->apiArray();
         $data['active'] = $this->isActive;

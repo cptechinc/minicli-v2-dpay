@@ -1,4 +1,5 @@
 <?php namespace Dpay\Logs\Database;
+
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Database\MeekroDB\Record as AbstractRecord;
 // Dpay
@@ -7,13 +8,15 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractDatabaseTable;
 
 /**
  * Handles Logging ChargeStatuses to Database Table
- * 
+ *
  * @method bool    insert(Record $r)  Insert Log Entry
  * @method Record  newRecord()        Return instance of Record Data Class
  */
-class ChargeStatuses extends AbstractDatabaseTable {
-    const TABLE  = 'app_chargestatuses';
-    const COLUMNS = [
+class ChargeStatuses extends AbstractDatabaseTable
+{
+    public $db;
+    public const TABLE  = 'app_chargestatuses';
+    public const COLUMNS = [
         'rid'		 => ['INT', 'NOT NULL', 'AUTO_INCREMENT'],
         'transactionid' => ['VARCHAR(100)', 'DEFAULT NULL'],
         'createdtimestamp'  => ['DATETIME', 'DEFAULT NULL'],
@@ -28,20 +31,20 @@ class ChargeStatuses extends AbstractDatabaseTable {
         'errorMsg'   => ['VARCHAR(100)', 'DEFAULT ""'],
         'authCode'   => ['VARCHAR(30)', 'DEFAULT ""'],
     ];
-    const PRIMARYKEY = ['rid'];
-    const RECORD_CLASS = Record::class;
+    public const PRIMARYKEY = ['rid'];
+    public const RECORD_CLASS = Record::class;
 
+    #[\Override]
     protected static $instance;
 
-/* =============================================================
-    Creates
-============================================================= */
+    /* =============================================================
+            Creates
+        ============================================================= */
     /**
      * Insert Record
      * @param  Record $r
-     * @return bool
      */
-    public function insert(AbstractRecord $r) : bool
+    public function insert(AbstractRecord $r): bool
     {
         $r->createdtimestamp = date(self::FORMAT_DATETIME);
         $r->timestamp = date(self::FORMAT_DATETIME);
@@ -52,9 +55,8 @@ class ChargeStatuses extends AbstractDatabaseTable {
     /**
      * Insert / Update Record
      * @param  Record $r
-     * @return bool
      */
-    public function insertOrUpdate(AbstractRecord $r) : bool
+    public function insertOrUpdate(AbstractRecord $r): bool
     {
         if ($r->has('rid')) {
             return $this->update($r);
@@ -62,15 +64,14 @@ class ChargeStatuses extends AbstractDatabaseTable {
         return $this->insert($r);
     }
 
-/* =============================================================
-    Reads
-============================================================= */
+    /* =============================================================
+            Reads
+        ============================================================= */
     /**
      * Return Record by Api ID
      * @param  string $id
-     * @return Record|false
      */
-    public function findOneByTransactionid($id) : Record|false
+    public function findOneByTransactionid($id): Record|false
     {
         $table = static::TABLE;
         $conbr = self::$conbr;
@@ -88,9 +89,8 @@ class ChargeStatuses extends AbstractDatabaseTable {
     /**
      * Delete Record with ID
      * @param  string $id
-     * @return bool
      */
-    public function deleteByTransactionid($id) : bool
+    public function deleteByTransactionid($id): bool
     {
         $this->db->delete(static::TABLE, ['transactionid' => $id]);
         return $this->db->affectedRows() > 0;

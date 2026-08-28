@@ -1,4 +1,5 @@
 <?php namespace Dpay\Logs\Database\Data;
+
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Util\SimpleArray;
 // Dpay
@@ -6,7 +7,7 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
 
 /**
  * Container for PaymentLink Status Record
- * 
+ *
  * @property int|null $rid		  Record ID
  * @property string   $created	  Timestamp
  * @property string   $updated	  Timestamp
@@ -25,10 +26,11 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property string   $raw_metadata
  * @property SimpleArray $metadata
  */
-class PaymentLinkStatusRecord extends AbstractRecord {
+class PaymentLinkStatusRecord extends AbstractRecord
+{
     public $metadata;
 
-    const DEFAULT_VALUES = [
+    public const DEFAULT_VALUES = [
         'created'	  => '',
         'updated'	  => '',
         'conbr' 	  => 0,
@@ -46,7 +48,8 @@ class PaymentLinkStatusRecord extends AbstractRecord {
         'raw_metadata'	=> ''
     ];
 
-    public function __construct() {
+    public function __construct()
+    {
         foreach (self::DEFAULT_VALUES as $field => $value) {
             if ($this->has($field)) {
                 continue;
@@ -56,7 +59,7 @@ class PaymentLinkStatusRecord extends AbstractRecord {
         $this->metadata = new SimpleArray();
     }
 
-    public function setArray(array $data) : static
+    public function setArray(array $data): static
     {
         parent::setArray($data);
 

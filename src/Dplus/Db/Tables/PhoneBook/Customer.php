@@ -1,35 +1,36 @@
 <?php namespace Dpay\Dplus\Db\Tables\PhoneBook;
+
 // Dplus Models
 use PhoneBookQuery as Query;
 use PhoneBook as Record;
 
-class Customer extends AbstractPhoneBookType {
-    const TYPE = 'C';
+class Customer extends AbstractPhoneBookType
+{
+    public const TYPE = 'C';
 
+    #[\Override]
     protected static $instance;
 
-/* =============================================================
-    Query Functions
-============================================================= */
+    /* =============================================================
+        Query Functions
+    ============================================================= */
     /**
      * Return Query filtered for cust ID
      * @param string $custID
-     * @return Query
      */
-    public function queryCustid($custID) : Query
+    public function queryCustid($custID): Query
     {
         return $this->queryType()->filterByKey1($custID);
     }
 
-/* =============================================================
-    Read Functions
-============================================================= */	
+    /* =============================================================
+        Read Functions
+    ============================================================= */
     /**
      * Return the number of contacts for Customer
      * @param  string $custID
-     * @return int
      */
-    public function countByCustid($custID) : int
+    public function countByCustid($custID): int
     {
         return $this->queryCustid($custID)->count();
     }
@@ -38,9 +39,8 @@ class Customer extends AbstractPhoneBookType {
      * Return the first record that matches
      * @param  string $custID
      * @param  string $contactID
-     * @return Record
      */
-    public function findOne($custID, $contactID = '') : Record
+    public function findOne($custID, $contactID = ''): Record
     {
         $q = $this->queryCustid($custID);
         if ($contactID) {

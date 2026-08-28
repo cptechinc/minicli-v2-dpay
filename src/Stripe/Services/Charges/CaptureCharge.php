@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Charges;
+
 // Stripe API Library
 use Stripe\PaymentIntent as StripeCharge;
 // Dpay
@@ -9,29 +10,29 @@ use Dpay\Stripe\Endpoints;
 /**
  * Service to capture new CreditCard Charge using Stripe API
  * NOTE: uses PaymentIntents API
- * 
+ *
  * @property string          $id          Generated Credit Charge ID
  * @property DpayCharge      $dpayCharge  Charge Data
  * @property StripeCharge    $sCharge     Stripe API Charge
  */
-class CaptureCharge extends AbstractCrudCharge implements CaptureChargeInterface {
-    const ACTION = 'capture';
+class CaptureCharge extends AbstractCrudCharge implements CaptureChargeInterface
+{
+    public const ACTION = 'capture';
+    #[\Override]
     public StripeCharge $sCharge;
+    #[\Override]
     protected DpayCharge $dpayCharge;
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
-    
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+        Interface Contracts
+    ============================================================= */
+    /* =============================================================
+        Internal Processing
+    ============================================================= */
     /**
      * Generate Credit Charge Data
-     * @param  DpayCharge $charge
-     * @return StripeCharge
      */
-    protected function generateChargeRequest(DpayCharge $charge) : StripeCharge
+    protected function generateChargeRequest(DpayCharge $charge): StripeCharge
     {
         $data = parent::generateChargeRequest($charge);
         $data->capture_method = 'automatic';
@@ -45,10 +46,8 @@ class CaptureCharge extends AbstractCrudCharge implements CaptureChargeInterface
 
     /**
      * Create Stripe Customer
-     * @param  StripeCharge $data
-     * @return StripeCharge|false
      */
-    protected function processCharge(StripeCharge $data) : StripeCharge|false
+    protected function processCharge(StripeCharge $data): StripeCharge|false
     {
         $stripeCharge = Endpoints\Charges::create($data);
 

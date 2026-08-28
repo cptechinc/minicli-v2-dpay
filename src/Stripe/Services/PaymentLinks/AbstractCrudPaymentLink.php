@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\PaymentLinks;
+
 // Stripe SDK
 use Stripe\LineItem as StripeLineItem;
 use Stripe\PaymentLink as StripePaymentLink;
@@ -8,23 +9,24 @@ use Dpay\Abstracts\Api\Services\PaymentLinks\ACrudPaymentLinkTraits;
 use Dpay\Data\PaymentLink as DpayPaymentLink;
 use Dpay\Stripe\Config;
 use Dpay\Stripe\Endpoints;
-use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest; 
+use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest;
 use Dpay\Stripe\Services\AbstractService;
 
 /**
  * Template Service to Create / Update PaymentLink using Stripe API
- * 
+ *
  * @property string 			$id 			  Generated Payment Link ID
  * @property string 			$url			  Generated Payment Link URL
  * @property DpayPaymentLink	$dpayPaymentLink  PaymentLink Data
  * @property StripePaymentLink	$sPaymentLink	  Stripe Payment Link
  * @property string 			$errorMsg
  */
-abstract class AbstractCrudPaymentLink extends AbstractService {
+abstract class AbstractCrudPaymentLink extends AbstractService
+{
     use ACrudPaymentLinkTraits;
 
-    const ACTION = 'update';
-    const PAYMENT_METHOD_TYPES = [
+    public const ACTION = 'update';
+    public const PAYMENT_METHOD_TYPES = [
         'ach'		=> StripePaymentMethod::TYPE_US_BANK_ACCOUNT,
         'amazonpay' => StripePaymentMethod::TYPE_AMAZON_PAY,
         'card'		=> StripePaymentMethod::TYPE_CARD,
@@ -37,20 +39,17 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
     public string $url;
     public StripePaymentLink $sPaymentLink;
     protected DpayPaymentLink $dpayPaymentLink;
-    
-/* =============================================================
-    Inits @see ACrudPaymentLinkTraits
-============================================================= */
-    
-    
-/* =============================================================
-    Interface Contracts @see ACrudPaymentLinkTraits
-============================================================= */
+
+    /* =============================================================
+            Inits @see ACrudPaymentLinkTraits
+        ============================================================= */
+    /* =============================================================
+        Interface Contracts @see ACrudPaymentLinkTraits
+    ============================================================= */
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if ($this->initDpayPaymentLink() === false) {
             return false;
@@ -62,7 +61,7 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
             if ($this->errorMsg) {
                 return false;
             }
-            $this->errorMsg = "Unable to " . static::ACTION . " PaymentLink for {$this->dpayPaymentLink->order->ordernbr}";
+            $this->errorMsg = 'Unable to ' . static::ACTION . " PaymentLink for {$this->dpayPaymentLink->order->ordernbr}";
             return false;
         }
         $this->sPaymentLink = $sPaymentLink;
@@ -74,9 +73,8 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
 
     /**
      * Return Response data as Dpay PaymentLink
-     * @return DpayPaymentLink
      */
-    public function getDpayPaymentLinkResponseData() : DpayPaymentLink
+    public function getDpayPaymentLinkResponseData(): DpayPaymentLink
     {
         $link = $this->sPaymentLink;
         $metadata = $link->metadata;
@@ -116,15 +114,13 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
         return $data;
     }
 
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+            Internal Processing
+        ============================================================= */
     /**
      * Generate PaymentLink Request Data
-     * @param  DpayPaymentLink $link
-     * @return PaymentLinkRequest
      */
-    protected function generatePaymentLinkRequest(DpayPaymentLink $link) : PaymentLinkRequest
+    protected function generatePaymentLinkRequest(DpayPaymentLink $link): PaymentLinkRequest
     {
         $data = new PaymentLinkRequest();
         if ($link->id) {
@@ -135,22 +131,19 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
 
     /**
      * Creates Stripe PaymentLink
-     * @param  PaymentLinkRequest $data
-     * @return StripePaymentLink
      */
-    protected function processPaymentLink(PaymentLinkRequest $data) : StripePaymentLink 
+    protected function processPaymentLink(PaymentLinkRequest $data): StripePaymentLink
     {
         return new StripePaymentLink();
     }
 
-/* =============================================================
-    Supplemental
-============================================================= */
+    /* =============================================================
+            Supplemental
+        ============================================================= */
     /**
      * Return Array of Allowed Payment Type Codes
-     * @return array
      */
-    protected function getEnvAllowedPaymentTypes() : array
+    protected function getEnvAllowedPaymentTypes(): array
     {
         $config = Config::instance();
         if ($config->allowedPaymentTypes->count() == 0) {
@@ -159,7 +152,7 @@ abstract class AbstractCrudPaymentLink extends AbstractService {
         $types = [];
 
         foreach ($config->allowedPaymentTypes as $allowedType) {
-            if (array_key_exists($allowedType, self::PAYMENT_METHOD_TYPES) === false) {
+            if (array_key_exists((string) $allowedType, self::PAYMENT_METHOD_TYPES) === false) {
                 continue;
             }
             $types[] = self::PAYMENT_METHOD_TYPES[$allowedType];

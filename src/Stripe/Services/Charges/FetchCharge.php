@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Charges;
+
 // Stripe API Library
 use Stripe\PaymentIntent as StripeCharge;
 // Lib
@@ -8,23 +9,25 @@ use Dpay\Data\Charge as DpayCharge;
 
 /**
  * Service to Get Charge from Stripe API
- * 
+ *
  * @property string        $id          Charge ID / URL
  * @property DpayCharge    $dpayCharge	Dpay Charge
  * @property StripeCharge  $sCharge
  */
-class FetchCharge extends AbstractCrudCharge implements FetchChargeInterface {
+class FetchCharge extends AbstractCrudCharge implements FetchChargeInterface
+{
+    #[\Override]
     public StripeCharge $sCharge;
+    #[\Override]
     protected DpayCharge $dpayCharge;
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
+    /* =============================================================
+        Interface Contracts
+    ============================================================= */
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if (empty($this->id)) {
             return false;
@@ -40,16 +43,15 @@ class FetchCharge extends AbstractCrudCharge implements FetchChargeInterface {
         return true;
     }
 
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+       Internal Processing
+   ============================================================= */
     /**
-    * Return Stripe Charge
-    * @param  StripeCharge $data
-    * @return StripeCharge|false;
-    */
-   protected function processCharge(StripeCharge $data) : StripeCharge|false
-   {
+     * Return Stripe Charge
+     * @return StripeCharge|false;
+     */
+    protected function processCharge(StripeCharge $data): StripeCharge|false
+    {
         return Endpoints\Charges::fetchById($this->id);
-   }
+    }
 }

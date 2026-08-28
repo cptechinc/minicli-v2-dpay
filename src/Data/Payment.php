@@ -1,4 +1,5 @@
 <?php namespace Dpay\Data;
+
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Util\SimpleArray;
 
@@ -17,22 +18,24 @@ use Pauldro\Minicli\v2\Util\SimpleArray;
  * @property string $authCode
  * @property SimpleArray $metadata
  */
-class Payment extends Data {
-    const FIELDS_BOOL = ['success'];
-    const FIELDS_NUMERIC = ['amount'];
-    const FIELDS_STRING = [
+class Payment extends Data
+{
+    public const FIELDS_BOOL = ['success'];
+    public const FIELDS_NUMERIC = ['amount'];
+    public const FIELDS_STRING = [
         'id', 'transactionid', 'type', 'status', 'ordernbr', 'custid', 'status', 'method',
         'errorCode', 'errorMsg', 'authCode'
     ];
-    const TYPES = ['charge', 'paymentlink'];
-    
-    public function __construct() {
+    public const TYPES = ['charge', 'paymentlink'];
+
+    public function __construct()
+    {
         parent::__construct();
 
         $this->metadata = new SimpleArray();
     }
 
-    public function getArray() : array
+    public function getArray(): array
     {
         $data = $this->data;
         $data['metadata'] = $this->metadata->getArray();

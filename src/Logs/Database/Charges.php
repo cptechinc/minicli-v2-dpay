@@ -1,4 +1,5 @@
 <?php namespace Dpay\Logs\Database;
+
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Database\MeekroDB\Record as AbstractRecord;
 // Dpay
@@ -7,13 +8,15 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractDatabaseTable;
 
 /**
  * Handles Logging Charges to Database Table
- * 
+ *
  * @method bool    insert(Record $r)  Insert Log Entry
  * @method Record  newRecord()        Return instance of Record Data Class
  */
-class Charges extends AbstractDatabaseTable {
-    const TABLE  = 'app_charges';
-    const COLUMNS = [
+class Charges extends AbstractDatabaseTable
+{
+    public $db;
+    public const TABLE  = 'app_charges';
+    public const COLUMNS = [
         'rid'		 => ['INT', 'NOT NULL', 'AUTO_INCREMENT'],
         'timestamp'  => ['DATETIME', 'DEFAULT NULL'],
         'conbr'      => ['INT', 'DEFAULT NULL'],
@@ -29,35 +32,34 @@ class Charges extends AbstractDatabaseTable {
         'errorMsg'        => ['VARCHAR(100)', 'DEFAULT ""'],
         'authCode'        => ['VARCHAR(30)', 'DEFAULT ""'],
     ];
-    const PRIMARYKEY = ['rid'];
-    const RECORD_CLASS = Record::class;
+    public const PRIMARYKEY = ['rid'];
+    public const RECORD_CLASS = Record::class;
 
+    #[\Override]
     protected static $instance;
 
-/* =============================================================
-    Creates
-============================================================= */
+    /* =============================================================
+            Creates
+        ============================================================= */
     /**
      * Insert Record
      * @param  Record $r
-     * @return bool
      */
-    public function insert(AbstractRecord $r) : bool
+    public function insert(AbstractRecord $r): bool
     {
         $r->timestamp = date(self::FORMAT_DATETIME);
         $r->conbr = self::$conbr;
         return parent::insert($r);
     }
 
-/* =============================================================
-    Reads
-============================================================= */
+    /* =============================================================
+            Reads
+        ============================================================= */
     /**
      * Return Record by Api ID
      * @param  string $id
-     * @return Record|false
      */
-    public function findOneByTransactionid($id) : Record|false
+    public function findOneByTransactionid($id): Record|false
     {
         $table = static::TABLE;
         $conbr = self::$conbr;
@@ -75,9 +77,8 @@ class Charges extends AbstractDatabaseTable {
     /**
      * Delete Record with ID
      * @param  mixed $id
-     * @return bool
      */
-    public function deleteByTransactionid($id) : bool
+    public function deleteByTransactionid($id): bool
     {
         $this->db->delete(static::TABLE, ['transactionid' => $id]);
         return $this->db->affectedRows() > 0;

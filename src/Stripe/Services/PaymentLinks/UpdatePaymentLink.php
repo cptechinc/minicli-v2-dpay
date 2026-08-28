@@ -1,45 +1,45 @@
 <?php namespace Dpay\Stripe\Services\PaymentLinks;
+
 // Stripe API Library
 use Stripe\PaymentLink as StripePaymentLink;
 // Dpay
 use Dpay\Abstracts\Api\Services\PaymentLinks\CreatePaymentLinkInterface;
 use Dpay\Data\PaymentLink as DpayPaymentLink;
 use Dpay\Stripe\Endpoints;
-use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest; 
+use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest;
 
 /**
  * Service to Update Payment Link to Stripe API
- * 
+ *
  * @property string 			$id               Generated Payment Link ID
  * @property string 			$url	          Generated Payment Link URL
  * @property DpayPaymentLink	$dpayPaymentLink  PaymentLink Data
  * @property StripePaymentLink  $sPaymentLink     Stripe Payment Link
  * @property string             $errorMsg
  */
-class UpdatePaymentLink extends CreatePaymentLink implements CreatePaymentLinkInterface {
-    const ACTION = 'update';
+class UpdatePaymentLink extends CreatePaymentLink implements CreatePaymentLinkInterface
+{
+    public const ACTION = 'update';
+    #[\Override]
     public StripePaymentLink $sPaymentLink;
+    #[\Override]
     protected DpayPaymentLink $dpayPaymentLink;
 
-/* =============================================================
-    Internal Processing
-============================================================= */
-     /**
+    /* =============================================================
+            Internal Processing
+        ============================================================= */
+    /**
      * Creates Stripe PaymentLink
-     * @param  PaymentLinkRequest $data
-     * @return StripePaymentLink
      */
-    protected function processPaymentLink(PaymentLinkRequest $data) : StripePaymentLink
+    protected function processPaymentLink(PaymentLinkRequest $data): StripePaymentLink
     {
         return $this->updatePaymentLink($data);
     }
 
     /**
      * Return Payment Link Request
-     * @param  DpayPaymentLink $link
-     * @return PaymentLinkRequest
      */
-    protected function generatePaymentLinkRequest(DpayPaymentLink $link) : PaymentLinkRequest
+    protected function generatePaymentLinkRequest(DpayPaymentLink $link): PaymentLinkRequest
     {
         $data = new PaymentLinkRequest();
         $data->id = $link->id;
@@ -52,7 +52,7 @@ class UpdatePaymentLink extends CreatePaymentLink implements CreatePaymentLinkIn
             $data->metadata->set('ordernbr', $link->order->ordernbr);
             $data->metadata->set('ordertype', $link->order->type);
         }
-        
+
         foreach ($link->metadata as $key => $value) {
             $data->metadata->set($key, $value);
         }
@@ -64,13 +64,11 @@ class UpdatePaymentLink extends CreatePaymentLink implements CreatePaymentLinkIn
         }
         return $data;
     }
-    
+
     /**
      * Update Payment Link
-     * @param  PaymentLinkRequest $rqst
-     * @return StripePaymentLink
      */
-    protected function updatePaymentLink(PaymentLinkRequest $rqst) : StripePaymentLink
+    protected function updatePaymentLink(PaymentLinkRequest $rqst): StripePaymentLink
     {
         $link = Endpoints\PaymentLinks::update($rqst);
 

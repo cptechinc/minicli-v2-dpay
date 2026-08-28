@@ -1,20 +1,21 @@
 <?php namespace Dpay\Stripe\Endpoints;
+
 // Dpay
 use Dpay\Stripe\ApiClient;
 
 /**
  * Wrapper for Stripe API to interface with a given endpoint
- * 
+ *
  * @static string $errorMsg Error Message
  */
-abstract class AbstractEndpoint {
+abstract class AbstractEndpoint
+{
     public static string $errorMsg;
-    
+
     /**
      * Return API client
-     * @return ApiClient
      */
-    public static function api() : ApiClient
+    public static function api(): ApiClient
     {
         return ApiClient::instance();
     }

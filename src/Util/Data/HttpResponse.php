@@ -1,4 +1,5 @@
 <?php namespace Dpay\Util\Data;
+
 // Pauldro
 use Pauldro\UtilityBelt\Data\Data;
 
@@ -12,8 +13,10 @@ use Pauldro\UtilityBelt\Data\Data;
  * @property array  $headers  HTTP Response Headers
  * @property array  $jsonData
  */
-class HttpResponse extends Data {
-    public function __construct() {
+class HttpResponse extends Data
+{
+    public function __construct()
+    {
         $this->error = false;
         $this->message = '';
         $this->json = '';

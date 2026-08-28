@@ -1,4 +1,5 @@
 <?php namespace Dpay\AuthorizeNet\Services\Charges;
+
 // Authorize.net Library
 use net\authorize\api\contract\v1\GetTransactionDetailsResponse as ANetResponse;
 use net\authorize\api\contract\v1\TransactionDetailsType as ANetTransaction;
@@ -10,25 +11,27 @@ use Dpay\Data\Charge as DpayCharge;
 
 /**
  * Service to Get Charge from Authorize.net API
- * 
+ *
  * @property string          $id          Charge ID / URL
  * @property DpayCharge      $dpayCharge  Dpay Charge
  * @property ANetTransaction $aCharge
  * @property ChargeResponse  $response
  */
-class FetchCharge extends AbstractCrudCharge implements FetchChargeInterface {
+class FetchCharge extends AbstractCrudCharge implements FetchChargeInterface
+{
+    #[\Override]
     public ChargeResponse $response;
+    #[\Override]
     protected DpayCharge $dpayCharge;
     protected ANetTransaction $aCharge;
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
+    /* =============================================================
+        Interface Contracts
+    ============================================================= */
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if (empty($this->id)) {
             return false;
@@ -39,7 +42,7 @@ class FetchCharge extends AbstractCrudCharge implements FetchChargeInterface {
             if ($this->errorMsg) {
                 return false;
             }
-            $this->errorMsg = "Unable to " . static::ACTION . " Credit Charge {$this->dpayCharge->custid}";
+            $this->errorMsg = 'Unable to ' . static::ACTION . " Credit Charge {$this->dpayCharge->custid}";
             return false;
         }
         if ($charge->success === false) {
@@ -53,9 +56,8 @@ class FetchCharge extends AbstractCrudCharge implements FetchChargeInterface {
 
     /**
      * Return Response data as Dpay Charge
-     * @return DpayCharge
      */
-    public function getDpayChargeResponseData() : DpayCharge
+    public function getDpayChargeResponseData(): DpayCharge
     {
         $apiCharge = $this->aCharge;
 
@@ -69,26 +71,26 @@ class FetchCharge extends AbstractCrudCharge implements FetchChargeInterface {
         return $data;
     }
 
-/* =============================================================
-    Internal Processing
-============================================================= */
-    protected function processCharge() : ChargeResponse
+    /* =============================================================
+        Internal Processing
+    ============================================================= */
+    protected function processCharge(): ChargeResponse
     {
         $response = $this->api()->fetchTransactionDetails($this->id);
         return $this->processTransactionDetailsResponse($response);
     }
 
-    protected function processTransactionDetailsResponse(?ANetResponse $apiResponse = null) : ChargeResponse
+    protected function processTransactionDetailsResponse(?ANetResponse $apiResponse = null): ChargeResponse
     {
         $response = new ChargeResponse();
 
-        if ($apiResponse === null) {
+        if (!$apiResponse instanceof \net\authorize\api\contract\v1\GetTransactionDetailsResponse) {
             $response->success = false;
             $response->errorMsg = 'No Response';
             return $response;
         }
 
-        if ($apiResponse->getMessages()->getResultCode() != "Ok") {
+        if ($apiResponse->getMessages()->getResultCode() != 'Ok') {
             return $this->processTransactionDetailsResponseError($apiResponse);
         }
         $transaction = $apiResponse->getTransaction();
@@ -101,7 +103,7 @@ class FetchCharge extends AbstractCrudCharge implements FetchChargeInterface {
         return $response;
     }
 
-    protected function processTransactionDetailsResponseError(ANetResponse $apiResponse) : ChargeResponse
+    protected function processTransactionDetailsResponseError(ANetResponse $apiResponse): ChargeResponse
     {
         $response = new ChargeResponse();
         $response->success = false;

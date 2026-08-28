@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\PaymentLinks;
+
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Util\SimpleArray;
 // Stripe API Library
@@ -11,42 +12,41 @@ use Dpay\Abstracts\Api\Services\PaymentLinks\CreatePaymentLinkInterface;
 use Dpay\Data\PaymentLink as DpayPaymentLink;
 use Dpay\Data\Order\Item as DpayOrderItem;
 use Dpay\Stripe\Endpoints;
-use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest; 
-use Dpay\Stripe\Data\PaymentLinks\LineItems as LineItemsList; 
+use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest;
+use Dpay\Stripe\Data\PaymentLinks\LineItems as LineItemsList;
 
 /**
  * Service to Create Payment Link to Stripe API
- * 
+ *
  * @property string 			$id               Generated Payment Link ID
  * @property string 			$url	          Generated Payment Link URL
  * @property DpayPaymentLink	$dpayPaymentLink  PaymentLink Data
  * @property StripePaymentLink  $sPaymentLink     Stripe Payment Link
  * @property string             $errorMsg
  */
-class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePaymentLinkInterface {
-    const ACTION = 'create';
+class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePaymentLinkInterface
+{
+    public const ACTION = 'create';
+    #[\Override]
     public StripePaymentLink $sPaymentLink;
+    #[\Override]
     protected DpayPaymentLink $dpayPaymentLink;
 
-/* =============================================================
-    Internal Processing
-============================================================= */
-     /**
+    /* =============================================================
+            Internal Processing
+        ============================================================= */
+    /**
      * Creates Stripe PaymentLink
-     * @param  PaymentLinkRequest $data
-     * @return StripePaymentLink
      */
-    protected function processPaymentLink(PaymentLinkRequest $data) : StripePaymentLink
+    protected function processPaymentLink(PaymentLinkRequest $data): StripePaymentLink
     {
         return $this->createPaymentLink($data);
     }
 
     /**
      * Return Payment Link Request
-     * @param  DpayPaymentLink $link
-     * @return PaymentLinkRequest
      */
-    protected function generatePaymentLinkRequest(DpayPaymentLink $link) : PaymentLinkRequest
+    protected function generatePaymentLinkRequest(DpayPaymentLink $link): PaymentLinkRequest
     {
         $data = new PaymentLinkRequest();
         $data->items = $this->generateLineItemsList($link);
@@ -65,9 +65,8 @@ class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePayment
      * Return LineItemsList
      * NOTE: will create Products, Prices
      * @property DpayPaymentLink $link
-     * @return   LineItemsList
      */
-    protected function generateLineItemsList(DpayPaymentLink $link) : LineItemsList
+    protected function generateLineItemsList(DpayPaymentLink $link): LineItemsList
     {
         $items    = new LineItemsList();
         $products = new SimpleArray();
@@ -88,10 +87,8 @@ class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePayment
 
     /**
      * Fetch / Create Stripe Product
-     * @param  DpayOrderItem $item
-     * @return StripeProduct
      */
-    protected function getOrCreateStripeProduct(DpayOrderItem $item) : StripeProduct
+    protected function getOrCreateStripeProduct(DpayOrderItem $item): StripeProduct
     {
         $product = Endpoints\Products::fetch($item->itemid());
         if (empty($product->id) === false) {
@@ -113,11 +110,8 @@ class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePayment
 
     /**
      * Create Stripe Price
-     * @param  DpayOrderItem $item
-     * @param  StripeProduct $product
-     * @return StripePrice
      */
-    protected function createStripePrice(DpayOrderItem $item, StripeProduct $product) : StripePrice
+    protected function createStripePrice(DpayOrderItem $item, StripeProduct $product): StripePrice
     {
         $price = new StripePrice();
         $price->unit_amount_decimal = $item->price * 100;
@@ -128,12 +122,8 @@ class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePayment
 
     /**
      * Return new Stripe Line Item
-     * @param  DpayOrderItem $item
-     * @param  StripeProduct $product
-     * @param  StripePrice $price
-     * @return StripeLineItem
      */
-    protected function newStripeLineItem(DpayOrderItem $item, StripeProduct $product, StripePrice $price) : StripeLineItem
+    protected function newStripeLineItem(DpayOrderItem $item, StripeProduct $product, StripePrice $price): StripeLineItem
     {
         $line = new StripeLineItem();
         $line->price = $price->id;
@@ -143,10 +133,8 @@ class CreatePaymentLink extends AbstractCrudPaymentLink implements CreatePayment
 
     /**
      * Create Payment Link
-     * @param  PaymentLinkRequest $rqst
-     * @return StripePaymentLink
      */
-    protected function createPaymentLink(PaymentLinkRequest $rqst) : StripePaymentLink
+    protected function createPaymentLink(PaymentLinkRequest $rqst): StripePaymentLink
     {
         $link = Endpoints\PaymentLinks::create($rqst);
 

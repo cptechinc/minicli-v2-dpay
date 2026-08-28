@@ -1,10 +1,11 @@
 <?php namespace Dpay\Logs\Database\Data;
+
 // Dpay
 use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
 
 /**
  * Container for Webhook Events
- * 
+ *
  * @property int|null $rid        Record ID
  * @property string   $timestamp  Timestamp
  * @property int      $conbr      Company Number
@@ -12,8 +13,10 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property string   $type       Type
  * @property string   $raw_eventdata
  */
-class EventRecord extends AbstractRecord {
-    public function __construct() {
+class EventRecord extends AbstractRecord
+{
+    public function __construct()
+    {
         $this->timestamp = '';
         $this->conbr = 0;
         $this->eventid = '';

@@ -1,10 +1,11 @@
 <?php namespace Dpay\Data;
+
 // Pauldro\Minicli
 use Pauldro\Minicli\v2\Util\SimpleArray;
 
 /**
  * Container for PaymentLink Data
- * 
+ *
  * @property string $id        Payment Link ID / URL
  * @property string $url       Payment Link URL
  * @property bool   $isActive  Return if Payment Link is Active
@@ -13,28 +14,28 @@ use Pauldro\Minicli\v2\Util\SimpleArray;
  * @property string      $description        Payment Description
  * @property SimpleArray $metadata           Metadata
  */
-class PaymentLink extends Data {
-    const FIELDS_STRING  = ['id', 'url', 'redirectUrl', 'description'];
+class PaymentLink extends Data
+{
+    public const FIELDS_STRING  = ['id', 'url', 'redirectUrl', 'description'];
 
-/* =============================================================
-    Constructors / Inits
-============================================================= */
-    public function __construct() {
+    /* =============================================================
+        Constructors / Inits
+    ============================================================= */
+    public function __construct()
+    {
         parent::__construct();
         $this->isActive = false;
         $this->order    = new Order();
         $this->metadata = new SimpleArray();
     }
 
-/* =============================================================
-    Setters
-============================================================= */
+    /* =============================================================
+        Setters
+    ============================================================= */
     /**
      * Set Fields fom JSON array
-     * @param  array $data
-     * @return void
      */
-    public function setFromJson(array $data) : void
+    public function setFromJson(array $data): void
     {
         if (array_key_exists('ordernbr', $data) === false) {
             return;
@@ -53,10 +54,10 @@ class PaymentLink extends Data {
         $this->order->setFromJson($data);
     }
 
-/* =============================================================
-    Getters
-============================================================= */
-    public function getArray() : array
+    /* =============================================================
+        Getters
+    ============================================================= */
+    public function getArray(): array
     {
         $data = $this->data;
         $data['order']    = $this->order->getArray();

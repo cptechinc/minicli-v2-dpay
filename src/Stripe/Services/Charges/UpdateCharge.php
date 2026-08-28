@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Charges;
+
 // Stripe API Library
 use Stripe\PaymentIntent as StripeCharge;
 // Lib
@@ -9,24 +10,26 @@ use Dpay\Stripe\Endpoints;
 /**
  * Service to update CreditCard Charge using Stripe API
  * NOTE: uses PaymentIntents API
- * 
+ *
  * @property string          $id          Generated Credit Charge ID
  * @property DpayCharge      $dpayCharge  Charge Data
  * @property StripeCharge    $sCharge     Stripe API Charge
  */
-class UpdateCharge extends AbstractCrudCharge implements UpdateChargeInterface {
-    const ACTION = 'update';
+class UpdateCharge extends AbstractCrudCharge implements UpdateChargeInterface
+{
+    public const ACTION = 'update';
+    #[\Override]
     public StripeCharge $sCharge;
+    #[\Override]
     protected DpayCharge $dpayCharge;
 
-/* =============================================================
-    Inits
-============================================================= */
+    /* =============================================================
+        Inits
+    ============================================================= */
     /**
      * Fetch Stripe Charge, verify if status can be acted on
-     * @return bool
      */
-    protected function initStripeCharge() : bool
+    protected function initStripeCharge(): bool
     {
         $this->sCharge = Endpoints\Charges::fetchById($this->id);
 
@@ -37,14 +40,13 @@ class UpdateCharge extends AbstractCrudCharge implements UpdateChargeInterface {
         return true;
     }
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
+    /* =============================================================
+            Interface Contracts
+        ============================================================= */
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if ($this->initDpayCharge() === false) {
             return false;
@@ -56,15 +58,13 @@ class UpdateCharge extends AbstractCrudCharge implements UpdateChargeInterface {
         return parent::process();
     }
 
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+            Internal Processing
+        ============================================================= */
     /**
      * Create Stripe Customer
-     * @param  StripeCharge $data
-     * @return StripeCharge|false
      */
-    protected function processCharge(StripeCharge $data) : StripeCharge|false
+    protected function processCharge(StripeCharge $data): StripeCharge|false
     {
         $stripeCharge = Endpoints\Charges::update($data);
 

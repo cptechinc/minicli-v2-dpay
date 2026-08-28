@@ -1,20 +1,20 @@
 <?php namespace Dpay\Data;
+
 // Pauldro Minicli
 use Pauldro\UtilityBelt\Data\DataArray;
 
 /**
  * Container for List of Data
  */
-class DataList extends DataArray {
-/* =============================================================
-    Setters
-============================================================= */
+class DataList extends DataArray
+{
+    /* =============================================================
+        Setters
+    ============================================================= */
     /**
      * Add Items from JSON data
-     * @param  array $data
-     * @return bool
      */
-    public function importFromJson(array $data) : bool
+    public function importFromJson(array $data): bool
     {
         foreach ($data as $itemData) {
             $item = $this->new();
@@ -24,14 +24,13 @@ class DataList extends DataArray {
         return $this->count() > 0;
     }
 
-/* =============================================================
-    Supplemental
-============================================================= */
+    /* =============================================================
+            Supplemental
+        ============================================================= */
     /**
      * Return new Item
-     * @return Data
      */
-    public function new() : Data
+    public function new(): Data
     {
         return new Data();
     }

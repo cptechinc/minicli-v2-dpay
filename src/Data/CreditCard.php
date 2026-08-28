@@ -2,7 +2,7 @@
 
 /**
  * Container for Customer Credit Card Data
- * 
+ *
  * @property string  $aid		API ID
  * @property string  $acustid	API Customer ID
  * @property string  $custid	Customer ID
@@ -21,65 +21,64 @@
  * @property string  $cvc		 Card Verification Code
  * @property string  $last4 	 Card Last 4
  */
-class CreditCard extends Data {
-    const FIELDS_NUMERIC = [];
-    const FIELDS_NUMERIC_INT = [];
-    const FIELDS_NUMERIC_FLOAT = [];
-    const FIELDS_STRING = [
+class CreditCard extends Data
+{
+    public const FIELDS_NUMERIC = [];
+    public const FIELDS_NUMERIC_INT = [];
+    public const FIELDS_NUMERIC_FLOAT = [];
+    public const FIELDS_STRING = [
         'aid', 'acustid',
-        'custid', 'name', 
+        'custid', 'name',
         'address1', 'address2', 'address3',
         'city', 'state', 'zipcode', 'country',
         'cardnbr', 'expiredate', 'cvc', 'last4', 'brand',
         'track1', 'track2'
     ];
-    const FIELDS_EASY_SET_JSON = [
+    public const FIELDS_EASY_SET_JSON = [
         'custid', 'name',
         'address1', 'address2', 'address3',
         'city', 'state', 'zipcode', 'country',
         'cardnbr', 'expiredate', 'cvc'
     ];
 
-/* =============================================================
-    Constructors / Inits
-============================================================= */
+    /* =============================================================
+        Constructors / Inits
+    ============================================================= */
 
-/* =============================================================
-    Getters
-============================================================= */
-    public function hasTrack1() : bool
+    /* =============================================================
+        Getters
+    ============================================================= */
+    public function hasTrack1(): bool
     {
         return empty($this->track1) === false;
     }
 
-    public function hasTrack2() : bool
+    public function hasTrack2(): bool
     {
         return empty($this->track2) === false;
     }
 
-/* =============================================================
-    Setters
-============================================================= */
+    /* =============================================================
+        Setters
+    ============================================================= */
     /**
      * Set Fields fom JSON array
-     * @param  array $data
-     * @return void
      */
-    public function setFromJson(array $data) : void {
+    public function setFromJson(array $data): void
+    {
         if (array_key_exists('custid', $data) === false) {
             return;
         }
         parent::setFromJson($data);
     }
 
-/* =============================================================
-    Getters
-============================================================= */
+    /* =============================================================
+        Getters
+    ============================================================= */
     /**
      * Return Expire Date Month
-     * @return string
      */
-    public function expiredateMonth() : string
+    public function expiredateMonth(): string
     {
         $dates = explode('/', $this->expiredate);
         return $dates[0];
@@ -87,13 +86,12 @@ class CreditCard extends Data {
 
     /**
      * Return Expire Date Year
-     * @return string
      */
-    public function expiredateYear() : string
+    public function expiredateYear(): string
     {
         $dates = explode('/', $this->expiredate);
-        
-        if (strlen($dates[1]) == 4) {
+
+        if (strlen($dates[1]) === 4) {
             return $dates[1];
         }
         return '20' . $dates[1];
@@ -101,9 +99,8 @@ class CreditCard extends Data {
 
     /**
      * Return the last 4 digits of credit card number
-     * @return string
      */
-    public function last4() : string
+    public function last4(): string
     {
         if ($this->last4) {
             return $this->last4;

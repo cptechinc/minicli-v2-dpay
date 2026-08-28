@@ -1,20 +1,21 @@
 <?php namespace Dpay\Data\Order;
+
 // Dpay
 use Dpay\Data\DataList;
 
 /**
  * Container for List of Items
  */
-class ItemsList extends DataList {
-/* =============================================================
-    Setters
-============================================================= */
+class ItemsList extends DataList
+{
+    /* =============================================================
+        Setters
+    ============================================================= */
     /**
      * Add Items from JSON data
-     * @param  array $data
-     * @return bool
      */
-    public function importFromJson(array $data) : bool {
+    public function importFromJson(array $data): bool
+    {
         foreach ($data as $itemData) {
             if (array_key_exists('linenbr', $itemData) === false) {
                 continue;
@@ -26,10 +27,10 @@ class ItemsList extends DataList {
         return $this->count() > 0;
     }
 
-/* =============================================================
-    Getters
-============================================================= */
-    public function getTotalAmt() : float
+    /* =============================================================
+        Getters
+    ============================================================= */
+    public function getTotalAmt(): float
     {
         $total = 0.00;
 
@@ -38,15 +39,14 @@ class ItemsList extends DataList {
         }
         return $total;
     }
-    
-/* =============================================================
-    Supplemental
-============================================================= */
+
+    /* =============================================================
+        Supplemental
+    ============================================================= */
     /**
      * Return new Item
-     * @return Item
      */
-    public function new() : Item
+    public function new(): Item
     {
         return new Item();
     }

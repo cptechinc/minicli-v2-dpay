@@ -1,4 +1,5 @@
 <?php namespace Dpay\AuthorizeNet\Services\Charges;
+
 // AuthorizeNet Library
 use net\authorize\api\contract\v1\TransactionRequestType as ANetTransactionRequest;
 use net\authorize\api\contract\v1\CreateTransactionResponse as ANetResponse;
@@ -13,37 +14,35 @@ use Dpay\Util\ChargeStatus;
 /**
  * AbstractCrudCharge
  * Service to Create Credit Charge using Stripe API
- * 
+ *
  * @property string 	     $id		   API Charge ID
  * @property DpayCharge		 $dpayCharge   Dpay Credit Charge (Request)
  * @property ChargeResponse  $response
  */
-abstract class AbstractCrudCharge extends AbstractService {
+abstract class AbstractCrudCharge extends AbstractService
+{
     use ACrudChargeTraits;
 
-    const ACTION = 'update';
-    const ANET_TRANSACTION_TYPE = '';
-    const ANET_TRANSACTION_MESSAGE_ERROR_CODES = [
+    public const ACTION = 'update';
+    public const ANET_TRANSACTION_TYPE = '';
+    public const ANET_TRANSACTION_MESSAGE_ERROR_CODES = [
         '311' => 'This transaction has already been captured'
     ];
 
     public string $id = '';
     protected DpayCharge $dpayCharge;
     protected ChargeResponse $response;
-    
-/* =============================================================
-    Inits @see ACrudChargeTraits
-============================================================= */
-    
-    
-/* =============================================================
-    Interface Contracts @see ACrudChargeTraits
-============================================================= */
+
+    /* =============================================================
+        Inits @see ACrudChargeTraits
+    ============================================================= */
+    /* =============================================================
+        Interface Contracts @see ACrudChargeTraits
+    ============================================================= */
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if ($this->initDpayCharge() === false) {
             return false;
@@ -56,7 +55,7 @@ abstract class AbstractCrudCharge extends AbstractService {
             if ($this->errorMsg) {
                 return false;
             }
-            $this->errorMsg = "Unable to " . static::ACTION . " Credit Charge {$this->dpayCharge->custid}";
+            $this->errorMsg = 'Unable to ' . static::ACTION . " Credit Charge {$this->dpayCharge->custid}";
             return false;
         }
         if ($charge->success === false) {
@@ -68,9 +67,8 @@ abstract class AbstractCrudCharge extends AbstractService {
 
     /**
      * Return Response data as Dpay Charge
-     * @return DpayCharge
      */
-    public function getDpayChargeResponseData() : DpayCharge
+    public function getDpayChargeResponseData(): DpayCharge
     {
         $charge = $this->response;
 
@@ -88,22 +86,22 @@ abstract class AbstractCrudCharge extends AbstractService {
         return $data;
     }
 
-    public function getResponseData() : ChargeResponse
+    public function getResponseData(): ChargeResponse
     {
         return $this->response;
     }
 
-/* =============================================================
-    Contracts
-============================================================= */
-    protected function processCharge() : ChargeResponse
+    /* =============================================================
+        Contracts
+    ============================================================= */
+    protected function processCharge(): ChargeResponse
     {
         $data = $this->createTransactionRequest();
         $response = $this->api()->sendChargeTransaction($data);
         return $this->processTransactionResponse($response);
     }
 
-    protected function createTransactionRequest() : ANetTransactionRequest
+    protected function createTransactionRequest(): ANetTransactionRequest
     {
         $rqst = new ANetTransactionRequest();
         $rqst->setTransactionType(static::ANET_TRANSACTION_TYPE);
@@ -116,17 +114,17 @@ abstract class AbstractCrudCharge extends AbstractService {
         return $rqst;
     }
 
-    protected function processTransactionResponse(?ANetResponse $apiResponse = null) : ChargeResponse
+    protected function processTransactionResponse(?ANetResponse $apiResponse = null): ChargeResponse
     {
         $response = new ChargeResponse();
 
-        if ($apiResponse === null) {
+        if (!$apiResponse instanceof \net\authorize\api\contract\v1\CreateTransactionResponse) {
             $response->success = false;
             $response->errorMsg = 'No Response';
             return $response;
         }
 
-        if ($apiResponse->getMessages()->getResultCode() != "Ok") {
+        if ($apiResponse->getMessages()->getResultCode() != 'Ok') {
             return $this->processTransactionResponseError($apiResponse);
         }
         $tranResponse = $apiResponse->getTransactionResponse();
@@ -143,7 +141,7 @@ abstract class AbstractCrudCharge extends AbstractService {
         return $response;
     }
 
-    protected function processTransactionResponseError(ANetResponse $apiResponse) : ChargeResponse
+    protected function processTransactionResponseError(ANetResponse $apiResponse): ChargeResponse
     {
         $response = new ChargeResponse();
         $response->success = false;
@@ -166,7 +164,7 @@ abstract class AbstractCrudCharge extends AbstractService {
 
         if ($tresponse->getTransId() == 0) {
             foreach ($tresponse->getMessages() as $code => $message) {
-                if (array_key_exists($code, array_keys(static::ANET_TRANSACTION_MESSAGE_ERROR_CODES))) {
+                if (array_key_exists((string) $code, array_keys(static::ANET_TRANSACTION_MESSAGE_ERROR_CODES))) {
                     $response->errorCode = $code;
                     $response->errorMsg  = $message->getDescription();
                     return $response;
@@ -176,7 +174,7 @@ abstract class AbstractCrudCharge extends AbstractService {
         return $response;
     }
 
-    protected function getSuccessfulChargeStatus() : ChargeStatus
+    protected function getSuccessfulChargeStatus(): ChargeStatus
     {
         return ChargeStatus::None;
     }

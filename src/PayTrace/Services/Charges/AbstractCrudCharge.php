@@ -1,4 +1,5 @@
 <?php namespace Dpay\PayTrace\Services\Charges;
+
 // Dpay
 use Dpay\Abstracts\Api\Services\Charges\ACrudChargeTraits;
 use Dpay\Data\Charge as DpayCharge;
@@ -9,37 +10,35 @@ use Dpay\PayTrace\Services\Charges\Data\ChargeResponse;
 use Dpay\Util\ChargeStatus;
 use Dpay\Util\Data\HttpResponse;
 
-
 /**
  * Service to Create Credit Charge using Stripe API
- * 
+ *
  * @property string 	     $id		   API Charge ID
  * @property DpayCharge		 $dpayCharge   Dpay Credit Charge (Request)
  * @property ChargeResponse  $response
  */
-abstract class AbstractCrudCharge extends AbstractService {
+abstract class AbstractCrudCharge extends AbstractService
+{
     use ACrudChargeTraits;
-    
-    const ACTION = 'update';
-    const API_SUCCESS_RESPONSE_CODES = [];
-    const ENDPOINT = '';
+
+    public const ACTION = 'update';
+    public const API_SUCCESS_RESPONSE_CODES = [];
+    public const ENDPOINT = '';
 
     public string $id = '';
     public ChargeResponse $response;
     protected DpayCharge $dpayCharge;
-    
-/* =============================================================
-    Inits @see ACrudChargeTraits
-============================================================= */
-    
-/* =============================================================
-    Interface Contracts @see ACrudChargeTraits
-============================================================= */
+
+    /* =============================================================
+        Inits @see ACrudChargeTraits
+    ============================================================= */
+    /* =============================================================
+        Interface Contracts @see ACrudChargeTraits
+    ============================================================= */
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if ($this->initDpayCharge() === false) {
             return false;
@@ -50,7 +49,7 @@ abstract class AbstractCrudCharge extends AbstractService {
             if ($this->errorMsg) {
                 return false;
             }
-            $this->errorMsg = "Unable to " . static::ACTION . " Credit Charge {$this->dpayCharge->custid}";
+            $this->errorMsg = 'Unable to ' . static::ACTION . " Credit Charge {$this->dpayCharge->custid}";
             return false;
         }
         if ($charge->success === false) {
@@ -64,9 +63,8 @@ abstract class AbstractCrudCharge extends AbstractService {
 
     /**
      * Return Response data as Dpay Charge
-     * @return DpayCharge
      */
-    public function getDpayChargeResponseData() : DpayCharge
+    public function getDpayChargeResponseData(): DpayCharge
     {
         $charge = $this->response;
 
@@ -77,53 +75,50 @@ abstract class AbstractCrudCharge extends AbstractService {
         $data->transactiontype = static::ACTION;
         $data->ordernbr        = $this->dpayCharge->ordernbr;
         $data->status          = ChargeStatus::None;
-        
+
         if (array_key_exists($charge->responseCode, static::API_SUCCESS_RESPONSE_CODES)) {
             $data->status = $this->getSuccessfulChargeStatus()->value;
         }
         return $data;
     }
 
-    protected function getSuccessfulChargeStatus() : ChargeStatus
+    protected function getSuccessfulChargeStatus(): ChargeStatus
     {
         return ChargeStatus::None;
     }
 
-/* =============================================================
-    Contracts
-============================================================= */
+    /* =============================================================
+        Contracts
+    ============================================================= */
     /**
      * Generate Credit Charge Request Data
-     * @param  DpayCharge $charge
-     * @return array
      */
-    protected function generateChargeRequest(DpayCharge $charge) : array
+    protected function generateChargeRequest(DpayCharge $charge): array
     {
         return [
             'integrator_id' => Config::instance()->integratorID,
             'invoice_id'    => $charge->ordernbr,
-            "amount"        => $charge->amount,
-            "credit_card"=> [
-                 "number"           => $charge->card->cardnbr,
-                 "expiration_month" => $charge->card->expiredateMonth(),
-                 "expiration_year"  => $charge->card->expiredateYear()
+            'amount'        => $charge->amount,
+            'credit_card' => [
+                'number'           => $charge->card->cardnbr,
+                'expiration_month' => $charge->card->expiredateMonth(),
+                'expiration_year'  => $charge->card->expiredateYear()
             ],
-            "csc"             => $charge->card->cvc,
-            "billing_address" => [
-                "name"           => $charge->card->name,
-                "street_address" => $charge->card->address1,
-                "city"           => "",
-                "state"          => "",
-                "zip"            => $charge->card->zipcode
+            'csc'             => $charge->card->cvc,
+            'billing_address' => [
+                'name'           => $charge->card->name,
+                'street_address' => $charge->card->address1,
+                'city'           => '',
+                'state'          => '',
+                'zip'            => $charge->card->zipcode
             ]
         ];
     }
 
     /**
      * Creates PayTrace Credit Charge
-     * @return ChargeResponse
      */
-    protected function processCharge() : ChargeResponse
+    protected function processCharge(): ChargeResponse
     {
         $data = $this->generateChargeRequest($this->dpayCharge);
         $request = new Requests\TransactionRequest($this->token);
@@ -131,7 +126,7 @@ abstract class AbstractCrudCharge extends AbstractService {
         return $this->processHttpResponse($response);
     }
 
-    protected function processHttpResponse(HttpResponse $response) : ChargeResponse
+    protected function processHttpResponse(HttpResponse $response): ChargeResponse
     {
         $charge = new ChargeResponse();
 
@@ -161,7 +156,7 @@ abstract class AbstractCrudCharge extends AbstractService {
         return $charge;
     }
 
-    protected function processHttpResponseError(HttpResponse $response, ChargeResponse $charge) : void
+    protected function processHttpResponseError(HttpResponse $response, ChargeResponse $charge): void
     {
         $json = $response->jsonData;
         $charge->success = false;
@@ -178,6 +173,5 @@ abstract class AbstractCrudCharge extends AbstractService {
         $msg  = array_key_exists('status_message', $json) ? $json['status_message'] : 'No Response';
         $charge->errorMsg  = $msg;
         $charge->errorCode = $errorCode;
-        return;
     }
 }

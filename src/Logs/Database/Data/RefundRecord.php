@@ -1,10 +1,11 @@
 <?php namespace Dpay\Logs\Database\Data;
+
 // Dpay
 use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
 
 /**
  * Container for Refund Log Record
- * 
+ *
  * @property int|null $rid              Record ID
  * @property string   $timestamp        Timestamp
  * @property int      $conbr            Company Number
@@ -15,8 +16,10 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property float    $amount           Amount to be charged
  * @property string   $status           Refund Status
  */
-class RefundRecord extends AbstractRecord {
-    public function __construct() {
+class RefundRecord extends AbstractRecord
+{
+    public function __construct()
+    {
         $this->timestamp = '';
         $this->conbr = 0;
         $this->custid = '';

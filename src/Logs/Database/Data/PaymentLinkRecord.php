@@ -1,10 +1,11 @@
 <?php namespace Dpay\Logs\Database\Data;
+
 // Dpay
 use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
 
 /**
  * Container for PaymentLink Record
- * 
+ *
  * @property int|null $rid        Record ID
  * @property string   $timestamp  Timestamp
  * @property int      $conbr      Company Number
@@ -15,8 +16,9 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractRecord;
  * @property string   $url        Link URL
  * @property string   $description
  */
-class PaymentLinkRecord extends AbstractRecord {
-    const DEFAULT_VALUES = [
+class PaymentLinkRecord extends AbstractRecord
+{
+    public const DEFAULT_VALUES = [
         'timestamp' => '',
         'conbr' 	=> 0,
         'ordernbr'	=> '',
@@ -26,7 +28,8 @@ class PaymentLinkRecord extends AbstractRecord {
         'description' => '',
     ];
 
-    public function __construct() {
+    public function __construct()
+    {
         foreach (self::DEFAULT_VALUES as $field => $value) {
             if ($this->has($field)) {
                 continue;

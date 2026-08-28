@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Endpoints;
+
 // Stripe SDK
 use Stripe\Collection;
 use Stripe\Exception\ApiErrorException;
@@ -12,8 +13,9 @@ use Dpay\Stripe\Data\PaymentLinks\PaymentLinkRequest;
 /**
  * Wrapper for Stripe API to interface with the PaymentLinks Endpoint
  */
-class PaymentLinks extends AbstractEndpoint {
-    const PAYMENT_METHOD_TYPES = [
+class PaymentLinks extends AbstractEndpoint
+{
+    public const PAYMENT_METHOD_TYPES = [
         'ach'       => PaymentMethod::TYPE_US_BANK_ACCOUNT,
         'amazonpay' => PaymentMethod::TYPE_AMAZON_PAY,
         'card'      => PaymentMethod::TYPE_CARD,
@@ -22,31 +24,38 @@ class PaymentLinks extends AbstractEndpoint {
         'paypal'    => PaymentMethod::TYPE_PAYPAL,
     ];
 
+    #[\Override]
     public static string $errorMsg;
 
-/* =============================================================
-    Public Processing
-============================================================= */
-    public static function create(PaymentLinkRequest $rqst) : PaymentLink
+    /* =============================================================
+            Public Processing
+        ============================================================= */
+    /**
+     * Create Payment Link
+     */
+    public static function create(PaymentLinkRequest $rqst): PaymentLink
     {
         $stripe = ApiClient::instance();
 
         try {
             $link = $stripe->paymentLinks->create($rqst->apiCreateArray());
-        } catch(ApiErrorException $e) {
+        } catch (ApiErrorException $e) {
             self::$errorMsg = $e->getMessage();
             return new PaymentLink();
         }
         return $link;
     }
 
-    public static function update(PaymentLinkRequest $rqst) : PaymentLink
+    /**
+     * Update Payment Link
+     */
+    public static function update(PaymentLinkRequest $rqst): PaymentLink
     {
         $stripe = ApiClient::instance();
 
         try {
             $link = $stripe->paymentLinks->update($rqst->id, $rqst->apiUpdateArray());
-        } catch(ApiErrorException $e) {
+        } catch (ApiErrorException $e) {
             self::$errorMsg = $e->getMessage();
             return new PaymentLink();
         }
@@ -55,16 +64,14 @@ class PaymentLinks extends AbstractEndpoint {
 
     /**
      * Return PaymentLink
-     * @param  string $id
-     * @return PaymentLink|false
      */
-    public static function fetchById($id) : PaymentLink
+    public static function fetchById(string $id): PaymentLink
     {
         $stripe = ApiClient::instance();
 
         try {
             $link = $stripe->paymentLinks->retrieve($id);
-        } catch(ApiErrorException $e) {
+        } catch (ApiErrorException $e) {
             self::$errorMsg = $e->getMessage();
             return new PaymentLink();
         }
@@ -73,16 +80,15 @@ class PaymentLinks extends AbstractEndpoint {
 
     /**
      * Return Line Items in payment link
-     * @param string $id
      * @return Collection<LineItem>
      */
-    public static function fetchLineItems(string $id) : Collection
+    public static function fetchLineItems(string $id): Collection
     {
         $stripe = ApiClient::instance();
 
         try {
             $items = $stripe->paymentLinks->allLineItems($id);
-        } catch(ApiErrorException $e) {
+        } catch (ApiErrorException $e) {
             self::$errorMsg = $e->getMessage();
             return new Collection();
         }

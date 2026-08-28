@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Events\Util;
+
 // Stripe API Library
 use Stripe\Checkout\Session as StripeCheckoutSession;
 use Stripe\Event as StripeEvent;
@@ -8,17 +9,18 @@ use Dpay\Data\Payment as DpayPayment;
 use Dpay\Stripe\Endpoints;
 use Dpay\Stripe\Services\PaymentLinks\Util\PaymentMethod;
 
-class PaymentLinkEventParser extends AbstractEventParser {
-    const EVENTS = [
+class PaymentLinkEventParser extends AbstractEventParser
+{
+    public const EVENTS = [
         'checkout.session.async_payment_succeeded',
         'checkout.session.async_payment_failed'
     ];
 
-    const EVENTS_FAILED = [
+    public const EVENTS_FAILED = [
         'checkout.session.async_payment_failed',
     ];
 
-    public static function parseEvent(StripeEvent $sEvent) : DpayEvent
+    public static function parseEvent(StripeEvent $sEvent): DpayEvent
     {
         if (static::canParseEvent($sEvent->type) === false) {
             return AbstractEventParser::parseEvent($sEvent);

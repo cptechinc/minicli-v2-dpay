@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Refunds;
+
 // Stripe API Library
 use Stripe\PaymentIntent as StripeCharge;
 use Stripe\Refund as StripeRefund;
@@ -9,31 +10,30 @@ use Dpay\Stripe\Endpoints;
 
 /**
  * Service to Refund using Stripe API
- * 
+ *
  * @property string          $id          Generated Credit Refund ID
  * @property DpayRefund      $dpayRefund  Refund Data
  * @property StripeRefund    $sRefund     Stripe API Refund
  * @property StripeCharge 	 $sCharge 	   Stripe API Charge
  */
-class CreateRefund extends AbstractCrudRefund implements CreateRefundInterface {
-    const ACTION = 'refund';
+class CreateRefund extends AbstractCrudRefund implements CreateRefundInterface
+{
+    public const ACTION = 'refund';
+    #[\Override]
     public StripeRefund $sRefund;
+    #[\Override]
     protected DpayRefund $dpayRefund;
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
-
-/* =============================================================
-    Internal Processing
-============================================================= */
-
+    /* =============================================================
+            Interface Contracts
+        ============================================================= */
+    /* =============================================================
+        Internal Processing
+    ============================================================= */
     /**
      * Create Stripe Customer
-     * @param  StripeRefund $data
-     * @return StripeRefund|false
      */
-    protected function processRefund(StripeRefund $data) : StripeRefund|false
+    protected function processRefund(StripeRefund $data): StripeRefund|false
     {
         $stripeRefund = Endpoints\Refunds::create($data);
 

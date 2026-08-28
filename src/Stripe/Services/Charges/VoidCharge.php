@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Charges;
+
 // Stripe API Library
 use Stripe\PaymentIntent as StripeCharge;
 // Lib
@@ -9,36 +10,38 @@ use Dpay\Stripe\Endpoints;
 /**
  * Service to Void / Cancel CreditCard Charge using Stripe API
  * NOTE: uses PaymentIntents API
- * 
+ *
  * @property string          $id          Generated Credit Charge ID
  * @property DpayCharge      $dpayCharge  Charge Data
  * @property StripeCharge    $sCharge     Stripe API Charge
  */
-class VoidCharge extends AbstractCrudCharge implements VoidChargeInterface {
-    const ACTION = 'void';
-    const ACTIONABLE_STATUSES = [
+class VoidCharge extends AbstractCrudCharge implements VoidChargeInterface
+{
+    public const ACTION = 'void';
+    public const ACTIONABLE_STATUSES = [
         'requires_action'         => 'requires_action',
         'requires_payment_method' => 'requires_payment_method',
         'requires_confirmation'   => 'requires_confirmation',
         'requires_capture'        => 'requires_capture',
     ];
-    const REASONS = [
+    public const REASONS = [
         'duplicate'             => 'duplicate',
         'fraudulent'            => 'fraudulent',
         'requested_by_customer' => 'requested_by_customer',
         'abandoned'             => 'abandoned',
     ];
+    #[\Override]
     public StripeCharge $sCharge;
+    #[\Override]
     protected DpayCharge $dpayCharge;
 
-/* =============================================================
-    Inits
-============================================================= */
+    /* =============================================================
+        Inits
+    ============================================================= */
     /**
      * Fetch Stripe Charge, verify if status can be acted on
-     * @return bool
      */
-    protected function initStripeCharge() : bool
+    protected function initStripeCharge(): bool
     {
         $this->sCharge = Endpoints\Charges::fetchById($this->id);
 
@@ -53,14 +56,13 @@ class VoidCharge extends AbstractCrudCharge implements VoidChargeInterface {
         return true;
     }
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
+    /* =============================================================
+        Interface Contracts
+    ============================================================= */
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if ($this->initDpayCharge() === false) {
             return false;
@@ -72,15 +74,13 @@ class VoidCharge extends AbstractCrudCharge implements VoidChargeInterface {
         return parent::process();
     }
 
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+            Internal Processing
+        ============================================================= */
     /**
      * Cancel Charge
-     * @param  StripeCharge $data
-     * @return StripeCharge|false
      */
-    protected function processCharge(StripeCharge $data) : StripeCharge|false
+    protected function processCharge(StripeCharge $data): StripeCharge|false
     {
         $data->cancellation_reason = 'abandoned';
         $stripeCharge = Endpoints\Charges::cancel($data);

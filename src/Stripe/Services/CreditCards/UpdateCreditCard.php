@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\CreditCards;
+
 // Stripe API Library
 use Stripe\Card as StripeCreditCard;
 // Dpay
@@ -9,28 +10,28 @@ use Dpay\Stripe\Data\CreditCards\CreditCardRequest as CardRequest;
 
 /**
  * Service to Update Credit Card using Stripe API
- * 
+ *
  * @property string              $id              Generated Credit Card ID
  * @property DpayCreditCard      $dpayCreditCard  Card Data
  * @property StripeCreditCard    $sCreditCard     Stripe API CreditCard
  */
-class UpdateCreditCard extends AbstractCrudCreditCard implements UpdateCreditCardInterface {
+class UpdateCreditCard extends AbstractCrudCreditCard implements UpdateCreditCardInterface
+{
+    #[\Override]
     public StripeCreditCard $sCreditCard;
+    #[\Override]
     protected DpayCreditCard $dpayCreditCard;
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
-
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+            Interface Contracts
+        ============================================================= */
+    /* =============================================================
+        Internal Processing
+    ============================================================= */
     /**
      * Update CreditCard
-     * @param  CardRequest $rqst
-     * @return StripeCreditCard
      */
-    protected function processCreditCard(CardRequest $rqst) : StripeCreditCard
+    protected function processCreditCard(CardRequest $rqst): StripeCreditCard
     {
         $sCard = Endpoints\CreditCards::update($rqst);
 

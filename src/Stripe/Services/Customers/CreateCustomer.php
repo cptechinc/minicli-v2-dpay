@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Customers;
+
 // Stripe API Library
 use Stripe\Customer as StripeCustomer;
 // Dpay
@@ -8,29 +9,29 @@ use Dpay\Stripe\Endpoints;
 
 /**
  * Service to Create Customer using Stripe API
- * 
+ *
  * @property string              $id            Generated Customer ID
  * @property DpayCustomer        $dpayCustomer  Customer Data
  * @property StripeCustomer      $sCustomer      Stripe API Customer
  */
-class CreateCustomer extends AbstractCrudCustomer implements CreateCustomerInterface {
-    const ACTION_DESCRIPTION = 'create';
+class CreateCustomer extends AbstractCrudCustomer implements CreateCustomerInterface
+{
+    public const ACTION_DESCRIPTION = 'create';
+    #[\Override]
     public StripeCustomer $sCustomer;
+    #[\Override]
     protected DpayCustomer $dpayCustomer;
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
-
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+            Interface Contracts
+        ============================================================= */
+    /* =============================================================
+        Internal Processing
+    ============================================================= */
     /**
      * Create Stripe Customer
-     * @param  StripeCustomer $rqst
-     * @return StripeCustomer
      */
-    protected function processCustomer(StripeCustomer $rqst) : StripeCustomer
+    protected function processCustomer(StripeCustomer $rqst): StripeCustomer
     {
         $sCustomer = Endpoints\Customers::create($rqst);
 

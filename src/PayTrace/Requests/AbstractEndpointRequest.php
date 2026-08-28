@@ -1,51 +1,50 @@
 <?php namespace Dpay\PayTrace\Requests;
+
 // Guzzle Http
 use GuzzleHttp\Client as Http;
 // Dpay
 use Dpay\Util\Data\HttpResponse;
 use Dpay\PayTrace\Environment;
 
-class AbstractEndpointRequest extends AbstractRequest {
-    const ENDPOINTPATH = '';
+class AbstractEndpointRequest extends AbstractRequest
+{
+    public const ENDPOINTPATH = '';
 
-    public function __construct(string $token) {
+    public function __construct(string $token)
+    {
         $this->token = $token;
         $this->http  = $this->createHttpClient();
     }
 
-/* =============================================================
-    Getters
-============================================================= */
+    /* =============================================================
+        Getters
+    ============================================================= */
     /**
      * Return Bearer Token Value
-     * @return string
      */
-    protected function bearerToken() : string
+    protected function bearerToken(): string
     {
-        return sprintf("Bearer %s", $this->token);
+        return sprintf('Bearer %s', $this->token);
     }
 
     /**
      * Return Path to endpoint
-     * @param  string $endpoint
-     * @return string
      */
-    protected function getEndpointPath(string $endpoint) : string
+    protected function getEndpointPath(string $endpoint): string
     {
         $parts = [Environment::API_VERSION, self::ENDPOINTPATH, ltrim($endpoint, '/')];
-        return '/' . implode("/", $parts);
+        return '/' . implode('/', $parts);
     }
 
-/* =============================================================
-    Public
-============================================================= */
+    /* =============================================================
+        Public
+    ============================================================= */
     /**
      * Send POST Request to Endpoint
      * @param  string $endpoint Endpoint Path
      * @param  array  $data     Request Data
-     * @return HttpResponse
      */
-    public function post(string $endpoint, $data = []) : HttpResponse
+    public function post(string $endpoint, $data = []): HttpResponse
     {
         $this->response = new HttpResponse();
 
@@ -56,15 +55,14 @@ class AbstractEndpointRequest extends AbstractRequest {
         return $this->response;
     }
 
-/* =============================================================
-    Internal
-============================================================= */
+    /* =============================================================
+        Internal
+    ============================================================= */
     /**
      * Create Client for HTTP requests
-     * @return Http
      */
-    protected function createHttpClient() : Http {
-        
+    protected function createHttpClient(): Http
+    {
         $headers = [
             'Content-type' => 'application/json',
             'Authorization' => $this->bearerToken(),

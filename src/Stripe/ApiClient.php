@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe;
+
 // Stripe API
 use Stripe\StripeClient;
 use Stripe\Exception\ApiErrorException;
@@ -8,13 +9,14 @@ use Dpay\Abstracts\Api\ApiClientInterface;
 /**
  * Extends Stripe API client
  */
-class ApiClient extends StripeClient implements ApiClientInterface {
+class ApiClient extends StripeClient implements ApiClientInterface
+{
     private static $instance;
 
-/* =============================================================
-    Constructors / Inits
-============================================================= */
-    public static function instance() : static
+    /* =============================================================
+        Constructors / Inits
+    ============================================================= */
+    public static function instance(): static
     {
         if (empty(self::$instance) === false) {
             return self::$instance;
@@ -24,14 +26,14 @@ class ApiClient extends StripeClient implements ApiClientInterface {
         return self::$instance;
     }
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
-    public function connect() : bool
+    /* =============================================================
+        Interface Contracts
+    ============================================================= */
+    public function connect(): bool
     {
         try {
             $this->products->all(['limit' => 1]);
-        } catch (ApiErrorException $e) {
+        } catch (ApiErrorException) {
             return false;
         }
         return true;

@@ -1,4 +1,5 @@
 <?php namespace Dpay\AuthorizeNet\Services\Charges\Util;
+
 // AuthorizeNet Library
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\contract\v1\CreditCardType;
@@ -15,20 +16,19 @@ use Dpay\Data\Charge;
 /**
  * Returns Authorize.Net SDK objects parsed from request data
  */
-class TransactionData {
-    const MARKET_TYPE_RETAIL = '2';
-    const MARKET_TYPE_ECOMM  = '0';
-    const DEVICE_TYPE_PC     = '5';
-    const TRANSACTION_STATUSES = [
+class TransactionData
+{
+    public const MARKET_TYPE_RETAIL = '2';
+    public const MARKET_TYPE_ECOMM  = '0';
+    public const DEVICE_TYPE_PC     = '5';
+    public const TRANSACTION_STATUSES = [
         'pending-settlement' => 'capturedPendingSettlement'
     ];
-    
+
     /**
      * Return API Customer Address Object
-     * @param  Charge $charge
-     * @return CustomerAddressType
      */
-    public static function customerAddressType(Charge $charge) : CustomerAddressType
+    public static function customerAddressType(Charge $charge): CustomerAddressType
     {
         // Set the customer's Bill To address
         $name = explode(' ', $charge->card->name);
@@ -38,19 +38,17 @@ class TransactionData {
         $address->setCompany($charge->custid);
         $address->setAddress($charge->card->address1);
         $address->setZip($charge->card->zipcode);
-        $address->setCountry("USA");
+        $address->setCountry('USA');
         return $address;
     }
 
     /**
      * Return API Customer Data Object
-     * @param  Charge $charge
-     * @return CustomerDataType
      */
-    public static function customerDataType(Charge $charge) : CustomerDataType
+    public static function customerDataType(Charge $charge): CustomerDataType
     {
         $customer = new CustomerDataType();
-        $customer->setType("individual");
+        $customer->setType('individual');
         $customer->setId($charge->custid);
         // $customer->setEmail("EllenJohnson@example.com");
         return $customer;
@@ -58,10 +56,8 @@ class TransactionData {
 
     /**
      * Return API OrderType
-     * @param  Charge $charge
-     * @return OrderType
      */
-    public static function orderType(Charge $charge) : OrderType
+    public static function orderType(Charge $charge): OrderType
     {
         $order = new AnetAPI\OrderType();
         $order->setInvoiceNumber($charge->ordernbr);
@@ -71,9 +67,8 @@ class TransactionData {
     /**
      * Return API PaymentType
      * @param  Charge $charge  Payment Request Data
-     * @return PaymentType
      */
-    public static function paymentType(Charge $charge) : PaymentType
+    public static function paymentType(Charge $charge): PaymentType
     {
         $payment = new PaymentType();
 
@@ -89,9 +84,8 @@ class TransactionData {
     /**
      * Return API CreditCardTrackype
      * @param  Charge $charge  Payment Request Data
-     * @return CreditCardTrackType
      */
-    public static function creditCardTracktype(Charge $charge) : CreditCardTrackType
+    public static function creditCardTracktype(Charge $charge): CreditCardTrackType
     {
         $card = new CreditCardTrackType();
         $card->setTrack2($charge->card->track2);
@@ -101,9 +95,8 @@ class TransactionData {
     /**
      * Return API CreditCardType
      * @param  Charge $charge  Payment Request Data
-     * @return CreditCardType
      */
-    public static function creditCardType(Charge $charge) : CreditCardType
+    public static function creditCardType(Charge $charge): CreditCardType
     {
         $expdate = $charge->card->expiredateYear() . '-' . $charge->card->expiredateMonth();
         $card = new CreditCardType();
@@ -117,9 +110,8 @@ class TransactionData {
      * Return API TransRetailInfoType
      * NOTE: It depends if Track2 data is supplied
      * @param  Charge $charge  Payment Request Data
-     * @return TransRetailInfoType
      */
-    public static function transRetailInfoType(Charge $charge) : TransRetailInfoType
+    public static function transRetailInfoType(Charge $charge): TransRetailInfoType
     {
         $retail = new TransRetailInfoType();
 
@@ -134,13 +126,12 @@ class TransactionData {
 
     /**
      * Return API SettingType for Duplicate Window
-     * @return SettingType
      */
-    public static function settingTypeDuplicateWindow() : SettingType
+    public static function settingTypeDuplicateWindow(): SettingType
     {
         $settings = new SettingType();
-        $settings->setSettingName("duplicateWindow");
-        $settings->setSettingValue("15");
+        $settings->setSettingName('duplicateWindow');
+        $settings->setSettingValue('15');
         return $settings;
     }
 }

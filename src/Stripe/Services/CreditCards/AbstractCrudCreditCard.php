@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\CreditCards;
+
 // Stripe API Library
 use Stripe\Card as StripeCreditCard;
 // Dpay
@@ -9,26 +10,26 @@ use Dpay\Stripe\Data\CreditCards\CreditCardRequest as CardRequest;
 
 /**
  * Service to Create Credit Card using Stripe API
- * 
+ *
  * @property string 			 $id			    API CreditCard ID
  * @property DpayCreditCard		 $dpayCreditCard	Dpay Credit Card (Request)
  * @property StripeCreditCard 	 $sCreditCard 	    Stripe API Credit Card
  */
-abstract class AbstractCrudCreditCard extends AbstractService {
+abstract class AbstractCrudCreditCard extends AbstractService
+{
     use ACrudCreditCardTraits;
-    
-    const ACTION_DESCRIPTION = 'create';
+
+    public const ACTION_DESCRIPTION = 'create';
     public StripeCreditCard $sCreditCard;
     protected DpayCreditCard $dpayCreditCard;
 
-/* =============================================================
-    Interface Contracts @see ACrudCreditCardTraits
-============================================================= */
+    /* =============================================================
+            Interface Contracts @see ACrudCreditCardTraits
+        ============================================================= */
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if (empty($this->dpayCreditCard)) {
             $this->errorMsg = 'Card Data not set';
@@ -41,7 +42,7 @@ abstract class AbstractCrudCreditCard extends AbstractService {
             if ($this->errorMsg) {
                 return false;
             }
-            $this->errorMsg = "Unable to " . static::ACTION_DESCRIPTION . " Credit Card {$this->dpayCreditCard->custid}";
+            $this->errorMsg = 'Unable to ' . static::ACTION_DESCRIPTION . " Credit Card {$this->dpayCreditCard->custid}";
             return false;
         }
         $this->sCreditCard = $sCard;
@@ -51,9 +52,8 @@ abstract class AbstractCrudCreditCard extends AbstractService {
 
     /**
      * Return Response data as Dpay Credit Card
-     * @return DpayCreditCard
      */
-    public function getDpayCreditCardResponseData() : DpayCreditCard
+    public function getDpayCreditCardResponseData(): DpayCreditCard
     {
         $sCard = $this->sCreditCard;
 
@@ -72,15 +72,13 @@ abstract class AbstractCrudCreditCard extends AbstractService {
         return $dpay;
     }
 
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+            Internal Processing
+        ============================================================= */
     /**
      * Generate Credit Card Data
-     * @param  DpayCreditCard $card
-     * @return CardRequest
      */
-    protected function generateCreditCardRequest(DpayCreditCard $card) : CardRequest
+    protected function generateCreditCardRequest(DpayCreditCard $card): CardRequest
     {
         $data = new CardRequest();
         $data->id     = $card->aid;
@@ -100,8 +98,6 @@ abstract class AbstractCrudCreditCard extends AbstractService {
 
     /**
      * Creates Stripe Credit Card
-     * @param  CardRequest $rqst
-     * @return StripeCreditCard|false
      */
-    abstract protected function processCreditCard(CardRequest $rqst) : StripeCreditCard|false;
+    abstract protected function processCreditCard(CardRequest $rqst): StripeCreditCard|false;
 }

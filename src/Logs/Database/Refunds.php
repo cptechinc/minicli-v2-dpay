@@ -1,4 +1,5 @@
 <?php namespace Dpay\Logs\Database;
+
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Database\MeekroDB\Record as AbstractRecord;
 // Dpay
@@ -7,13 +8,15 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractDatabaseTable;
 
 /**
  * Handles Logging Refunds to Database Table
- * 
+ *
  * @method bool    insert(Record $r)  Insert Log Entry
  * @method Record  newRecord()        Return instance of Record Data Class
  */
-class Refunds extends AbstractDatabaseTable {
-    const TABLE  = 'app_refunds';
-    const COLUMNS = [
+class Refunds extends AbstractDatabaseTable
+{
+    public $db;
+    public const TABLE  = 'app_refunds';
+    public const COLUMNS = [
         'rid'		 => ['INT', 'NOT NULL', 'AUTO_INCREMENT'],
         'timestamp'  => ['DATETIME', 'DEFAULT NULL'],
         'conbr'      => ['INT', 'DEFAULT NULL'],
@@ -24,20 +27,20 @@ class Refunds extends AbstractDatabaseTable {
         'amount'        => ['DECIMAL(9,2)', 'DEFAULT 0.00'],
         'status'        => ['VARCHAR(45)', 'DEFAULT ""'],
     ];
-    const PRIMARYKEY = ['rid'];
-    const RECORD_CLASS = Record::class;
+    public const PRIMARYKEY = ['rid'];
+    public const RECORD_CLASS = Record::class;
 
+    #[\Override]
     protected static $instance;
 
-/* =============================================================
-    Creates
-============================================================= */
+    /* =============================================================
+        Creates
+    ============================================================= */
     /**
      * Insert Record
      * @param  Record $r
-     * @return bool
      */
-    public function insert(AbstractRecord $r) : bool
+    public function insert(AbstractRecord $r): bool
     {
         $r->timestamp = date(self::FORMAT_DATETIME);
         $r->conbr = self::$conbr;
@@ -47,9 +50,8 @@ class Refunds extends AbstractDatabaseTable {
     /**
      * Insert / Update Record
      * @param  Record $r
-     * @return bool
      */
-    public function insertOrUpdate(AbstractRecord $r) : bool
+    public function insertOrUpdate(AbstractRecord $r): bool
     {
         if ($r->has('rid')) {
             return $this->update($r);
@@ -57,15 +59,14 @@ class Refunds extends AbstractDatabaseTable {
         return $this->insert($r);
     }
 
-/* =============================================================
-    Reads
-============================================================= */
+    /* =============================================================
+        Reads
+    ============================================================= */
     /**
      * Return Record by Api ID
      * @param  string $id
-     * @return Record|false
      */
-    public function findOneByRefundid($id) : Record|false
+    public function findOneByRefundid($id): Record|false
     {
         $table = static::TABLE;
         $conbr = self::$conbr;
@@ -83,9 +84,8 @@ class Refunds extends AbstractDatabaseTable {
     /**
      * Delete Record with ID
      * @param  mixed $id
-     * @return bool
      */
-    public function deleteByRefundid($id) : bool
+    public function deleteByRefundid($id): bool
     {
         $this->db->delete(static::TABLE, ['refundid' => $id]);
         return $this->db->affectedRows() > 0;

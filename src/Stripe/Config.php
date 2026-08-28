@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe;
+
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Util\EnvVarsReader as EnvVars;
 use Pauldro\Minicli\v2\Util\SimpleArray;
@@ -9,21 +10,24 @@ use Dpay\Stripe\Services\Events\Util\EventType;
 
 /**
  * Container for Stripe API Config Data
- * 
+ *
  * @method static Config instance()
- * 
+ *
  * @property string       $secretKey            API Secret Key
  * @property SimpleArray  $allowedPaymentTypes  Allowed Payment Types (ach,amazonpay), note if blank, then use stripe defaults
  * @property bool         $useSandbox
  * @property bool         $autoConfirmPreauths  Confirm Pre-Auths?
  */
-class Config extends AbstractApiConfig {
+class Config extends AbstractApiConfig
+{
+    #[\Override]
     protected static $instance;
 
-/* =============================================================
-    Constructors / Inits
-============================================================= */
-    public function __construct() {
+    /* =============================================================
+        Constructors / Inits
+    ============================================================= */
+    public function __construct()
+    {
         parent::__construct();
         $this->secretKey = '';
         $this->allowedPaymentTypes = new SimpleArray();
@@ -31,7 +35,7 @@ class Config extends AbstractApiConfig {
         $this->autoConfirmPreauths = false;
     }
 
-    protected function init() : void
+    protected function init(): void
     {
         $this->secretKey  = EnvVars::get('STRIPE.API.SECRETKEY');
         $this->useSandbox = EnvVars::getBool('STRIPE.API.USESANDBOX');
@@ -39,15 +43,14 @@ class Config extends AbstractApiConfig {
         $this->setAllowedPaymentTypesFromEnv();
         $this->setActionableEventsFromEnv();
     }
-    
-/* =============================================================
-    Setters
-============================================================= */
+
+    /* =============================================================
+        Setters
+    ============================================================= */
     /**
      * Parse Payment Types from $_ENV
-     * @return void
      */
-    private function setAllowedPaymentTypesFromEnv() : void
+    private function setAllowedPaymentTypesFromEnv(): void
     {
         if (EnvVars::exists('STRIPE.ALLOWED.PAYMENT.TYPES') === false) {
             $this->allowedPaymentTypes = [];
@@ -56,14 +59,14 @@ class Config extends AbstractApiConfig {
         $types = EnvVars::getArray('STRIPE.ALLOWED.PAYMENT.TYPES');
 
         foreach ($types as $type) {
-            if (array_key_exists($type, PaymentMethod::TYPES) === false) {
-                continue;	
+            if (array_key_exists((string) $type, PaymentMethod::TYPES) === false) {
+                continue;
             }
             $this->allowedPaymentTypes->set($type, $type);
         }
     }
 
-    private function setActionableEventsFromEnv() : void
+    private function setActionableEventsFromEnv(): void
     {
         if (EnvVars::exists('STRIPE.EVENTS.ACTIONABLE') === false) {
             return;

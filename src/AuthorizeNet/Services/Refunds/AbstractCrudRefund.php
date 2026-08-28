@@ -1,4 +1,5 @@
 <?php namespace Dpay\AuthorizeNet\Services\Refunds;
+
 // AuthorizeNet Library
 use net\authorize\api\contract\v1\TransactionRequestType as ANetTransactionRequest;
 use net\authorize\api\contract\v1\CreateTransactionResponse as ANetResponse;
@@ -12,37 +13,36 @@ use Dpay\Util\ChargeStatus;
 
 /**
  * Service to Refund using Authorize.net API
- * 
+ *
  * @property string 	     $id		   API Refund ID
  * @property DpayRefund		 $dpayRefund   Dpay Refund (Request)
  * @property RefundResponse  $response     Refund Response
  */
-abstract class AbstractCrudRefund extends AbstractService {
+abstract class AbstractCrudRefund extends AbstractService
+{
     use ACrudRefundTraits;
 
-    const ACTION = 'refund';
-    const ANET_TRANSACTION_TYPE = 'refundTransaction';
-    const ANET_TRANSACTION_MESSAGE_ERROR_CODES = [
+    public const ACTION = 'refund';
+    public const ANET_TRANSACTION_TYPE = 'refundTransaction';
+    public const ANET_TRANSACTION_MESSAGE_ERROR_CODES = [
         '311' => 'This transaction has already been refunded'
     ];
-    const REFUND_STATUS_ON_SUCCESS = 'refunded';
+    public const REFUND_STATUS_ON_SUCCESS = 'refunded';
 
     protected string $id;
     public RefundResponse $response;
     protected DpayRefund $dpayRefund;
-    
-/* =============================================================
-    Inits @see ACrudRefundTraits
-============================================================= */
-    
-/* =============================================================
-    Interface Contracts @see ACrudRefundTraits
-============================================================= */
+
+    /* =============================================================
+        Inits @see ACrudRefundTraits
+    ============================================================= */
+    /* =============================================================
+        Interface Contracts @see ACrudRefundTraits
+    ============================================================= */
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if ($this->initDpayRefund() === false) {
             return false;
@@ -55,7 +55,7 @@ abstract class AbstractCrudRefund extends AbstractService {
             if ($this->errorMsg) {
                 return false;
             }
-            $this->errorMsg = "Unable to " . static::ACTION . " Credit Charge";
+            $this->errorMsg = 'Unable to ' . static::ACTION . ' Credit Charge';
             return false;
         }
         if ($refund->success === false) {
@@ -67,9 +67,8 @@ abstract class AbstractCrudRefund extends AbstractService {
 
     /**
      * Return Response data as Dpay Refund
-     * @return DpayRefund
      */
-    public function getDpayRefundResponseData() : DpayRefund
+    public function getDpayRefundResponseData(): DpayRefund
     {
         $refund = $this->response;
 
@@ -82,22 +81,22 @@ abstract class AbstractCrudRefund extends AbstractService {
         return $data;
     }
 
-    public function getResponseData() : RefundResponse
+    public function getResponseData(): RefundResponse
     {
         return $this->response;
     }
 
-/* =============================================================
-    Contracts
-============================================================= */
-    protected function processRefund() : RefundResponse
+    /* =============================================================
+        Contracts
+    ============================================================= */
+    protected function processRefund(): RefundResponse
     {
         $data = $this->createTransactionRequest();
         $response = $this->api()->sendChargeTransaction($data);
         return $this->processTransactionResponse($response);
     }
 
-    protected function createTransactionRequest() : ANetTransactionRequest
+    protected function createTransactionRequest(): ANetTransactionRequest
     {
         $rqst = new ANetTransactionRequest();
         $rqst->setTransactionType(static::ANET_TRANSACTION_TYPE);
@@ -110,17 +109,17 @@ abstract class AbstractCrudRefund extends AbstractService {
         return $rqst;
     }
 
-    protected function processTransactionResponse(?ANetResponse $apiResponse = null) : RefundResponse
-    {	
+    protected function processTransactionResponse(?ANetResponse $apiResponse = null): RefundResponse
+    {
         $response = new RefundResponse();
 
-        if ($apiResponse === null) {
+        if (!$apiResponse instanceof \net\authorize\api\contract\v1\CreateTransactionResponse) {
             $response->success = false;
             $response->errorMsg = 'No Response';
             return $response;
         }
 
-        if ($apiResponse->getMessages()->getResultCode() != "Ok") {
+        if ($apiResponse->getMessages()->getResultCode() != 'Ok') {
             return $this->processTransactionResponseError($apiResponse);
         }
         $tranResponse = $apiResponse->getTransactionResponse();
@@ -137,7 +136,7 @@ abstract class AbstractCrudRefund extends AbstractService {
         return $response;
     }
 
-    protected function processTransactionResponseError(ANetResponse $apiResponse) : RefundResponse
+    protected function processTransactionResponseError(ANetResponse $apiResponse): RefundResponse
     {
         $response = new RefundResponse();
         $response->success = false;
@@ -160,7 +159,7 @@ abstract class AbstractCrudRefund extends AbstractService {
 
         if ($tresponse->getTransId() == 0) {
             foreach ($tresponse->getMessages() as $code => $message) {
-                if (array_key_exists($code, array_keys(static::ANET_TRANSACTION_MESSAGE_ERROR_CODES))) {
+                if (array_key_exists((string) $code, array_keys(static::ANET_TRANSACTION_MESSAGE_ERROR_CODES))) {
                     $response->errorCode = $code;
                     $response->errorMsg  = $message->getDescription();
                     return $response;

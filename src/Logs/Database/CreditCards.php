@@ -1,4 +1,5 @@
 <?php namespace Dpay\Logs\Database;
+
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Database\MeekroDB\Record as AbstractRecord;
 // Dpay
@@ -7,13 +8,15 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractDatabaseTable;
 
 /**
  * Handles Logging CreditCards to Database Table
- * 
+ *
  * @method bool    insert(Record $r)  Insert Log Entry
  * @method Record  newRecord()        Return instance of Record Data Class
  */
-class CreditCards extends AbstractDatabaseTable {
-    const TABLE  = 'app_creditcards';
-    const COLUMNS = [
+class CreditCards extends AbstractDatabaseTable
+{
+    public $db;
+    public const TABLE  = 'app_creditcards';
+    public const COLUMNS = [
         'rid'		 => ['INT', 'NOT NULL', 'AUTO_INCREMENT'],
         'timestamp'  => ['DATETIME', 'DEFAULT NULL'],
         'conbr'      => ['INT', 'DEFAULT NULL'],
@@ -23,44 +26,44 @@ class CreditCards extends AbstractDatabaseTable {
         'issuer'     => ['VARCHAR(25)', 'DEFAULT NULL'],
         'last4'      => ['CHAR(4)', 'DEFAULT NULL'],
     ];
-    const PRIMARYKEY = ['rid'];
-    const RECORD_CLASS = Record::class;
+    public const PRIMARYKEY = ['rid'];
+    public const RECORD_CLASS = Record::class;
 
+    #[\Override]
     protected static $instance;
 
-/* =============================================================
-    Creates
-============================================================= */
+    /* =============================================================
+        Creates
+    ============================================================= */
     /**
      * Insert Record
      * @param  Record $r
-     * @return bool
      */
-    public function insert(AbstractRecord $r) : bool {
+    public function insert(AbstractRecord $r): bool
+    {
         $r->timestamp = date(self::FORMAT_DATETIME);
         $r->conbr = self::$conbr;
         return parent::insert($r);
     }
-    
+
     /**
      * Update Record
      * @param  Record $r
-     * @return bool
      */
-    public function update(AbstractRecord $r) : bool {
+    public function update(AbstractRecord $r): bool
+    {
         $r->timestamp = date(self::FORMAT_DATETIME);
         return parent::update($r);
     }
-    
-/* =============================================================
-    Reads
-============================================================= */
+
+    /* =============================================================
+        Reads
+    ============================================================= */
     /**
      * Return Record by Card ID
      * @param  string $id
-     * @return Record|false
      */
-    public function findOneByCardid($id) : Record|false
+    public function findOneByCardid($id): Record|false
     {
         $table = static::TABLE;
         $conbr = self::$conbr;
@@ -79,9 +82,8 @@ class CreditCards extends AbstractDatabaseTable {
      * Return Record by Customer ID, Last 4
      * @param  string $custID
      * @param  string $last4
-     * @return Record|false
      */
-    public function findOneByCustidLast4($custID, $last4) : Record|false
+    public function findOneByCustidLast4($custID, $last4): Record|false
     {
         $table = static::TABLE;
         $conbr = self::$conbr;
@@ -96,15 +98,14 @@ class CreditCards extends AbstractDatabaseTable {
         return $r;
     }
 
-/* =============================================================
-    Deletes
-============================================================= */
+    /* =============================================================
+        Deletes
+    ============================================================= */
     /**
      * Return Record by Record ID
      * @param  int $id Record ID
-     * @return bool
      */
-    public function deleteByRid(int $id) : bool
+    public function deleteByRid(int $id): bool
     {
         $table = static::TABLE;
         $conbr = self::$conbr;

@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Endpoints;
+
 // Stripe API
 use Stripe\Exception\ApiErrorException;
 use Stripe\Event;
@@ -8,24 +9,24 @@ use Dpay\Stripe\ApiClient;
 /**
  * Wrapper for Stripe API to interface with the Events Endpoint
  */
-class Events extends AbstractEndpoint {
+class Events extends AbstractEndpoint
+{
+    #[\Override]
     public static string $errorMsg;
 
-/* =============================================================
-    Read
-============================================================= */
+    /* =============================================================
+           Read
+       ============================================================= */
     /**
      * Return Event
-     * @param  string $id
-     * @return Event
      */
-    public static function fetchById($id) : Event
+    public static function fetchById(string $id): Event
     {
         $stripe = ApiClient::instance();
 
         try {
             $event = $stripe->events->retrieve($id);
-        } catch(ApiErrorException $e) {
+        } catch (ApiErrorException $e) {
             self::$errorMsg = $e->getMessage();
             return new Event();
         }

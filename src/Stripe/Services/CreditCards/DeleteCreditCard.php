@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\CreditCards;
+
 // Stripe API Library
 use Stripe\Card as StripeCreditCard;
 // Dpay
@@ -9,31 +10,31 @@ use Dpay\Stripe\Data\CreditCards\CreditCardRequest as CardRequest;
 
 /**
  * Service to Delete Credit Card using Stripe API
- * 
+ *
  * @property string              $id              Generated Credit Card ID
  * @property DpayCreditCard      $dpayCreditCard  Card Data
  * @property StripeCreditCard    $sCreditCard     Stripe API CreditCard
  */
-class DeleteCreditCard extends AbstractCrudCreditCard implements DeleteCreditCardInterface {
+class DeleteCreditCard extends AbstractCrudCreditCard implements DeleteCreditCardInterface
+{
+    #[\Override]
     public StripeCreditCard $sCreditCard;
+    #[\Override]
     protected DpayCreditCard $dpayCreditCard;
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
-
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+            Interface Contracts
+        ============================================================= */
+    /* =============================================================
+        Internal Processing
+    ============================================================= */
     /**
      * Delete CreditCard
-     * @param  CardRequest $rqst
-     * @return StripeCreditCard|false
      */
-    protected function processCreditCard(CardRequest $rqst) : StripeCreditCard|false
+    protected function processCreditCard(CardRequest $rqst): StripeCreditCard|false
     {
         $sCard = Endpoints\CreditCards::delete($rqst);
-        
+
         if (empty($sCard->id) || $sCard->isDeleted() === false) {
             $this->errorMsg = Endpoints\CreditCards::$errorMsg;
             return $sCard;

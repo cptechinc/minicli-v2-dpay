@@ -1,5 +1,6 @@
 <?php namespace Dpay\PayTrace\Requests;
-// Psr 
+
+// Psr
 use Psr\Http\Message\ResponseInterface;
 // Guzzle Http
 use GuzzleHttp\Client as Http;
@@ -8,23 +9,22 @@ use Dpay\Util\Data\HttpResponse;
 use Dpay\PayTrace\Environment;
 use Dpay\PayTrace\Config;
 
-
 /**
  * Request and Provide Oauth Token from Paytrace
  */
-class Oauth extends AbstractRequest {
-    const GRANT_TYPE = 'password';
+class Oauth extends AbstractRequest
+{
+    public const GRANT_TYPE = 'password';
 
-
-    public function __construct() {
+    public function __construct()
+    {
         $this->http = new Http(['base_uri' => Environment::API_URL, 'http_errors' => false]);
     }
 
     /**
      * Return if Token was able to be generated
-     * @return bool
      */
-    public function generate() : bool
+    public function generate(): bool
     {
         $success = $this->request();
 
@@ -36,9 +36,8 @@ class Oauth extends AbstractRequest {
 
     /**
      * Request OAuth Token
-     * @return bool
      */
-    private function request() : bool 
+    private function request(): bool
     {
         $config = Config::instance();
         $this->response = new HttpResponse();
@@ -53,7 +52,8 @@ class Oauth extends AbstractRequest {
         return $this->response->error === false;
     }
 
-    private function parseHttpResponse(ResponseInterface $result) {
+    private function parseHttpResponse(ResponseInterface $result)
+    {
         $this->response->httpCode = $result->getStatusCode();
         $this->response->json = (string) $result->getBody();
 
@@ -65,16 +65,14 @@ class Oauth extends AbstractRequest {
         }
     }
 
-
     /**
      * Verify Response and see if Token was provided
-     * @return bool
      */
-    private function verify() : bool
+    private function verify(): bool
     {
         $response = $this->response;
 
-        if (empty($response) || $response->error === true) {
+        if ($response->error === true) {
             return false;
         }
         // If we reach here, we have been able to communicate with the service,
@@ -84,7 +82,7 @@ class Oauth extends AbstractRequest {
         if ($response->httpCode != 200) {
             return false;
         }
-        
+
         $json  = json_decode($response->json, true);
         $this->token = $json['access_token'];
         return true;

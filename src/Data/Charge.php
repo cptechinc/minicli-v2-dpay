@@ -2,7 +2,7 @@
 
 /**
  * Container for Charge Data
- * 
+ *
  * @property string      $transactionid    API ID
  * @property string      $transactiontype  Transaction Type
  * @property string      $ordernbr         Order Number
@@ -17,38 +17,38 @@
  * @property string      $errorCode       Error Code
  * @property string      $errorMsg        Error Msg
  */
-class Charge extends Data {
-    const FIELDS_NUMERIC = ['ordernbr', 'amount'];
-    const FIELDS_NUMERIC_INT = ['ordernbr'];
-    const FIELDS_NUMERIC_FLOAT = ['amount'];
-    const FIELDS_STRING  = [
+class Charge extends Data
+{
+    public const FIELDS_NUMERIC = ['ordernbr', 'amount'];
+    public const FIELDS_NUMERIC_INT = ['ordernbr'];
+    public const FIELDS_NUMERIC_FLOAT = ['amount'];
+    public const FIELDS_STRING  = [
         'transactionid', 'custid', 'ordernbr', 'status', 'action',
         'avsCode', 'authCode', 'errorCode', 'errorMsg',
     ];
-    const FIELDS_EASY_SET_JSON = [
+    public const FIELDS_EASY_SET_JSON = [
         'custid', 'ordernbr', 'amount', 'transactionid', 'transactiontype'
     ];
-    const STATUSES = [
+    public const STATUSES = [
         'requires_confirmation' => 'requires_confirmation'
     ];
 
-/* =============================================================
-    Constructors / Inits
-============================================================= */
-    public function __construct() {
+    /* =============================================================
+        Constructors / Inits
+    ============================================================= */
+    public function __construct()
+    {
         parent::__construct();
         $this->card = new CreditCard();
     }
 
-/* =============================================================
-    Setters
-============================================================= */
+    /* =============================================================
+        Setters
+    ============================================================= */
     /**
      * Set Fields fom JSON array
-     * @param  array $data
-     * @return void
      */
-    public function setFromJson(array $data) : void
+    public function setFromJson(array $data): void
     {
         if (array_key_exists('custid', $data) === false) {
             return;
@@ -58,14 +58,13 @@ class Charge extends Data {
         $this->card->setFromJson($data['card']);
     }
 
-/* =============================================================
-    Getters
-============================================================= */
+    /* =============================================================
+        Getters
+    ============================================================= */
     /**
      * Return Array
-     * @return array
      */
-    public function getArray() : array
+    public function getArray(): array
     {
         $json = $this->data;
         $json['card'] = $this->card->getArray();

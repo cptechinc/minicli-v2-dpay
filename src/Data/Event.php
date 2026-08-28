@@ -8,8 +8,9 @@
  * @property Payment $object
  * @property array   $apidata
  */
-class Event extends Data {
-    public function getArray() : array
+class Event extends Data
+{
+    public function getArray(): array
     {
         $data = $this->data;
         $data['object'] = $this->object->getArray();

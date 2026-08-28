@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Charges\Util;
+
 // Dpay
 use Dpay\Util\ChargeStatus as TargetStatus;
 
@@ -14,12 +15,10 @@ enum ChargeStatus: string
 
     /**
      * Return Status
-     * @param  string $status
-     * @return ChargeStatus
      */
-    public static function find(string $status) : ChargeStatus
+    public static function find(string $status): ChargeStatus
     {
-        return match($status) {
+        return match ($status) {
             'canceled'                => self::Voided,
             'refunded'                => self::Refunded,
             'requires_capture'        => self::RequiresCapture,

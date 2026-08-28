@@ -1,4 +1,5 @@
 <?php namespace Dpay\Logs\Database;
+
 // Pauldro Minicli
 use Pauldro\Minicli\v2\Database\MeekroDB\Record as AbstractRecord;
 // Dpay
@@ -7,33 +8,36 @@ use Dpay\Abstracts\Database\MeekroDB\AbstractDatabaseTable;
 
 /**
  * Handles Logging Customers to Database Table
- * 
+ *
  * @method bool    insert(Record $r)  Insert Log Entry
  * @method Record  newRecord()        Return instance of Record Data Class
  */
-class Customers extends AbstractDatabaseTable {
-    const TABLE  = 'app_customers';
-    const COLUMNS = [
+class Customers extends AbstractDatabaseTable
+{
+    public $db;
+    public const TABLE  = 'app_customers';
+    public const COLUMNS = [
         'rid'		 => ['INT', 'NOT NULL', 'AUTO_INCREMENT'],
         'timestamp'  => ['DATETIME', 'DEFAULT NULL'],
         'conbr'      => ['INT', 'DEFAULT NULL'],
         'custid'     => ['CHAR(10)', 'DEFAULT ""'],
         'id'         => ['VARCHAR(100)', 'DEFAULT NULL'],
     ];
-    const PRIMARYKEY = ['rid'];
-    const RECORD_CLASS = Record::class;
+    public const PRIMARYKEY = ['rid'];
+    public const RECORD_CLASS = Record::class;
 
+    #[\Override]
     protected static $instance;
 
-/* =============================================================
-    Creates
-============================================================= */
+    /* =============================================================
+        Creates
+    ============================================================= */
     /**
      * Insert Record
      * @param  Record $r
-     * @return bool
      */
-    public function insert(AbstractRecord $r) : bool {
+    public function insert(AbstractRecord $r): bool
+    {
         $r->timestamp = date(self::FORMAT_DATETIME);
         $r->conbr = self::$conbr;
         return parent::insert($r);
@@ -42,9 +46,8 @@ class Customers extends AbstractDatabaseTable {
     /**
      * Insert / Update Record
      * @param  Record $r
-     * @return bool
      */
-    public function insertOrUpdate(AbstractRecord $r) : bool
+    public function insertOrUpdate(AbstractRecord $r): bool
     {
         if ($r->has('rid')) {
             return $this->update($r);
@@ -52,15 +55,14 @@ class Customers extends AbstractDatabaseTable {
         return $this->insert($r);
     }
 
-/* =============================================================
-    Reads
-============================================================= */
+    /* =============================================================
+        Reads
+    ============================================================= */
     /**
      * Return Record by Api ID
      * @param  string $id
-     * @return Record|false
      */
-    public function findOneById($id) : Record|false
+    public function findOneById($id): Record|false
     {
         $table = static::TABLE;
         $conbr = self::$conbr;
@@ -74,12 +76,12 @@ class Customers extends AbstractDatabaseTable {
         $r->setArray($result);
         return $r;
     }
+
     /**
      * Return Record by Cust ID
      * @param  string $id
-     * @return Record|false
      */
-    public function findOneByCustid($id) : Record|false
+    public function findOneByCustid($id): Record|false
     {
         $table = static::TABLE;
         $conbr = self::$conbr;
@@ -97,9 +99,8 @@ class Customers extends AbstractDatabaseTable {
     /**
      * Return Record by Cust ID
      * @param  string $id
-     * @return bool
      */
-    public function existsCustid($id) : bool
+    public function existsCustid($id): bool
     {
         $table = static::TABLE;
         $conbr = self::$conbr;
@@ -111,9 +112,8 @@ class Customers extends AbstractDatabaseTable {
     /**
      * Return API customer ID by Dpay Customer ID
      * @param  string $custid
-     * @return string
      */
-    public function idByCustid($custid) : string
+    public function idByCustid($custid): string
     {
         $table = static::TABLE;
         $conbr = self::$conbr;
@@ -126,9 +126,8 @@ class Customers extends AbstractDatabaseTable {
     /**
      * Delete Record with ID
      * @param  mixed $id
-     * @return bool
      */
-    public function deleteById($id) : bool
+    public function deleteById($id): bool
     {
         $this->db->delete(static::TABLE, ['id' => $id]);
         return $this->db->affectedRows() > 0;

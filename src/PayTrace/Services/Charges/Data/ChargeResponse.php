@@ -1,4 +1,5 @@
 <?php namespace Dpay\PayTrace\Services\Charges\Data;
+
 // Pauldro
 use Pauldro\UtilityBelt\Data\Data;
 
@@ -11,8 +12,10 @@ use Pauldro\UtilityBelt\Data\Data;
  * @property string $avsCode
  * @property string $responseCode
  */
-class ChargeResponse extends Data {
-    public function __construct() {
+class ChargeResponse extends Data
+{
+    public function __construct()
+    {
         $this->success = false;
         $this->transactionid = '';
         $this->errorMsg  = '';

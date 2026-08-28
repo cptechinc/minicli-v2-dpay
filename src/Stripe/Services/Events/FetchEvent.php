@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Events;
+
 // PHP
 use ReflectionProperty;
 // Stripe API Library
@@ -13,53 +14,51 @@ use Dpay\Stripe\Services\Events\Util\PaymentLinkEventParser;
 
 /**
  * Service to Fetch Event data using Stripe API
- * 
+ *
  * @property string 	     $id		 API Event ID
  * @property DpayEvent		 $dpayEvent	 Dpay Event
  * @property StripeEvent 	 $sEvent 	 Stripe API Event
  */
-class FetchEvent extends AbstractService {
-    const ACTION_DESCRIPTION = 'fetch';
+class FetchEvent extends AbstractService
+{
+    public const ACTION_DESCRIPTION = 'fetch';
 
     protected string $id;
     public StripeEvent $sEvent;
     public DpayEvent $dpayEvent;
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
+    /* =============================================================
+            Interface Contracts
+        ============================================================= */
     /**
      * Set API ID
      * @param  string $id  ID / Slug for API ID
-     * @return void
      */
-    public function setId($id) : void
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
     /**
      * Return API Event ID
-     * @return string
      */
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if (empty($this->id)) {
-            $this->errorMsg = "Event ID not set";
+            $this->errorMsg = 'Event ID not set';
             return false;
         }
 
         $this->sEvent = Endpoints\Events::fetchById($this->id);
-        
+
         if (empty($this->sEvent) || empty($this->sEvent->id)) {
             if ($this->errorMsg) {
                 return false;
@@ -73,12 +72,11 @@ class FetchEvent extends AbstractService {
 
     /**
      * Return Response data as Dpay Event
-     * @return DpayEvent
      */
-    public function getDpayEventResponseData() : DpayEvent
+    public function getDpayEventResponseData(): DpayEvent
     {
         $reflection = new ReflectionProperty($this, 'dpayEvent');
-        
+
         if ($reflection->isInitialized($this)) {
             return $this->dpayEvent;
         }
@@ -87,10 +85,10 @@ class FetchEvent extends AbstractService {
         return $this->dpayEvent;
     }
 
-/* =============================================================
-    Internal Processing
-============================================================= */
-    protected function parseDpayEventResponseData() : DpayEvent
+    /* =============================================================
+        Internal Processing
+    ============================================================= */
+    protected function parseDpayEventResponseData(): DpayEvent
     {
         $config = Config::instance();
 
@@ -98,13 +96,10 @@ class FetchEvent extends AbstractService {
             return AbstractEventParser::parseEvent($this->sEvent);
         }
 
-        switch ($this->sEvent->type) {
-            case 'checkout.session.async_payment_failed':
-                return PaymentLinkEventParser::parse($this->sEvent);
-            case 'checkout.session.async_payment_succeeded':
-                return PaymentLinkEventParser::parse($this->sEvent);
-            default:
-                return AbstractEventParser::parseEvent($this->sEvent);
-        }
+        return match ($this->sEvent->type) {
+            'checkout.session.async_payment_failed' => PaymentLinkEventParser::parse($this->sEvent),
+            'checkout.session.async_payment_succeeded' => PaymentLinkEventParser::parse($this->sEvent),
+            default => AbstractEventParser::parseEvent($this->sEvent),
+        };
     }
 }

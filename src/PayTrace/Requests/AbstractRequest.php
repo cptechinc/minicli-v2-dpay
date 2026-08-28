@@ -1,4 +1,5 @@
 <?php namespace Dpay\PayTrace\Requests;
+
 // Psr
 use Psr\Http\Message\ResponseInterface;
 // Guzzle Http
@@ -6,46 +7,42 @@ use GuzzleHttp\Client as Http;
 // Dpay
 use Dpay\Util\Data\HttpResponse;
 
-class AbstractRequest {
+class AbstractRequest
+{
     protected Http $http;
     protected HttpResponse $response;
     protected string $token;
 
-/* =============================================================
-    Getters
-============================================================= */
+    /* =============================================================
+        Getters
+    ============================================================= */
     /**
      * Return if Token is Defined
-     * @return bool
      */
-    public function hasToken() : bool
+    public function hasToken(): bool
     {
         return empty($this->token) === false;
     }
 
     /**
      * Return Token
-     * @return string
      */
-    public function getToken() : string
+    public function getToken(): string
     {
         return $this->token;
     }
-    
-/* =============================================================
-    Getters
-============================================================= */
 
-/* =============================================================
-    Internal
-============================================================= */
-
+    /* =============================================================
+        Getters
+    ============================================================= */
+    /* =============================================================
+        Internal
+    ============================================================= */
     /**
      * Process API Response, set Response details
      * @param  ResponseInterface $result  API Response
-     * @return void
      */
-    protected function processHttpResponse(ResponseInterface $result) : void
+    protected function processHttpResponse(ResponseInterface $result): void
     {
         if (empty($result)) {
             $this->response->error = true;

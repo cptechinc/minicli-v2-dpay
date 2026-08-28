@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Charges;
+
 // Stripe API Library
 use Stripe\PaymentIntent as StripeCharge;
 // Dpay
@@ -9,28 +10,30 @@ use Dpay\Stripe\Endpoints;
 /**
  * Service to Capture Pre-authorized CreditCard Charge using Stripe API
  * NOTE: uses PaymentIntents API
- * 
+ *
  * @property string          $id          Generated Credit Charge ID
  * @property DpayCharge      $dpayCharge  Charge Data
  * @property StripeCharge    $sCharge     Stripe API Charge
  */
-class CapturePreAuthCharge extends AbstractCrudCharge implements CapturePreAuthChargeInterface {
-    const ACTION = 'capture pre-authorized';
-    const ACTIONABLE_STATUSES = [
+class CapturePreAuthCharge extends AbstractCrudCharge implements CapturePreAuthChargeInterface
+{
+    public const ACTION = 'capture pre-authorized';
+    public const ACTIONABLE_STATUSES = [
         'requires_confirmation' => 'requires_confirmation',
         'requires_capture'      => 'requires_capture',
     ];
+    #[\Override]
     public StripeCharge $sCharge;
+    #[\Override]
     protected DpayCharge $dpayCharge;
 
-/* =============================================================
-    Inits
-============================================================= */
+    /* =============================================================
+        Inits
+    ============================================================= */
     /**
      * Fetch Stripe Charge, verify if status can be acted on
-     * @return bool
      */
-    protected function initStripeCharge() : bool
+    protected function initStripeCharge(): bool
     {
         $this->sCharge = Endpoints\Charges::fetchById($this->id);
 
@@ -42,20 +45,19 @@ class CapturePreAuthCharge extends AbstractCrudCharge implements CapturePreAuthC
             $this->errorMsg = "Cannot capture charge with status: {$this->sCharge->status}";
             return false;
         }
-        if ($this->sCharge->status == 'requires_confirmation') {
+        if ($this->sCharge->status === 'requires_confirmation') {
             return $this->preProcessRequireConfirmation();
         }
         return true;
     }
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
+    /* =============================================================
+        Interface Contracts
+    ============================================================= */
     /**
      * Process Request
-     * @return bool
      */
-    public function process() : bool
+    public function process(): bool
     {
         if ($this->initDpayCharge() === false) {
             return false;
@@ -67,15 +69,13 @@ class CapturePreAuthCharge extends AbstractCrudCharge implements CapturePreAuthC
         return parent::process();
     }
 
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+        Internal Processing
+    ============================================================= */
     /**
      * Capture Pre-Authorized, Confirmed Charge
-     * @param  StripeCharge $data
-     * @return StripeCharge|false
      */
-    protected function processCharge(StripeCharge $data) : StripeCharge|false
+    protected function processCharge(StripeCharge $data): StripeCharge|false
     {
         $stripeCharge = Endpoints\Charges::capturepreauth($data);
 
@@ -89,9 +89,8 @@ class CapturePreAuthCharge extends AbstractCrudCharge implements CapturePreAuthC
     /**
      * Confirm Charge
      * NOTE: use before capturing
-     * @return bool
      */
-    private function preProcessRequireConfirmation() : bool
+    private function preProcessRequireConfirmation(): bool
     {
         $service = new ConfirmCharge();
         $service->setId($this->id);

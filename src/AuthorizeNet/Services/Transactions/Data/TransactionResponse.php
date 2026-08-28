@@ -1,4 +1,5 @@
 <?php namespace Dpay\AuthorizeNet\Services\Transactions\Data;
+
 // Pauldro Minicli
 use Pauldro\UtilityBelt\Data\Data;
 
@@ -10,8 +11,10 @@ use Pauldro\UtilityBelt\Data\Data;
  * @property string $errorMsg
  * @property string $errorCode
  */
-class Transaction extends Data {
-    public function __construct() {
+class Transaction extends Data
+{
+    public function __construct()
+    {
         $this->id        = '';
         $this->type      = '';
         $this->status    = '';

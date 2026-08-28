@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Events\Util;
+
 // Dpay
 use Dpay\Util\PaymentStatus as TargetStatus;
 
@@ -10,12 +11,10 @@ enum PaymentStatus: string
 
     /**
      * Return Status
-     * @param  string $status
-     * @return PaymentStatus
      */
-    public static function findDpayStatus(string $status) : PaymentStatus
+    public static function findDpayStatus(string $status): PaymentStatus
     {
-        return match($status) {
+        return match ($status) {
             'declined' => self::Declined,
             'paid'     => self::Paid,
             'unpaid'   => self::Unpaid,

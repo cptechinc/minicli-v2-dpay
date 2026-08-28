@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Endpoints;
+
 // Stripe API
 use Stripe\Exception\ApiErrorException;
 use Stripe\Price;
@@ -8,21 +9,21 @@ use Dpay\Stripe\ApiClient;
 /**
  * Wrapper for Stripe API to interface with the prices Endpoint
  */
-class Prices extends AbstractEndpoint {
+class Prices extends AbstractEndpoint
+{
+    #[\Override]
     public static string $errorMsg;
 
     /**
      * Return if Product Exists
-     * @param  string $id
-     * @return bool
      */
-    public static function exists($id) : bool
+    public static function exists(string $id): bool
     {
         $stripe = ApiClient::instance();
 
         try {
             $stripe->products->retrieve($id, []);
-        } catch(ApiErrorException $e) {
+        } catch (ApiErrorException $e) {
             self::$errorMsg = $e->getMessage();
             return false;
         }
@@ -30,17 +31,15 @@ class Prices extends AbstractEndpoint {
     }
 
     /**
-     * Create Price
-     * @param  Price $price
-     * @return Price
+     * Create Price for Item
      */
-    public static function create(Price $price) : Price
+    public static function create(Price $price): Price
     {
         $stripe = ApiClient::instance();
 
         try {
             $result = $stripe->prices->create($price->toArray());
-        } catch(ApiErrorException $e) {
+        } catch (ApiErrorException $e) {
             self::$errorMsg = $e->getMessage();
             return new Price();
         }

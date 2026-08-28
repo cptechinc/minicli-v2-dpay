@@ -1,4 +1,5 @@
 <?php namespace Dpay\Stripe\Services\Charges;
+
 // Stripe API Library
 use Stripe\PaymentIntent as StripeCharge;
 // Dpay
@@ -10,25 +11,26 @@ use Dpay\Stripe\Config;
 /**
  * Service to pre-authorize CreditCard Charge using Stripe API
  * NOTE: uses PaymentIntents API
- * 
+ *
  * @property string          $id          Generated Credit Charge ID
  * @property DpayCharge      $dpayCharge  Charge Data
  * @property StripeCharge    $sCharge     Stripe API Charge
  */
-class PreAuthCharge extends AbstractCrudCharge implements PreAuthChargeInterface {
-    const ACTION = 'pre-authorize';
+class PreAuthCharge extends AbstractCrudCharge implements PreAuthChargeInterface
+{
+    public const ACTION = 'pre-authorize';
+    #[\Override]
     public StripeCharge $sCharge;
+    #[\Override]
     protected DpayCharge $dpayCharge;
 
-/* =============================================================
-    Internal Processing
-============================================================= */
+    /* =============================================================
+        Internal Processing
+    ============================================================= */
     /**
      * Generate Credit Charge Data
-     * @param  DpayCharge $charge
-     * @return StripeCharge
      */
-    protected function generateChargeRequest(DpayCharge $charge) : StripeCharge
+    protected function generateChargeRequest(DpayCharge $charge): StripeCharge
     {
         if ($charge->has('transactionid')) { // skip sending charge id, because it will be generated
             $charge->remove('transactionid');
@@ -48,10 +50,8 @@ class PreAuthCharge extends AbstractCrudCharge implements PreAuthChargeInterface
 
     /**
      * Create Stripe Customer
-     * @param  StripeCharge $data
-     * @return StripeCharge|false
      */
-    protected function processCharge(StripeCharge $data) : StripeCharge|false
+    protected function processCharge(StripeCharge $data): StripeCharge|false
     {
         $stripeCharge = Endpoints\Charges::preauth($data);
 
