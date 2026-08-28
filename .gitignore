@@ -3,3 +3,4 @@
 
 # Dependencies
 vendor/
+/.php-cs-fixer.cache

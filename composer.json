@@ -1,41 +1,43 @@
 {
-	"name": "cptechinc/minicli-v2-dpay",
-	"description": "Minicli Library for Dpay",
-	"type": "library",
-	"keywords": ["php", "cli", "php-cli", "minicli"],
-	"license": "MIT",
-	"minimum-stability": "dev",
-	"authors": [
-		{
-			"name": "Paul Gomez",
-			"email": "pauldro952@hotmail.com"
-		}
-	],
-	"autoload": {
-		"psr-4": {
-			"Dpay\\": "src/"
-		}
-	},
-	"require": {
-		"pauldro/utility-belt-v2": "dev-main",
-		"minicli/minicli": "^4.2",
-		"pauldro/minicli-v2": "dev-main",
-		"pauldro/minicli-v2-database": "dev-main",
-		"cptechinc/dplus-payment-model": "dev-php-8-upgrade",
-		"cptechinc/dplus-model": "dev-php-8-upgrade",
-		"stripe/stripe-php": "^17.6@beta",
-		"guzzlehttp/guzzle": "8.0.x-dev",
-		"authorizenet/authorizenet": "dev-master"
-	},
-	"require-dev": {
-		"pauldro/utility-belt-v2": "dev-main",
-		"minicli/minicli": "^4.2",
-		"pauldro/minicli-v2": "dev-main",
-		"pauldro/minicli-v2-database": "dev-main",
-		"cptechinc/dplus-payment-model": "dev-php-8-upgrade",
-		"cptechinc/dplus-model": "dev-php-8-upgrade",
-		"stripe/stripe-php": "^17.6@beta",
-		"guzzlehttp/guzzle": "8.0.x-dev",
-		"authorizenet/authorizenet": "dev-master"
-	}
+    "name": "cptechinc/minicli-v2-dpay",
+    "description": "Minicli Library for Dpay",
+    "type": "library",
+    "keywords": ["php", "cli", "php-cli", "minicli"],
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Paul Gomez",
+            "email": "pauldro952@hotmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Dpay\\": "src/"
+        }
+    },
+    "require": {
+        "pauldro/utility-belt-v2": "dev-main",
+        "minicli/minicli": "^4.2",
+        "pauldro/minicli-v2": "dev-main",
+        "pauldro/minicli-v2-database": "dev-main",
+        "cptechinc/dplus-payment-model": "dev-php-8-upgrade",
+        "cptechinc/dplus-model": "dev-php-8-upgrade",
+        "stripe/stripe-php": "^17.6@beta",
+        "guzzlehttp/guzzle": "8.0.x-dev",
+        "authorizenet/authorizenet": "dev-master"
+    },
+    "require-dev": {
+        "pauldro/utility-belt-v2": "dev-main",
+        "minicli/minicli": "^4.2",
+        "pauldro/minicli-v2": "dev-main",
+        "pauldro/minicli-v2-database": "dev-main",
+        "cptechinc/dplus-payment-model": "dev-php-8-upgrade",
+        "cptechinc/dplus-model": "dev-php-8-upgrade",
+        "stripe/stripe-php": "^17.6@beta",
+        "guzzlehttp/guzzle": "8.0.x-dev",
+        "authorizenet/authorizenet": "dev-master",
+        "friendsofphp/php-cs-fixer": "dev-master",
+        "rector/rector": "^2.5"
+    }
 }
