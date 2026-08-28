@@ -3,12 +3,12 @@
 /**
  * Interface for API Services
  */
-interface AbstractServiceInterface {
+interface AbstractServiceInterface
+{
+    /* =============================================================
+        Contract functions
+    ============================================================= */
+    public function connect(): bool;
 
-/* =============================================================
-    Contract functions
-============================================================= */
-    public function connect() : bool;
-    
-    public function process() : bool;
+    public function process(): bool;
 }

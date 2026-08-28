@@ -1,45 +1,41 @@
 <?php namespace Dpay\Abstracts\Api\Services\CreditCards;
+
 // Dpay
 use Dpay\Abstracts\Api\AbstractServiceInterface;
 use Dpay\Data\CreditCard as CreditCard;
 
 /**
  * Template class for CreditCard CRUD operations
- * 
+ *
  * @property string      $id              API CreditCard ID
  * @property CreditCard  $dpayCreditCard  CreditCard Data
  * @property string      $errorMsg
  */
-interface ACrudCreditCardInterface extends AbstractServiceInterface {
-
-/* =============================================================
-    Setters
-============================================================= */
+interface ACrudCreditCardInterface extends AbstractServiceInterface
+{
+    /* =============================================================
+            Setters
+        ============================================================= */
     /**
      * Set CreditCard
-     * @param  CreditCard $card
-     * @return void
      */
-    public function setDpayCreditCard(CreditCard $card) : void;
+    public function setDpayCreditCard(CreditCard $card): void;
 
-/* =============================================================
-    Getters
-============================================================= */
+    /* =============================================================
+            Getters
+        ============================================================= */
     /**
      * Return Generated CreditCard ID
-     * @return string
      */
-    public function getId() : string;
+    public function getId(): string;
 
     /**
      * Return if Error has occurred
-     * @return bool
      */
-    public function hasError() : bool;
-    
+    public function hasError(): bool;
+
     /**
      * Return Response data as Dpay Credit Card
-     * @return CreditCard
      */
-    public function getDpayCreditCardResponseData() : CreditCard;
+    public function getDpayCreditCardResponseData(): CreditCard;
 }

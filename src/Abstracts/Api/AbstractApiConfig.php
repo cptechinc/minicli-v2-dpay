@@ -1,21 +1,23 @@
 <?php namespace Dpay\Abstracts\Api;
+
 // Pauldro Minicli
 use Pauldro\UtilityBelt\Data\Data;
 use Pauldro\UtilityBelt\Data\SimpleArray;
 
 /**
  * Container for API config data
- * 
+ *
  * @property SimpleArray $actionableEvents
  */
-abstract class AbstractApiConfig extends Data {
+abstract class AbstractApiConfig extends Data
+{
     /** @var static $instance  */
     protected static $instance;
 
-/* =============================================================
-    Constructors / Inits
-============================================================= */
-    public static function instance() : static
+    /* =============================================================
+        Constructors / Inits
+    ============================================================= */
+    public static function instance(): static
     {
         if (empty(static::$instance) === false) {
             return static::$instance;
@@ -25,12 +27,12 @@ abstract class AbstractApiConfig extends Data {
         return static::$instance;
     }
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->actionableEvents = new SimpleArray();
     }
 
-    protected function init() : void
+    protected function init(): void
     {
-
     }
 }

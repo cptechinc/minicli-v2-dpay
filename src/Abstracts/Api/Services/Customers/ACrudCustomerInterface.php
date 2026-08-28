@@ -1,52 +1,47 @@
 <?php namespace Dpay\Abstracts\Api\Services\Customers;
+
 // Dpay
 use Dpay\Abstracts\Api\AbstractServiceInterface;
 use Dpay\Data\Customer as Customer;
 
 /**
  * Template class for Customer CRUD operations
- * 
+ *
  * @property string    $id            API Customer ID
  * @property Customer  $dpayCustomer  Customer Data
  * @property string    $errorMsg
  */
-interface ACrudCustomerInterface extends AbstractServiceInterface {
-
-/* =============================================================
-    Setters
-============================================================= */
+interface ACrudCustomerInterface extends AbstractServiceInterface
+{
+    /* =============================================================
+            Setters
+        ============================================================= */
     /**
      * Set Customer
-     * @param  Customer $customer
-     * @return void
      */
-    public function setDpayCustomer(Customer $customer) : void;
+    public function setDpayCustomer(Customer $customer): void;
 
     /**
      * Set API ID
      * @param  string $id  ID / Slug for API ID
-     * @return void
      */
-    public function setId($id) : void;
+    public function setId($id): void;
 
-/* =============================================================
-    Getters
-============================================================= */
+    /* =============================================================
+            Getters
+        ============================================================= */
     /**
      * Return Generated Customer ID
-     * @return string
      */
-    public function getId() : string;
+    public function getId(): string;
 
     /**
      * Return if Error has occurred
-     * @return bool
      */
-    public function hasError() : bool;
+    public function hasError(): bool;
 
     /**
      * Return Response data as Dpay Customer
-     * @return Customer
      */
-    public function getDpayCustomerResponseData() : Customer;
+    public function getDpayCustomerResponseData(): Customer;
 }

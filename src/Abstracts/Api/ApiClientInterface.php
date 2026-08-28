@@ -3,8 +3,9 @@
 /**
  * Interface for API clients
  */
-interface ApiClientInterface {
-    public static function instance() : static;
+interface ApiClientInterface
+{
+    public static function instance(): static;
 
-    public function connect() : bool;
+    public function connect(): bool;
 }

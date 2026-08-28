@@ -1,45 +1,41 @@
 <?php namespace Dpay\Abstracts\Api\Services\Refunds;
+
 // Dpay
 use Dpay\Abstracts\Api\AbstractServiceInterface;
 use Dpay\Data\Refund as Refund;
 
 /**
  * Template class for Refund CRUD operations
- * 
+ *
  * @property string  $id          API Refund ID
  * @property Refund  $dpayRefund  Refund Data
  * @property string  $errorMsg
  */
-interface ACrudRefundInterface extends AbstractServiceInterface {
-
-/* =============================================================
-    Setters
-============================================================= */
+interface ACrudRefundInterface extends AbstractServiceInterface
+{
+    /* =============================================================
+            Setters
+        ============================================================= */
     /**
      * Set Refund
-     * @param  Refund $card
-     * @return void
      */
-    public function setDpayRefund(Refund $card) : void;
+    public function setDpayRefund(Refund $card): void;
 
-/* =============================================================
-    Getters
-============================================================= */
+    /* =============================================================
+            Getters
+        ============================================================= */
     /**
      * Return Generated Refund ID
-     * @return string
      */
-    public function getId() : string;
+    public function getId(): string;
 
     /**
      * Return if Error has occurred
-     * @return bool
      */
-    public function hasError() : bool;
-    
+    public function hasError(): bool;
+
     /**
      * Return Response data as Dpay Refund
-     * @return Refund
      */
-    public function getDpayRefundResponseData() : Refund;
+    public function getDpayRefundResponseData(): Refund;
 }

@@ -1,16 +1,17 @@
 <?php namespace Dpay\Abstracts\Api\Services\Refunds;
+
 // Dpay
 use Dpay\Data\Refund as DpayRefund;
 
-trait ACrudRefundTraits {
-/* =============================================================
-    Inits
-============================================================= */
+trait ACrudRefundTraits
+{
+    /* =============================================================
+            Inits
+        ============================================================= */
     /**
      * Init Dpay Refund
-     * @return bool
      */
-    protected function initDpayRefund() : bool
+    protected function initDpayRefund(): bool
     {
         if (empty($this->dpayRefund)) {
             $this->errorMsg = 'Refund Data not set';
@@ -18,25 +19,22 @@ trait ACrudRefundTraits {
         }
         return true;
     }
-    
-/* =============================================================
-    Interface Contracts
-============================================================= */
+
+    /* =============================================================
+            Interface Contracts
+        ============================================================= */
     /**
      * Set Dpay Credit Refund
-     * @param  DpayRefund $refund
-     * @return void
      */
-    public function setDpayRefund(DpayRefund $refund) : void
+    public function setDpayRefund(DpayRefund $refund): void
     {
         $this->dpayRefund = $refund;
     }
 
     /**
      * Return Dpay Credit Refund
-     * @return DpayRefund
      */
-    public function getDpayRefund() : DpayRefund
+    public function getDpayRefund(): DpayRefund
     {
         return $this->dpayRefund;
     }
@@ -44,18 +42,16 @@ trait ACrudRefundTraits {
     /**
      * Set API ID
      * @param  string $id  ID / Slug for API ID
-     * @return void
      */
-    public function setId($id) : void
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
     /**
      * Return API Credit Refund ID
-     * @return string
      */
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }

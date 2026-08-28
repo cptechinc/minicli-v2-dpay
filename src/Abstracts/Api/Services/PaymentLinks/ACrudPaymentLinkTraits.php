@@ -1,16 +1,17 @@
 <?php namespace Dpay\Abstracts\Api\Services\PaymentLinks;
+
 // Dpay
 use Dpay\Data\PaymentLink as DpayPaymentLink;
 
-trait ACrudPaymentLinkTraits {
-/* =============================================================
-    Inits
-============================================================= */
+trait ACrudPaymentLinkTraits
+{
+    /* =============================================================
+            Inits
+        ============================================================= */
     /**
      * Init Dpay PaymentLink
-     * @return bool
      */
-    protected function initDpayPaymentLink() : bool
+    protected function initDpayPaymentLink(): bool
     {
         if (empty($this->dpayPaymentLink)) {
             $this->errorMsg = 'PaymentLink Data not set';
@@ -19,24 +20,21 @@ trait ACrudPaymentLinkTraits {
         return true;
     }
 
-/* =============================================================
-    Interface Contracts
-============================================================= */
+    /* =============================================================
+            Interface Contracts
+        ============================================================= */
     /**
      * Set Dpay PaymentLink
-     * @param  DpayPaymentLink $link
-     * @return void
      */
-    public function setDpayPaymentLink(DpayPaymentLink $link) : void
+    public function setDpayPaymentLink(DpayPaymentLink $link): void
     {
         $this->dpayPaymentLink = $link;
     }
 
     /**
      * Return Dpay PaymentLink
-     * @return DpayPaymentLink
      */
-    public function getDpayPaymentLink() : DpayPaymentLink
+    public function getDpayPaymentLink(): DpayPaymentLink
     {
         return $this->dpayPaymentLink;
     }
@@ -44,27 +42,24 @@ trait ACrudPaymentLinkTraits {
     /**
      * Set API ID
      * @param  string $id
-     * @return void
      */
-    public function setId($id) : void
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
     /**
      * Return API PaymentLink ID
-     * @return string
      */
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
      * Return Payment Link URL
-     * @return string
      */
-    public function getUrl() : string
+    public function getUrl(): string
     {
         return $this->url;
     }

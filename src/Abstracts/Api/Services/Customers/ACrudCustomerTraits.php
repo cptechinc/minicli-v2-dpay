@@ -1,16 +1,17 @@
 <?php namespace Dpay\Abstracts\Api\Services\Customers;
+
 // Dpay
 use Dpay\Data\Customer as DpayCustomer;
 
-trait ACrudCustomerTraits {
-/* =============================================================
-    Inits
-============================================================= */
+trait ACrudCustomerTraits
+{
+    /* =============================================================
+            Inits
+        ============================================================= */
     /**
      * Init Dpay Customer
-     * @return bool
      */
-    protected function initDpayCustomer() : bool
+    protected function initDpayCustomer(): bool
     {
         if (empty($this->dpayCustomer)) {
             $this->errorMsg = 'Customer not set';
@@ -18,25 +19,22 @@ trait ACrudCustomerTraits {
         }
         return true;
     }
-    
-/* =============================================================
-    Interface Contracts
-============================================================= */
+
+    /* =============================================================
+            Interface Contracts
+        ============================================================= */
     /**
      * Set Dpay Customer
-     * @param  DpayCustomer $customer
-     * @return void
      */
-    public function setDpayCustomer(DpayCustomer $customer) : void
+    public function setDpayCustomer(DpayCustomer $customer): void
     {
         $this->dpayCustomer = $customer;
     }
 
     /**
      * Return Dpay Customer
-     * @return DpayCustomer
      */
-    public function getDpayCustomer() : DpayCustomer
+    public function getDpayCustomer(): DpayCustomer
     {
         return $this->dpayCustomer;
     }
@@ -44,18 +42,16 @@ trait ACrudCustomerTraits {
     /**
      * Set API ID
      * @param  string $id  ID / Slug for API ID
-     * @return void
      */
-    public function setId($id) : void
+    public function setId($id): void
     {
         $this->id = $id;
     }
 
     /**
      * Return API Customer ID
-     * @return string
      */
-    public function getId() : string
+    public function getId(): string
     {
         return $this->id;
     }
