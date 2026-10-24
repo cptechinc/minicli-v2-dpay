@@ -34,6 +34,7 @@ class Charges extends AbstractDatabaseTable
     ];
     public const PRIMARYKEY = ['rid'];
     public const RECORD_CLASS = Record::class;
+    public const INSTALL_DB = true;
 
     #[\Override]
     protected static $instance;

@@ -9,6 +9,7 @@ use Pauldro\Minicli\v2\Database\MeekroDB\AbstractTable as ParentTable;
 class AbstractDatabaseTable extends ParentTable
 {
     public const SESSION_CONNECTION_NAME = 'app';
+    public const INSTALL_DB = true;
 
     protected static int $conbr;
 
