@@ -34,7 +34,9 @@ class TransactionData
         $name = explode(' ', $charge->card->name);
         $address = new CustomerAddressType();
         $address->setFirstName($name[0]);
-        $address->setLastName($name[1]);
+        if (array_key_exists(1, $name)) {
+            $address->setLastName($name[1]);
+        }
         $address->setCompany($charge->custid);
         $address->setAddress($charge->card->address1);
         $address->setZip($charge->card->zipcode);
