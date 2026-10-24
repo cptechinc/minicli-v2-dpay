@@ -72,6 +72,15 @@ class CreditCard extends Data
         parent::setFromJson($data);
     }
 
+    public function setExpiredate(string $expiredate): void
+    {
+		if (str_contains($expiredate, '/')) {
+            $this->set('expiredate', $expiredate);
+            return;
+        }
+		$this->set('expiredate', substr_replace($expiredate, '/', 2, 0));
+	}
+
     /* =============================================================
         Getters
     ============================================================= */
