@@ -15,8 +15,8 @@
  * @property string  $country	Country
  * @property string  $brand 	Credit Card Brand
  * @property string  $cardnbr	Credit Card Number
- * @property string  $track1    Track 1
- * @property string  $track2    Track 2
+ * @property string  $track1	Track 1
+ * @property string  $track2	Track 2
  * @property string  $expiredate Credit Card Expire Date
  * @property string  $cvc		 Card Verification Code
  * @property string  $last4 	 Card Last 4
@@ -74,12 +74,12 @@ class CreditCard extends Data
 
     public function setExpiredate(string $expiredate): void
     {
-		if (str_contains($expiredate, '/')) {
+        if (str_contains($expiredate, '/')) {
             $this->set('expiredate', $expiredate);
             return;
         }
-		$this->set('expiredate', substr_replace($expiredate, '/', 2, 0));
-	}
+        $this->set('expiredate', substr_replace($expiredate, '/', 2, 0));
+    }
 
     /* =============================================================
         Getters
@@ -104,6 +104,12 @@ class CreditCard extends Data
             return $dates[1];
         }
         return '20' . $dates[1];
+    }
+
+    public function expiredateYearLast2(): string
+    {
+        $year = $this->expiredateYear();
+        return substr($year, 2);
     }
 
     /**
