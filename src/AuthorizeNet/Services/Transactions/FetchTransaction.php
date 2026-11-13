@@ -16,7 +16,7 @@ use Dpay\AuthorizeNet\Services\Transactions\Data\Transaction as TrResponse;
 class FetchTransaction extends AbstractService
 {
     public string $id = '';
-    public TrResponse $response;
+    public TrResponse|null $response;
     protected ANetTransactionResponse $aResponse;
 
     public function setId(string $id): void
@@ -29,7 +29,7 @@ class FetchTransaction extends AbstractService
         return $this->id;
     }
 
-    public function getResponseData(): TrResponse
+    public function getResponseData(): TrResponse|null
     {
         return $this->response;
     }
@@ -42,11 +42,14 @@ class FetchTransaction extends AbstractService
      */
     public function process(): bool
     {
-        if (empty($this->id)) {
+        
+        if (empty($this->id)) {    
             $this->errorMsg = 'Transaction ID was not provided';
             return false;
         }
         $transaction = $this->fetchTransaction($this->id);
+
+        $this->response = $transaction;
 
         if (empty($transaction)) {
             if ($this->errorMsg) {
@@ -55,8 +58,8 @@ class FetchTransaction extends AbstractService
             $this->errorMsg = "Unable to find transaction $this->id";
             return false;
         }
-        if ($transaction->success === false) {
-            $this->errorMsg = $transaction->errorMsg;
+        if ($transaction->exists === false) {
+            $this->errorMsg = $transaction->errorMsg ? $transaction->errorMsg : '';
             return false;
         }
         $this->response = $transaction;
@@ -68,7 +71,7 @@ class FetchTransaction extends AbstractService
     ============================================================= */
     protected function fetchTransaction(string $id): TrResponse
     {
-        $response = $this->api()->fetchTransactionDetails($this->id);
+        $response = $this->api()->fetchTransactionDetails($id);
         $this->aResponse = $response;
         return $this->processTransactionResponse($response);
     }
@@ -77,7 +80,7 @@ class FetchTransaction extends AbstractService
     {
         $response = new TrResponse();
 
-        if (!$apiResponse instanceof \net\authorize\api\contract\v1\GetTransactionDetailsResponse) {
+        if ($apiResponse instanceof ANetTransactionResponse === false) {
             $response->exists  = false;
             $response->errorMsg = 'Transaction not found';
             return $response;
