@@ -32,39 +32,12 @@ abstract class AbstractCrudCharge extends AbstractService
     public string $id = '';
     protected DpayCharge $dpayCharge;
     protected ChargeResponse $response;
+    protected ANetResponse|null $apiResponse = null;
+    protected ANetTransactionRequest|null $apiRequest = null;
 
-    /* =============================================================
-        Inits @see ACrudChargeTraits
-    ============================================================= */
-    /* =============================================================
-        Interface Contracts @see ACrudChargeTraits
-    ============================================================= */
-    /**
-     * Process Request
-     */
-    public function process(): bool
-    {
-        if ($this->initDpayCharge() === false) {
-            return false;
-        }
-        $charge = $this->processCharge();
-        $this->response = $charge;
-        $this->id	    = $charge->transactionid;
-
-        if (empty($charge)) {
-            if ($this->errorMsg) {
-                return false;
-            }
-            $this->errorMsg = 'Unable to ' . static::ACTION . " Credit Charge {$this->dpayCharge->custid}";
-            return false;
-        }
-        if ($charge->success === false) {
-            $this->errorMsg = $charge->errorMsg;
-            return false;
-        }
-        return true;
-    }
-
+/* =============================================================
+    Getters
+============================================================= */
     /**
      * Return Response data as Dpay Charge
      */
@@ -91,14 +64,61 @@ abstract class AbstractCrudCharge extends AbstractService
         return $this->response;
     }
 
-    /* =============================================================
-        Contracts
-    ============================================================= */
+    protected function getSuccessfulChargeStatus(): ChargeStatus
+    {
+        return ChargeStatus::None;
+    }
+
+    public function getApiRequest(): ANetTransactionRequest|null
+    {
+        return $this->apiRequest;
+    }
+
+    public function getApiResponse(): ANetResponse|null
+    {
+        return $this->apiResponse;
+    }
+    
+/* =============================================================
+    Inits @see ACrudChargeTraits
+============================================================= */
+/* =============================================================
+    Interface Contracts @see ACrudChargeTraits
+============================================================= */
+    /**
+     * Process Request
+     */
+    public function process(): bool
+    {
+        if ($this->initDpayCharge() === false) {
+            return false;
+        }
+        $charge = $this->processCharge();
+        $this->response = $charge;
+        $this->id	    = $charge->transactionid;
+
+        if (empty($charge)) {
+            if ($this->errorMsg) {
+                return false;
+            }
+            $this->errorMsg = 'Unable to ' . static::ACTION . " Credit Charge {$this->dpayCharge->custid}";
+            return false;
+        }
+        if ($charge->success === false) {
+            $this->errorMsg = $charge->errorMsg;
+            return false;
+        }
+        return true;
+    }
+
+/* =============================================================
+    Contracts
+============================================================= */
     protected function processCharge(): ChargeResponse
     {
-        $data = $this->createTransactionRequest();
-        $response = $this->api()->sendChargeTransaction($data);
-        return $this->processTransactionResponse($response);
+        $this->apiRequest = $this->createTransactionRequest();
+        $this->apiResponse = $this->api()->sendChargeTransaction($this->apiRequest);
+        return $this->processTransactionResponse($this->apiResponse);
     }
 
     protected function createTransactionRequest(): ANetTransactionRequest
@@ -118,7 +138,7 @@ abstract class AbstractCrudCharge extends AbstractService
     {
         $response = new ChargeResponse();
 
-        if (!$apiResponse instanceof \net\authorize\api\contract\v1\CreateTransactionResponse) {
+        if ($apiResponse instanceof ANetResponse === false) {
             $response->success = false;
             $response->errorMsg = 'No Response';
             return $response;
@@ -172,10 +192,5 @@ abstract class AbstractCrudCharge extends AbstractService
             }
         }
         return $response;
-    }
-
-    protected function getSuccessfulChargeStatus(): ChargeStatus
-    {
-        return ChargeStatus::None;
     }
 }
