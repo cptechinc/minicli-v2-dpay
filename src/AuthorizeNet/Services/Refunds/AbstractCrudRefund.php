@@ -33,6 +33,9 @@ abstract class AbstractCrudRefund extends AbstractService
     public RefundResponse $response;
     protected DpayRefund $dpayRefund;
 
+    protected ANetResponse|null $apiResponse = null;
+    protected ANetTransactionRequest|null $apiRequest = null;
+
     /* =============================================================
         Inits @see ACrudRefundTraits
     ============================================================= */
@@ -86,14 +89,24 @@ abstract class AbstractCrudRefund extends AbstractService
         return $this->response;
     }
 
+    public function getApiRequest(): ANetTransactionRequest|null
+    {
+        return $this->apiRequest;
+    }
+
+    public function getApiResponse(): ANetResponse|null
+    {
+        return $this->apiResponse;
+    }
+
     /* =============================================================
         Contracts
     ============================================================= */
     protected function processRefund(): RefundResponse
     {
-        $data = $this->createTransactionRequest();
-        $response = $this->api()->sendChargeTransaction($data);
-        return $this->processTransactionResponse($response);
+        $this->apiRequest = $this->createTransactionRequest();
+        $this->apiResponse = $this->api()->sendChargeTransaction($this->apiRequest);
+        return $this->processTransactionResponse($this->apiResponse);
     }
 
     protected function createTransactionRequest(): ANetTransactionRequest
@@ -113,7 +126,7 @@ abstract class AbstractCrudRefund extends AbstractService
     {
         $response = new RefundResponse();
 
-        if (!$apiResponse instanceof \net\authorize\api\contract\v1\CreateTransactionResponse) {
+        if (!$apiResponse instanceof ANetResponse) {
             $response->success = false;
             $response->errorMsg = 'No Response';
             return $response;
